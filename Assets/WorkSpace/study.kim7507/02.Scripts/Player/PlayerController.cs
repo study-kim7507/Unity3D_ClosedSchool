@@ -21,7 +21,6 @@ public class PlayerController : MonoBehaviour
     {
         UpdateRotation();
         UpdateMove();
-        UpdateJump();
     }
 
     // 마우스 입력을 통한 캐릭터 회전을 담당
@@ -36,35 +35,27 @@ public class PlayerController : MonoBehaviour
     // 키보드 입력을 통한 캐릭터 이동을 담당
     private void UpdateMove()
     {
-        // TODO: 앉기 구현
-
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
+        // 이동 입력 (느리게 걷기, 걷기, 달리기)
         if (x != 0 || z != 0)
         {
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                movementController.MoveTo(new Vector3(x, 0, z), status.runSpeed);
-            }
-            else
-            {
-                movementController.MoveTo(new Vector3(x, 0, z), status.walkSpeed);
-            }
+            if (Input.GetKey(KeyCode.LeftControl)) movementController.SlowWalk();
+            else if (Input.GetKey(KeyCode.LeftShift)) movementController.Run();
+            else movementController.Walk();
+        }
+        else movementController.Idle();
 
-        }
-        else
-        {
-            movementController.MoveTo(new Vector3(), 0.0f);
-        }
-    }
+        // 점프 입력
+        if (Input.GetKey(KeyCode.Space)) movementController.Jump();
 
-    // 키보드 입력을 통한 캐릭터 점프를 담당
-    private void UpdateJump()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            movementController.Jump(status.jumpForce);
-        }
+        // 앉기 입력
+        if (Input.GetKey(KeyCode.C) && !movementController.isCrouching) movementController.Crouch();            
+        else if (!Input.GetKey(KeyCode.C) && movementController.isCrouching) movementController.UnCrouch();     
+
+
+        // 최종 이동 방향 설정
+        movementController.MoveTo(new Vector3(x, 0, z));
     }
 }
