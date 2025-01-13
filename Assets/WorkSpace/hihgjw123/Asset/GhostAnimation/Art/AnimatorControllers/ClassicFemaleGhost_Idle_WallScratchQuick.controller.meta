@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 10ca36c53ad55b148b7a75ffa78d35b4
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 263668
+  packageName: Classic Female Ghost
+  packageVersion: 1.0
+  assetPath: Assets/Classic_Female_Ghost/Art/AnimatorControllers/ClassicFemaleGhost_Idle_WallScratchQuick.controller
+  uploadId: 611890

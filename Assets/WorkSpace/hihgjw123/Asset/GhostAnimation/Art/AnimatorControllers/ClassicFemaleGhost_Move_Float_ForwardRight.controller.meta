@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 191b97ae5da57744da4a9c1cb07b2824
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 263668
+  packageName: Classic Female Ghost
+  packageVersion: 1.0
+  assetPath: Assets/Classic_Female_Ghost/Art/AnimatorControllers/ClassicFemaleGhost_Move_Float_ForwardRight.controller
+  uploadId: 611890
