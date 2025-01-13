@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -21,6 +22,7 @@ public class PlayerController : MonoBehaviour
     {
         UpdateRotation();
         UpdateMove();
+        PerformInteraction();
     }
 
     // 마우스 입력을 통한 캐릭터 회전을 담당
@@ -57,5 +59,28 @@ public class PlayerController : MonoBehaviour
 
         // 최종 이동 방향 설정
         movementController.MoveTo(new Vector3(x, 0, z));
+    }
+
+    private void PerformInteraction()
+    {
+        // 카메라에서 바라보는 방향으로 Ray를 쏘아 감지되는 오브젝트가 IIteractable 인터페이스가 구현되었는지 여부를 확인
+        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, 1.0f))
+        {
+            if (hit.collider.gameObject.GetComponent<IInteractable>() != null)
+            {
+                // 만약 상호작용 가능한 오브젝트가 Ray에 감지될 시, 플레이어는 E키를 통해 해당 오브젝트와 상호작용이 가능하도록
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    hit.collider.gameObject.GetComponent<IInteractable>().Interact();
+                }
+            }
+        }
+
+        // For Debugging
+        Debug.DrawRay(ray.origin, ray.direction * 1.0f, Color.red);
+
     }
 }

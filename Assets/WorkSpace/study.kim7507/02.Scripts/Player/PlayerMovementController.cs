@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class PlayerMovementController : MonoBehaviour
@@ -34,13 +34,6 @@ public class PlayerMovementController : MonoBehaviour
     {
         if (!characterController.isGrounded) moveForce.y -= 9.81f * Time.deltaTime;
         characterController.Move(moveForce * Time.deltaTime);
-
-        // 캐릭터의 현재 머리 위치 계산
-        Vector3 headPosition = new Vector3(transform.position.x, 0, transform.position.z) + Vector3.up * characterController.height;
-
-        // RaycastHit hit;
-
-        Debug.DrawRay(headPosition, Vector3.up * 0.1f, Color.red);
     }
 
     public void MoveTo(Vector3 direction)
@@ -122,6 +115,8 @@ public class PlayerMovementController : MonoBehaviour
     // 물체가 있는 경우 일어나지 못하도록
     private bool IsHeadClear()
     {
+        // TODO: 특정 오브젝트 위에 플레이어가 올라가 있는 경우 일어서지 못하는 문제 해결 필요
+
         // 캐릭터의 현재 머리 위치 계산
         Vector3 headPosition = new Vector3(transform.position.x, 0, transform.position.z) + Vector3.up * characterController.height;
 
