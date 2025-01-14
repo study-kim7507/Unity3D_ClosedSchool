@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 42812c7a991079141bd427f1a33536db
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 263668
+  packageName: Classic Female Ghost
+  packageVersion: 1.0
+  assetPath: Assets/Classic_Female_Ghost/Art/AnimatorControllers/ClassicFemaleGhost_Sit_Idle_Twitchy.controller
+  uploadId: 611890
