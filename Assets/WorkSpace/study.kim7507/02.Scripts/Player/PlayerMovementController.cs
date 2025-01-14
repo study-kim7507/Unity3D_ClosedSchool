@@ -66,11 +66,11 @@ public class PlayerMovementController : MonoBehaviour
     {
         // 캐릭터 컨트롤러 조정
         characterController.height = originalHeight / 2.0f;
-        characterController.center = new Vector3(characterController.center.x, -(characterController.height / 2.0f), characterController.center.z);
+        // characterController.center = new Vector3(characterController.center.x, -(characterController.height / 2.0f), characterController.center.z);
 
         // 콜라이더 조정
         capsuleCollider.height = originalHeight / 2.0f;
-        capsuleCollider.center = new Vector3(capsuleCollider.center.x, -(capsuleCollider.height / 2.0f), capsuleCollider.center.z);
+        // capsuleCollider.center = new Vector3(capsuleCollider.center.x, -(capsuleCollider.height / 2.0f), capsuleCollider.center.z);
 
         // 카메라 위치 조정
         StartCoroutine(ChangeCameraPosition(new Vector3(0, characterController.center.y, 0), 0.15f));
@@ -83,11 +83,11 @@ public class PlayerMovementController : MonoBehaviour
         {
             // 캐릭터 컨트롤러 조정
             characterController.height = originalHeight;
-            characterController.center = new Vector3(characterController.center.x, 0, characterController.center.z);
+            // characterController.center = new Vector3(characterController.center.x, 0, characterController.center.z);
 
             // 콜라이더 조정
             capsuleCollider.height = originalHeight;
-            capsuleCollider.center = new Vector3(capsuleCollider.center.x, 0, capsuleCollider.center.z);
+            // capsuleCollider.center = new Vector3(capsuleCollider.center.x, 0, capsuleCollider.center.z);
 
             // 카메라 위치 조정
             StartCoroutine(ChangeCameraPosition(new Vector3(0, originalCameraYPos, 0), 0.15f));
@@ -115,10 +115,10 @@ public class PlayerMovementController : MonoBehaviour
     // 물체가 있는 경우 일어나지 못하도록
     private bool IsHeadClear()
     {
-        // TODO: 특정 오브젝트 위에 플레이어가 올라가 있는 경우 일어서지 못하는 문제 해결 필요
-
         // 캐릭터의 현재 머리 위치 계산
-        Vector3 headPosition = new Vector3(transform.position.x, 0, transform.position.z) + Vector3.up * characterController.height;
+        Vector3 headPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z) + Vector3.up * (characterController.height / 2.0f);
+
+        Debug.Log(headPosition);
 
         RaycastHit hit;
 

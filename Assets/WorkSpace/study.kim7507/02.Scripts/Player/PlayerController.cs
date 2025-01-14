@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour
     private PlayerLookController lookController;
     private PlayerStatus status;
 
+    public PlayerFlashlight flashlight;
+
     private void Start()
     {
         // 마우스 커서를 보이지 않게 설정
@@ -23,6 +25,7 @@ public class PlayerController : MonoBehaviour
         UpdateRotation();
         UpdateMove();
         PerformInteraction();
+        ManageFlashlight();
     }
 
     // 마우스 입력을 통한 캐릭터 회전을 담당
@@ -81,6 +84,13 @@ public class PlayerController : MonoBehaviour
 
         // For Debugging
         Debug.DrawRay(ray.origin, ray.direction * 1.0f, Color.red);
+    }
 
+    private void ManageFlashlight()
+    {
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            flashlight.ToggleFlashlight();
+        }
     }
 }
