@@ -2,18 +2,13 @@ using UnityEngine;
 
 public class PlayerFlashlight : MonoBehaviour
 {
-    [SerializeField] private Material flashlightOffMaterial;        // 손전등이 꺼져있을 때 머터리얼
-    [SerializeField] private Material flashlightOnMaterial;         // 손전등이 켜져있을 때 머터리얼
     [SerializeField] private Light flashlightLight;
-    
-    private bool isFlashlightOn;                                    // 손전등이 켜져있는지 여부를 저장
-    private Renderer flashlightRenderer;
+    private bool isFlashlightOn;                                    // 플래쉬라이트가 켜져있는지 여부를 저장
 
     public float remainBattery;                                     // 남은 배터리
 
     private void Start()
     {
-        flashlightRenderer = GetComponent<Renderer>();
         flashlightLight.gameObject.SetActive(false);
     }
 
@@ -21,7 +16,7 @@ public class PlayerFlashlight : MonoBehaviour
     {
         if (isFlashlightOn)
         {
-            remainBattery -= 0.05f;
+            remainBattery -= 0.01f;
             if (remainBattery <= 0.0f)
             {
                 TurnOff();
@@ -37,14 +32,12 @@ public class PlayerFlashlight : MonoBehaviour
 
     private void TurnOn()
     {
-        flashlightRenderer.material = flashlightOnMaterial;
         flashlightLight.gameObject.SetActive(true);
         isFlashlightOn = !isFlashlightOn;
     }
 
     public void TurnOff() 
     {
-        flashlightRenderer.material = flashlightOffMaterial;
         flashlightLight.gameObject.SetActive(false);
         isFlashlightOn = !isFlashlightOn;
     }

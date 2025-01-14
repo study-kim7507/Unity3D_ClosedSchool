@@ -26,6 +26,13 @@ public class PlayerController : MonoBehaviour
         UpdateMove();
         PerformInteraction();
         ManageFlashlight();
+
+
+        // TEST
+        if (Input.GetKey(KeyCode.R))
+        {
+            Camera.main.GetComponent<TakePhoto>().Capture();
+        }
     }
 
     // 마우스 입력을 통한 캐릭터 회전을 담당
