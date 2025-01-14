@@ -87,6 +87,13 @@ public class PlayerController : MonoBehaviour
                     hit.collider.gameObject.GetComponent<IInteractable>().Interact();
                 }
             }
+            if (hit.collider.gameObject.GetComponent<IPickable>() != null)
+            {
+                if (Input.GetKeyDown(KeyCode.G))
+                {
+                    Debug.Log("Pick up Item");
+                }
+            }
         }
 
         // For Debugging

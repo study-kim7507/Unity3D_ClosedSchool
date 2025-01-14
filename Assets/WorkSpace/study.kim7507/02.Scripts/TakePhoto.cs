@@ -7,6 +7,9 @@ public class TakePhoto : MonoBehaviour
     public Image image;
     private Texture2D photo;
 
+
+    // TODO: 찍은 사진이 인벤토리에 저장되도록 로직 구현 필요
+
     public void Capture()
     {
         // 현재 프레임이 끝난 후에 캡처하도록 대기
