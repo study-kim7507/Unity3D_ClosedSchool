@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 9c058d3b440afe94c8c8a9fc7148ea49
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 263668
+  packageName: Classic Female Ghost
+  packageVersion: 1.0
+  assetPath: Assets/Classic_Female_Ghost/Art/AnimatorControllers/ClassicFemaleGhost_Jumpscare_Window_PopUp02.controller
+  uploadId: 611890
