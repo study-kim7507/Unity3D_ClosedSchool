@@ -7,9 +7,14 @@ public class PlayerController : MonoBehaviour
     private PlayerLookController lookController;
     private PlayerStatus status;
 
+    // 플레이어 인벤토리 상호작용 관련
     public InventorySystem inventory;
-    public PlayerFlashlight flashlight;
+    [HideInInspector] public bool isOpenInventory;
+    [HideInInspector] public bool isOpenItemDetailViewer;
 
+    [SerializeField] PlayerFlashlight flashlight;
+
+    
     private void Start()
     {
         // 마우스 커서를 보이지 않게 설정
@@ -28,18 +33,13 @@ public class PlayerController : MonoBehaviour
         PerformInteraction();
         ManageFlashlight();
         ManageInventory();
-
-        // TEST
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Camera.main.GetComponent<TakePhoto>().Capture();
-        }
-
     }
 
     // 마우스 입력을 통한 캐릭터 회전을 담당
     private void UpdateRotation()
     {
+        if (isOpenInventory) return;
+
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
@@ -49,6 +49,13 @@ public class PlayerController : MonoBehaviour
     // 키보드 입력을 통한 캐릭터 이동을 담당
     private void UpdateMove()
     {
+        if (isOpenInventory)
+        {
+            movementController.Idle();
+            movementController.MoveTo(new Vector3(0, 0, 0));
+            return;
+        }
+
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
@@ -75,6 +82,8 @@ public class PlayerController : MonoBehaviour
 
     private void PerformInteraction()
     {
+        if (isOpenInventory) return;
+
         // 카메라에서 바라보는 방향으로 Ray를 쏘아 감지되는 오브젝트가 IIteractable 인터페이스가 구현되었는지 여부를 확인
         Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
         RaycastHit hit;
@@ -101,6 +110,8 @@ public class PlayerController : MonoBehaviour
 
     private void ManageFlashlight()
     {
+        if (isOpenInventory) return;
+
         if (Input.GetKeyDown(KeyCode.V))
         {
             flashlight.ToggleFlashlight();
@@ -111,9 +122,16 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
+            if (isOpenItemDetailViewer) return;
+
+            if (!isOpenInventory) Cursor.lockState = CursorLockMode.None;
+            else Cursor.lockState = CursorLockMode.Locked;
+
+            isOpenInventory = !isOpenInventory;
             Cursor.visible = !Cursor.visible;
-            Cursor.lockState = CursorLockMode.None;
+
             inventory.ToggleInventory();
+            
         }
     }
 }

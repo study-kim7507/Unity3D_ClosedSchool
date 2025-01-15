@@ -66,11 +66,9 @@ public class PlayerMovementController : MonoBehaviour
     {
         // 캐릭터 컨트롤러 조정
         characterController.height = originalHeight / 2.0f;
-        // characterController.center = new Vector3(characterController.center.x, -(characterController.height / 2.0f), characterController.center.z);
 
         // 콜라이더 조정
         capsuleCollider.height = originalHeight / 2.0f;
-        // capsuleCollider.center = new Vector3(capsuleCollider.center.x, -(capsuleCollider.height / 2.0f), capsuleCollider.center.z);
 
         // 카메라 위치 조정
         StartCoroutine(ChangeCameraPosition(new Vector3(0, characterController.center.y, 0), 0.15f));
@@ -83,11 +81,9 @@ public class PlayerMovementController : MonoBehaviour
         {
             // 캐릭터 컨트롤러 조정
             characterController.height = originalHeight;
-            // characterController.center = new Vector3(characterController.center.x, 0, characterController.center.z);
 
             // 콜라이더 조정
             capsuleCollider.height = originalHeight;
-            // capsuleCollider.center = new Vector3(capsuleCollider.center.x, 0, capsuleCollider.center.z);
 
             // 카메라 위치 조정
             StartCoroutine(ChangeCameraPosition(new Vector3(0, originalCameraYPos, 0), 0.15f));
@@ -111,14 +107,12 @@ public class PlayerMovementController : MonoBehaviour
         Camera.main.transform.localPosition = targetPosition;
     }
 
-    // 앉아 있을 때, 머리위에 물체가 있는지 여부를 감지
+    // 앉아 있을 때, 머리 위에 물체가 있는지 여부를 감지
     // 물체가 있는 경우 일어나지 못하도록
     private bool IsHeadClear()
     {
         // 캐릭터의 현재 머리 위치 계산
         Vector3 headPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z) + Vector3.up * (characterController.height / 2.0f);
-
-        Debug.Log(headPosition);
 
         RaycastHit hit;
 

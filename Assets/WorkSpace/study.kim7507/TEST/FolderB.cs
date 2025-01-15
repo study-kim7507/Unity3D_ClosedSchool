@@ -6,7 +6,6 @@ public class FolderB : MonoBehaviour, IPickable
     [SerializeField] private string name;              
     [SerializeField] private string description;
     [SerializeField] private Sprite image;
-
     [SerializeField] private GameObject objectPrefab;   // 프리팹에서 직접 추가하지 말고, 인스턴스에서 추가하도록
 
     // IPickable 인터페이스 구현

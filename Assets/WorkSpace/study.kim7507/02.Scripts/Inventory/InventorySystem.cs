@@ -7,19 +7,18 @@ public class InventorySystem : MonoBehaviour
 
     [SerializeField] Transform inventorySlotHolder;
     private InventorySlot[] inventorySlots;
-    
-    private bool activeInventory = false;
+   
+    [SerializeField] PlayerController ownerPlayer;
 
     void Start()
     {
         inventorySlots = inventorySlotHolder.GetComponentsInChildren<InventorySlot>();
-        inventoryPanel.SetActive(activeInventory);    
+        inventoryPanel.SetActive(ownerPlayer.isOpenInventory);    
     }
 
     public void ToggleInventory()
     {
-        activeInventory = !activeInventory;
-        inventoryPanel.SetActive(activeInventory);
+        inventoryPanel.SetActive(ownerPlayer.isOpenInventory);
     }
 
     public void AddToInventory(GameObject item)

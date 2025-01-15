@@ -226,4 +226,4 @@ MonoBehaviour:
   itemImage: {fileID: 6616297661985286289}
   itemPrefab: {fileID: 0}
   isUsed: 0
-  item3DViewer: {fileID: 8088715622311410567, guid: 24e3f311cb42aeb48849ddc77e48af48, type: 3}
+  itemDetailViewer: {fileID: 0}

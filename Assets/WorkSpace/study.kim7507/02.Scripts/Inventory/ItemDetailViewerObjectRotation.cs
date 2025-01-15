@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Rotation : MonoBehaviour
+public class ItemDetailViewerObjectRotation : MonoBehaviour
 {
     public float rotationSpeed = 100f; // 회전 속도
 
