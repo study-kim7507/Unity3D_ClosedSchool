@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5f3bc9258b30cae498224ed802fb8b9e
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 263668
+  packageName: Classic Female Ghost
+  packageVersion: 1.0
+  assetPath: Assets/Classic_Female_Ghost/Art/AnimatorControllers/ClassicFemaleGhost_Idle_Search_ForwardLeftSide.controller
+  uploadId: 611890

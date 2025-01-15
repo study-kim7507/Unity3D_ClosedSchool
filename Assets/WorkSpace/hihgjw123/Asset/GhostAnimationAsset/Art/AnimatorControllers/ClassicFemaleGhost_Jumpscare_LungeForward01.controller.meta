@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 9e138defe644e6749a0ed05e3565ab68
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 263668
+  packageName: Classic Female Ghost
+  packageVersion: 1.0
+  assetPath: Assets/Classic_Female_Ghost/Art/AnimatorControllers/ClassicFemaleGhost_Jumpscare_LungeForward01.controller
+  uploadId: 611890

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: bdf068128dec5ee4ba4b34bc8fd6a722
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 263668
+  packageName: Classic Female Ghost
+  packageVersion: 1.0
+  assetPath: Assets/Classic_Female_Ghost/Art/AnimatorControllers/ClassicFemaleGhost_PosingIdle_CeilingCorner02.controller
+  uploadId: 611890
