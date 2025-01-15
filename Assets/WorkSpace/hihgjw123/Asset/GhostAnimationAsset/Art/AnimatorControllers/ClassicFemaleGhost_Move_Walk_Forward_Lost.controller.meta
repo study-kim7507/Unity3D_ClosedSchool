@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 81453f82ed74cc142838e9a340c99981
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 263668
+  packageName: Classic Female Ghost
+  packageVersion: 1.0
+  assetPath: Assets/Classic_Female_Ghost/Art/AnimatorControllers/ClassicFemaleGhost_Move_Walk_Forward_Lost.controller
+  uploadId: 611890

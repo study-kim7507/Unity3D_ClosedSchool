@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 95e026cd2391bb148bc337032730a4ba
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 263668
+  packageName: Classic Female Ghost
+  packageVersion: 1.0
+  assetPath: Assets/Classic_Female_Ghost/Art/AnimatorControllers/ClassicFemaleGhost_Idle_Lost.controller
+  uploadId: 611890

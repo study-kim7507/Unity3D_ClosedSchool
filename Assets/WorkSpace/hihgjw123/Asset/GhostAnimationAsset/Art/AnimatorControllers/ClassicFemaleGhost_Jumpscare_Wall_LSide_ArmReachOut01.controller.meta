@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 479fffca33bf5a748838f092d45baf91
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 263668
+  packageName: Classic Female Ghost
+  packageVersion: 1.0
+  assetPath: Assets/Classic_Female_Ghost/Art/AnimatorControllers/ClassicFemaleGhost_Jumpscare_Wall_LSide_ArmReachOut01.controller
+  uploadId: 611890
