@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     private PlayerLookController lookController;
     private PlayerStatus status;
 
+    public InventorySystem inventory;
     public PlayerFlashlight flashlight;
 
     private void Start()
@@ -26,13 +27,14 @@ public class PlayerController : MonoBehaviour
         UpdateMove();
         PerformInteraction();
         ManageFlashlight();
-
+        ManageInventory();
 
         // TEST
-        if (Input.GetKey(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             Camera.main.GetComponent<TakePhoto>().Capture();
         }
+
     }
 
     // 마우스 입력을 통한 캐릭터 회전을 담당
@@ -91,13 +93,10 @@ public class PlayerController : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.G))
                 {
-                    Debug.Log("Pick up Item");
+                    inventory.AddToInventory(hit.collider.gameObject);
                 }
             }
         }
-
-        // For Debugging
-        Debug.DrawRay(ray.origin, ray.direction * 1.0f, Color.red);
     }
 
     private void ManageFlashlight()
@@ -105,6 +104,16 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.V))
         {
             flashlight.ToggleFlashlight();
+        }
+    }
+
+    private void ManageInventory()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            Cursor.visible = !Cursor.visible;
+            Cursor.lockState = CursorLockMode.None;
+            inventory.ToggleInventory();
         }
     }
 }

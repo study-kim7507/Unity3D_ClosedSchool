@@ -87,8 +87,9 @@ GameObject:
   - component: {fileID: 3293714128149528373}
   - component: {fileID: 2305444356966591918}
   - component: {fileID: 802918987861163222}
+  - component: {fileID: 3634656464547172012}
   m_Layer: 5
-  m_Name: Slot
+  m_Name: InventorySlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -195,4 +196,34 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2305444356966591918}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3634656464547172012}
+        m_TargetAssemblyTypeName: InventorySlot, Assembly-CSharp
+        m_MethodName: ShowItemDetails
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &3634656464547172012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7726427987797328979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd05c0356479bf74b9dca0c2d7735802, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: 
+  itemDescription: 
+  itemImage: {fileID: 6616297661985286289}
+  itemPrefab: {fileID: 0}
+  isUsed: 0
+  item3DViewer: {fileID: 8088715622311410567, guid: 24e3f311cb42aeb48849ddc77e48af48, type: 3}
