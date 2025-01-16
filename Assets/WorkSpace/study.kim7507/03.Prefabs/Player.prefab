@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7654484351178869071}
   - component: {fileID: 4353489106756942099}
   - component: {fileID: 7404375035394713019}
+  - component: {fileID: 5646336943898725686}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -146,6 +147,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stamina: 0
+--- !u!114 &5646336943898725686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1952502638814128832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46348758e4f4f44489fb4a953060fef5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  photoPrefab: {fileID: 0}
 --- !u!1 &3594327089782633855
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,7 +270,8 @@ MonoBehaviour:
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
-  m_Cameras: []
+  m_Cameras:
+  - {fileID: 0}
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2

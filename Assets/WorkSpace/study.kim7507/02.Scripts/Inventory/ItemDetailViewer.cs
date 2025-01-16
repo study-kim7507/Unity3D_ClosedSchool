@@ -24,12 +24,20 @@ public class ItemDetailViewer : MonoBehaviour
         ownerPlayer.inventory.inventoryPanel.SetActive(false);
 
         currentItem = Instantiate(slot.itemPrefab, itemVisaul);
-        currentItem.layer = LayerMask.NameToLayer("UI");
+        SetLayerRecursivly(currentItem, "UI");                 
 
-        // TODO: 오브젝트마다 크기가 달라서 캔버스에 보여지는 모습이 다른 문제를 해결해야 함.
+        // 오브젝트가 y축 기준으로 회전하도록
         currentItem.AddComponent<ItemDetailViewerObjectRotation>();
-        currentItem.transform.localScale *= 1000.0f;
 
+        // 크기 조절
+        Vector3 currentItemSize = currentItem.GetComponentInChildren<Renderer>().bounds.size;
+        float scaleFactor = 6.0f / currentItemSize.magnitude;
+        currentItem.transform.localScale *= scaleFactor;
+
+        // 현재 보여줄 아이템이 사진인 경우
+        if (currentItem.GetComponent<Photo>() != null) currentItem.GetComponent<Photo>().SetCapturedImageUsingTexture2D(slot.photoItemCapturedImage);
+
+        // 캔버스 설정
         itemName.text = slot.itemName;
         itemDescription.text = slot.itemDescription;
     }
@@ -44,4 +52,15 @@ public class ItemDetailViewer : MonoBehaviour
 
         ownerPlayer.inventory.inventoryPanel.SetActive(true);
     }
+
+    private void SetLayerRecursivly(GameObject obj, string layerName)
+    {
+        obj.layer = LayerMask.NameToLayer(layerName);
+
+        foreach (Transform child in obj.transform)
+        {
+            SetLayerRecursivly(child.gameObject, layerName);
+        }
+    }
+
 }

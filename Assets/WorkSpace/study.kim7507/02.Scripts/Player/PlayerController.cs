@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            Camera.main.GetComponent<TakePhoto>().Capture();
+            gameObject.GetComponent<TakePhoto>().Capture();
         }
     }
 
