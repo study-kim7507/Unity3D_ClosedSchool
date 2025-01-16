@@ -111,7 +111,7 @@ public class PlayerController : MonoBehaviour
                     hit.collider.gameObject.GetComponent<IInteractable>().Interact();
                 }
             }
-            if (hit.collider.gameObject.GetComponent<IPickable>() != null)
+            if (hit.collider.gameObject.GetComponent<Pickable>() != null)
             {
                 if (Input.GetKeyDown(KeyCode.G))
                 {
@@ -120,7 +120,6 @@ public class PlayerController : MonoBehaviour
             }
             if (hit.collider.gameObject.GetComponent<Draggable>() != null)
             {
-                Debug.Log("TEST");
                 Draggable draggable = hit.collider.gameObject.GetComponent<Draggable>();
 
                 if (!draggable.isDragging && Input.GetMouseButtonDown(0))

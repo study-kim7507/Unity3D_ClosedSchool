@@ -15,16 +15,16 @@ public class InventorySlot : MonoBehaviour
 
     public void SetSlot(GameObject item)
     {
-        IPickable pickableItem = item.GetComponent<IPickable>();
+        Pickable pickableItem = item.GetComponent<Pickable>();
 
         // 슬롯 세팅
-        itemName = pickableItem.ItemName;
-        itemDescription = pickableItem.ItemDescription;
-        itemImage.sprite = pickableItem.ItemImage;
-        itemPrefab = pickableItem.ItemObjectPrefab;
+        itemName = pickableItem.itemName;
+        itemDescription = pickableItem.itemDescription;
+        itemImage.sprite = pickableItem.itemImage;
+        itemPrefab = pickableItem.itemObjectPrefab;
 
         // 슬롯에 저장될 아이템이 사진인 경우, 플레이어가 찍은 사진이 설정되도록
-        if (item.GetComponent<Photo>() != null) photoItemCapturedImage = item.GetComponent<Photo>().CapturedImage.texture as Texture2D;
+        if (item.GetComponent<Photo>() != null) photoItemCapturedImage = item.GetComponent<Photo>().capturedImage.texture as Texture2D;
         
         isUsed = true;  
     }

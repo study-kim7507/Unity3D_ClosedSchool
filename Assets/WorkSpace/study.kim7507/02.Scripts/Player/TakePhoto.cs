@@ -50,10 +50,10 @@ public class TakePhoto : MonoBehaviour
         go.GetComponentInChildren<RawImage>().texture = photo;
 
         // 찍은 사진을 인벤토리에 넣기
-        go.GetComponent<IPickable>().ItemName = "Image";
-        go.GetComponent<IPickable>().ItemDescription = "Just Image";
-        go.GetComponent<IPickable>().ItemImage = photoPrefab.GetComponent<IPickable>().ItemImage;
-        go.GetComponent<IPickable>().ItemObjectPrefab = photoPrefab.GetComponent<IPickable>().ItemObjectPrefab;
+        go.GetComponent<Pickable>().itemName = "Image";
+        go.GetComponent<Pickable>().itemDescription = "Just Image";
+        go.GetComponent<Pickable>().itemImage = photoPrefab.GetComponent<Pickable>().itemImage;
+        go.GetComponent<Pickable>().itemObjectPrefab = photoPrefab.GetComponent<Pickable>().itemObjectPrefab;
         go.GetComponent<Photo>().SetCapturedImageUsingTexture2D(photo);
 
         gameObject.GetComponent<PlayerController>().inventory.AddToInventory(go);

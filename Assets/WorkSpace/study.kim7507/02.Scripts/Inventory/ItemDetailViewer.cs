@@ -24,6 +24,8 @@ public class ItemDetailViewer : MonoBehaviour
         ownerPlayer.inventory.inventoryPanel.SetActive(false);
 
         currentItem = Instantiate(slot.itemPrefab, itemVisaul);
+
+        if (currentItem.GetComponent<Rigidbody>() != null) currentItem.GetComponent<Rigidbody>().useGravity = false;
         SetLayerRecursivly(currentItem, "UI");                 
 
         // 오브젝트가 y축 기준으로 회전하도록

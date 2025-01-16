@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 64364619682270272}
   - component: {fileID: 581722544515408982}
   - component: {fileID: -7731531996676130312}
+  - component: {fileID: 2515224165831072374}
   m_Layer: 0
   m_Name: FolderB
   m_TagString: Untagged
@@ -150,7 +151,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f64fa647f591fbd479c5107850ce8c9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Folder1
-  description: Just Folder
-  image: {fileID: 21300000, guid: c0fa4e13912ed7f4599cea231a18f6a2, type: 3}
-  objectPrefab: {fileID: 1803825579383462}
+--- !u!114 &2515224165831072374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1803825579383462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e61ee6a66ffd95f45bc09a0edbf6e504, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: 
+  itemDescription: 
+  itemImage: {fileID: 21300000, guid: c0fa4e13912ed7f4599cea231a18f6a2, type: 3}
+  itemObjectPrefab: {fileID: 0}

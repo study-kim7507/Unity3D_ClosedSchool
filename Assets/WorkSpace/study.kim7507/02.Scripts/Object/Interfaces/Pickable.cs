@@ -1,11 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-// TODO: 컴포넌트로 변경
-public interface IPickable
+public class Pickable : MonoBehaviour
 {
-    string ItemName { get; set; }
-    string ItemDescription { get; set; }
-    Sprite ItemImage { get; set; }
-    GameObject ItemObjectPrefab { get;  set; }    
+    public string itemName;
+    public string itemDescription;
+    public Sprite itemImage;
+    public GameObject itemObjectPrefab;
 }
