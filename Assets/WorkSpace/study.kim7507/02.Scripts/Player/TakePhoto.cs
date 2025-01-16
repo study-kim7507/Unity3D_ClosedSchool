@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class TakePhoto : MonoBehaviour
 {
+    [SerializeField] GameObject photoPrefab;
     private Texture2D photo;
 
     // 캡처할 카메라
@@ -32,6 +33,7 @@ public class TakePhoto : MonoBehaviour
 
         // RenderTexture를 Texture2D로 변환
         RenderTexture.active = renderTexture;
+
         Texture2D screenshot = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
         screenshot.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);
         screenshot.Apply();
@@ -44,7 +46,9 @@ public class TakePhoto : MonoBehaviour
         // 캡처한 사진을 저장
         photo = screenshot;
 
-        // Image 컴포넌트에 스크린샷을 표시
-        // inventory.ReturnFreeSlot().itemImage.sprite = Sprite.Create(photo, new Rect(0, 0, photo.width, photo.height), new Vector2(0.5f, 0.5f));
+        GameObject go = Instantiate(photoPrefab);
+        go.GetComponentInChildren<RawImage>().texture = photo;
+
+        // TODO: 인벤토리에 넣기
     }
 }

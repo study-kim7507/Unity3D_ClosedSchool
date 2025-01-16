@@ -33,6 +33,11 @@ public class PlayerController : MonoBehaviour
         PerformInteraction();
         ManageFlashlight();
         ManageInventory();
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Camera.main.GetComponent<TakePhoto>().Capture();
+        }
     }
 
     // 마우스 입력을 통한 캐릭터 회전을 담당
@@ -72,9 +77,11 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.Space)) movementController.Jump();
 
         // 앉기 입력
-        if (Input.GetKey(KeyCode.C) && !movementController.isCrouching) movementController.Crouch();            
-        else if (!Input.GetKey(KeyCode.C) && movementController.isCrouching) movementController.UnCrouch();     
-
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            if (movementController.isCrouching) movementController.UnCrouch();
+            else movementController.Crouch();
+        }
 
         // 최종 이동 방향 설정
         movementController.MoveTo(new Vector3(x, 0, z));
