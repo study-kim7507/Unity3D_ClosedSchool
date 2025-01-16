@@ -269,6 +269,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100000, guid: 888ce82c0af2ab0499d39c93fb0f4ce4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1186614437}
+    - targetCorrespondingSourceObject: {fileID: 100000, guid: 888ce82c0af2ab0499d39c93fb0f4ce4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1186614441}
   m_SourcePrefab: {fileID: 100100000, guid: 888ce82c0af2ab0499d39c93fb0f4ce4, type: 3}
 --- !u!114 &494767504 stripped
 MonoBehaviour:
@@ -308,6 +311,70 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 08e091500e68ded43b4abfb1b3f718d0, type: 3}
+--- !u!114 &579279354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 579279346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea76c318bf1f6ed47863a39302df0565, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bookName: "\uBB34\uC11C\uC6B4 \uADC0\uC2E0"
+  bookOrder: 2
+--- !u!1 &700026969
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 700026971}
+  - component: {fileID: 700026970}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &700026970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 700026969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3615f6069ce450d4bba60d19029740fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  correctOrder:
+  - {fileID: 1474835295}
+  - {fileID: 579279354}
+  - {fileID: 1186614441}
+  rewardItemPrefab: {fileID: 8256490939153764603, guid: c0b35375db9942746a95fb952cd1781d, type: 3}
+  itemSpawnPoint: {fileID: 1596791272}
+--- !u!4 &700026971
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 700026969}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.3667343, y: -0.02778772, z: 1.0921332}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &734319149
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -452,6 +519,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100000, guid: cba00f75539bc564fabb9136fccfac6c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1474835291}
+    - targetCorrespondingSourceObject: {fileID: 100000, guid: cba00f75539bc564fabb9136fccfac6c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1474835295}
   m_SourcePrefab: {fileID: 100100000, guid: cba00f75539bc564fabb9136fccfac6c, type: 3}
 --- !u!114 &1080307241 stripped
 MonoBehaviour:
@@ -491,6 +561,20 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300004, guid: 08e091500e68ded43b4abfb1b3f718d0, type: 3}
+--- !u!114 &1186614441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1186614433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea76c318bf1f6ed47863a39302df0565, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bookName: "\uD55C \uC5EC\uB984 \uBC24\uC5D0 \uACF5\uD3EC"
+  bookOrder: 3
 --- !u!114 &1223317548 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5423655194510526873, guid: e4049b01b9ae3a04a907a26890d1e0dd, type: 3}
@@ -788,6 +872,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100000, guid: f9ec2f5b43ac0204199acdb66395048b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 579279350}
+    - targetCorrespondingSourceObject: {fileID: 100000, guid: f9ec2f5b43ac0204199acdb66395048b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 579279354}
   m_SourcePrefab: {fileID: 100100000, guid: f9ec2f5b43ac0204199acdb66395048b, type: 3}
 --- !u!1 &1474835287 stripped
 GameObject:
@@ -816,6 +903,20 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: 08e091500e68ded43b4abfb1b3f718d0, type: 3}
+--- !u!114 &1474835295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1474835287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea76c318bf1f6ed47863a39302df0565, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bookName: "\uACF5\uD3EC\uC758 \uD559\uAD50"
+  bookOrder: 1
 --- !u!114 &1545451191 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6741029254227251430, guid: 277ae72c0b21e6e40b0be0c8353995da, type: 3}
@@ -838,6 +939,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6b12b0b0e9fde64bb5d8f9047e46cfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1596791271
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1596791272}
+  m_Layer: 0
+  m_Name: GameObject (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 7148428337604731935, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1596791272
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1596791271}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3, y: 0.15, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1635109712
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1821,3 +1953,5 @@ SceneRoots:
   - {fileID: 1019110086}
   - {fileID: 1366819051}
   - {fileID: 270631210}
+  - {fileID: 700026971}
+  - {fileID: 1596791272}
