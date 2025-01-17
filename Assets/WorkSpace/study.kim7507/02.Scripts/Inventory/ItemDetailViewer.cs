@@ -13,6 +13,8 @@ public class ItemDetailViewer : MonoBehaviour
 
     [SerializeField] PlayerController ownerPlayer;
 
+    private float scaleFactor;
+    
     private void Start()
     {
         itemDetailViewerCanvas.SetActive(ownerPlayer.isOpenItemDetailViewer);
@@ -54,7 +56,7 @@ public class ItemDetailViewer : MonoBehaviour
 
         // 크기 조절
         Vector3 currentItemSize = currentItem.GetComponentInChildren<Renderer>().bounds.size;
-        float scaleFactor = 6.0f / currentItemSize.magnitude;
+        scaleFactor = 6.0f / currentItemSize.magnitude;
         currentItem.transform.localScale *= scaleFactor;
 
         // 캔버스 설정
@@ -91,6 +93,7 @@ public class ItemDetailViewer : MonoBehaviour
 
         Destroy(currentItem.GetComponent<ItemDetailViewerObjectRotation>());
         SetLayerRecursivly(currentItem, "Default");
+
         currentItem.GetComponent<Collider>().enabled = false;
 
         ownerPlayer.EquipItemInRightHand(currentItem);

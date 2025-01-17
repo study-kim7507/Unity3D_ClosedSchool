@@ -17,8 +17,6 @@ public class TakePhoto : MonoBehaviour
 
     private IEnumerator CaptureScreenshot()
     {
-        // TODO: 플레이어의 화면까지 찍히는 문제 해결 필요
-
         // 프레임이 끝날 때까지 대기
         yield return new WaitForEndOfFrame();
 
@@ -48,8 +46,6 @@ public class TakePhoto : MonoBehaviour
         {
             // TODO: 화면 번쩍임 효과 추가
 
-
-
             GameObject go = Instantiate(photoPrefab);
             go.GetComponentInChildren<RawImage>().texture = photo;
 
@@ -60,7 +56,6 @@ public class TakePhoto : MonoBehaviour
             go.GetComponent<Pickable>().itemImage = go.GetComponent<Photo>().CaptureObjectAsSprite();
             go.GetComponent<Pickable>().itemObjectPrefab = photoPrefab.GetComponent<Pickable>().itemObjectPrefab;
             
-
             gameObject.GetComponent<PlayerController>().inventory.AddToInventory(go);
         }
     }

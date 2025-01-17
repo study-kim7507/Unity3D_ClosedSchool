@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class PlayerController : MonoBehaviour
 {
@@ -40,7 +41,9 @@ public class PlayerController : MonoBehaviour
         ManageFlashlight();
         ManageInventory();
         TakeAPhoto();
-        DropItemInRightHand();
+
+        if (Input.GetKeyDown(KeyCode.R) && !isOpenInventory && !isOpenItemDetailViewer)
+            DropItemInRightHand();
     }
 
     // 마우스 입력을 통한 캐릭터 회전을 담당
@@ -116,7 +119,15 @@ public class PlayerController : MonoBehaviour
                 // 만약 인벤토리에 저장 가능한 오브젝트가 Ray에 감지될 시, 플레이어는 G키를 통해 해당 오브젝트를 인벤토리에 저장하도록
                 if (Input.GetKeyDown(KeyCode.G))
                 {
-                    inventory.AddToInventory(hit.collider.gameObject);
+                    if (rightHand.childCount <= 0)
+                    {
+                        GameObject currObject = hit.collider.gameObject;
+                        currObject.GetComponent<Rigidbody>().useGravity = false;
+                        currObject.GetComponent<Collider>().enabled = false;
+                        EquipItemInRightHand(currObject);
+                    }
+                        
+                    else inventory.AddToInventory(hit.collider.gameObject);
                 }
             }
             if (hit.collider.gameObject.GetComponent<Draggable>() != null)
@@ -172,6 +183,8 @@ public class PlayerController : MonoBehaviour
     
     private void TakeAPhoto()
     {
+        if (isOpenInventory) return;
+
         if (Input.GetKeyDown(KeyCode.Q))
         {
             gameObject.GetComponent<TakePhoto>().Capture();
@@ -180,18 +193,22 @@ public class PlayerController : MonoBehaviour
 
     public void EquipItemInRightHand(GameObject item)
     {
-        isOpenItemDetailViewer = !isOpenItemDetailViewer;
-        isOpenInventory = !isOpenInventory;
+        if (isOpenItemDetailViewer) isOpenItemDetailViewer = false;
+        if (isOpenInventory) isOpenInventory = false;
+        
+        Cursor.lockState = CursorLockMode.Locked;
+        if(Cursor.visible) Cursor.visible = false;
 
-        if (!isOpenInventory) Cursor.lockState = CursorLockMode.None;
-        else Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = !Cursor.visible;
-
-        // 현재 오른손에 가지고 있는 오브젝트 버리기
         DropItemInRightHand();
         item.transform.SetParent(rightHand);
         item.transform.localPosition = Vector3.zero;
         item.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+
+        // 크기 조절
+        Vector3 currentItemSize = item.GetComponentInChildren<Renderer>().bounds.size;
+        float scaleFactor = 0.25f / currentItemSize.magnitude;
+        item.transform.localScale *= scaleFactor;
+
         item.transform.localRotation = Quaternion.identity;
     }
 
@@ -199,15 +216,15 @@ public class PlayerController : MonoBehaviour
     {
         // 손에 아무런 오브젝트가 없는 경우 바로 종료
         if (rightHand.childCount <= 0) return;
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            // TODO: 아이템 버리는 로직 구현 필요
-            Debug.Log("아이템을 버립니다.");
 
-            Vector3 dropPosition = Camera.main.transform.position + Camera.main.transform.forward * 0.5f;
+        Vector3 dropPosition = Camera.main.transform.position + Camera.main.transform.forward * 0.5f;
 
-            rightHand.GetChild(0).transform.position = dropPosition;
-            rightHand.GetChild(0).transform.SetParent(null);
-        }
+        GameObject currentItem = rightHand.GetChild(0).gameObject;
+
+        currentItem.transform.SetParent(null);
+        currentItem.transform.position = dropPosition;
+        currentItem.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+        currentItem.GetComponent<Collider>().enabled = true;
+        currentItem.GetComponent<Rigidbody>().useGravity = true;
     }
 }
