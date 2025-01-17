@@ -11,6 +11,19 @@ public class PuzzleManager : MonoBehaviour
 
     [SerializeField] private GameObject ghostFace;        // 귀신 얼굴 오브젝트
     [SerializeField] private float ghostFaceDuration = 2f; // 귀신 얼굴 표시 시간
+    [SerializeField] private AudioClip ghostSound;        // 귀신 소리
+    private AudioSource audioSource;
+
+    private void Start()
+    {
+        if (ghostFace != null)
+        {
+            ghostFace.SetActive(false); // 게임 시작 시 귀신 얼굴 비활성화
+        }
+
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.playOnAwake = false; // 자동 재생 비활성화
+    }
 
     public void SelectBook(Book book)
     {
@@ -21,7 +34,7 @@ public class PuzzleManager : MonoBehaviour
 
             if (selectedBooks.Count == correctOrder.Count)
             {
-                CheckPuzzleSolution();  // 퍼즐 정답 확인
+                CheckPuzzleSolution();
             }
         }
     }
@@ -47,7 +60,7 @@ public class PuzzleManager : MonoBehaviour
         else
         {
             Debug.Log("퍼즐 실패! 순서를 다시 시도하세요.");
-            ShowGhostFace(); // 귀신 얼굴 표시
+            ShowGhostFace(); // 귀신 얼굴 표시 및 소리 재생
             ResetPuzzle();
         }
     }
@@ -67,7 +80,7 @@ public class PuzzleManager : MonoBehaviour
 
     private void ResetPuzzle()
     {
-        selectedBooks.Clear();  // 선택된 책 초기화
+        selectedBooks.Clear();
         Debug.Log("책 선택이 초기화되었습니다.");
     }
 
@@ -76,7 +89,17 @@ public class PuzzleManager : MonoBehaviour
         if (ghostFace != null)
         {
             ghostFace.SetActive(true); // 귀신 얼굴 활성화
-            Invoke(nameof(HideGhostFace), ghostFaceDuration); // 일정 시간 후 비활성화
+
+            // 섬뜩한 소리 재생
+            if (ghostSound != null)
+            {
+                audioSource.clip = ghostSound;
+                audioSource.loop = true; // 소리 반복 재생
+                audioSource.Play();
+            }
+
+            // 일정 시간 후 귀신 얼굴 비활성화
+            Invoke(nameof(HideGhostFace), ghostFaceDuration);
         }
         else
         {
@@ -89,6 +112,11 @@ public class PuzzleManager : MonoBehaviour
         if (ghostFace != null)
         {
             ghostFace.SetActive(false); // 귀신 얼굴 비활성화
+        }
+
+        if (audioSource.isPlaying)
+        {
+            audioSource.Stop(); // 소리 중지
         }
     }
 }

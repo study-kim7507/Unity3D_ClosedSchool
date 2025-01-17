@@ -464,6 +464,7 @@ MonoBehaviour:
   itemSpawnPoint: {fileID: 1596791272}
   ghostFace: {fileID: 1417075081}
   ghostFaceDuration: 2
+  ghostSound: {fileID: 8300000, guid: 539e54c3a324c7341a61c6edde66d718, type: 3}
 --- !u!4 &700026971
 Transform:
   m_ObjectHideFlags: 0
