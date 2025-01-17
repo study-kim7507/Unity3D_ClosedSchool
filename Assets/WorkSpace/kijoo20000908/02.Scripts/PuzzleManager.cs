@@ -9,6 +9,9 @@ public class PuzzleManager : MonoBehaviour
     [SerializeField] private GameObject rewardItemPrefab;  // 보상 아이템(열쇠 또는 단서)
     [SerializeField] private Transform itemSpawnPoint;    // 아이템 생성 위치
 
+    [SerializeField] private GameObject ghostFace;        // 귀신 얼굴 오브젝트
+    [SerializeField] private float ghostFaceDuration = 2f; // 귀신 얼굴 표시 시간
+
     public void SelectBook(Book book)
     {
         if (!selectedBooks.Contains(book))
@@ -44,6 +47,7 @@ public class PuzzleManager : MonoBehaviour
         else
         {
             Debug.Log("퍼즐 실패! 순서를 다시 시도하세요.");
+            ShowGhostFace(); // 귀신 얼굴 표시
             ResetPuzzle();
         }
     }
@@ -65,5 +69,26 @@ public class PuzzleManager : MonoBehaviour
     {
         selectedBooks.Clear();  // 선택된 책 초기화
         Debug.Log("책 선택이 초기화되었습니다.");
+    }
+
+    private void ShowGhostFace()
+    {
+        if (ghostFace != null)
+        {
+            ghostFace.SetActive(true); // 귀신 얼굴 활성화
+            Invoke(nameof(HideGhostFace), ghostFaceDuration); // 일정 시간 후 비활성화
+        }
+        else
+        {
+            Debug.LogWarning("귀신 얼굴 오브젝트가 설정되지 않았습니다!");
+        }
+    }
+
+    private void HideGhostFace()
+    {
+        if (ghostFace != null)
+        {
+            ghostFace.SetActive(false); // 귀신 얼굴 비활성화
+        }
     }
 }
