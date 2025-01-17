@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 23905364761241864}
   - component: {fileID: 64364619682270272}
   - component: {fileID: 581722544515408982}
-  - component: {fileID: -7731531996676130312}
   - component: {fileID: 2515224165831072374}
+  - component: {fileID: 5211620055601596915}
   m_Layer: 0
   m_Name: FolderB
   m_TagString: Untagged
@@ -139,18 +139,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!114 &-7731531996676130312
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1803825579383462}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f64fa647f591fbd479c5107850ce8c9a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2515224165831072374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,3 +155,16 @@ MonoBehaviour:
   itemDescription: 
   itemImage: {fileID: 21300000, guid: c0fa4e13912ed7f4599cea231a18f6a2, type: 3}
   itemObjectPrefab: {fileID: 0}
+--- !u!114 &5211620055601596915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1803825579383462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c7407becaabc844cab6e312a8eb7218, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDragging: 0

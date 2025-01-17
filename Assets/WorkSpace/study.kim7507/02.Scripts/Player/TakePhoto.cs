@@ -7,13 +7,7 @@ public class TakePhoto : MonoBehaviour
     [SerializeField] GameObject photoPrefab;
     private Texture2D photo;
 
-    // 캡처할 카메라
-    private Camera mainCamera;
-
-    private void Start()
-    {
-        mainCamera = Camera.main;
-    }
+    [SerializeField] InventorySystem targetInventory;
 
     public void Capture()
     {
@@ -28,8 +22,8 @@ public class TakePhoto : MonoBehaviour
 
         // RenderTexture 생성
         RenderTexture renderTexture = new RenderTexture(Screen.width, Screen.height, 24);
-        mainCamera.targetTexture = renderTexture;
-        mainCamera.Render();
+        Camera.main.targetTexture = renderTexture;
+        Camera.main.Render();
 
         // RenderTexture를 Texture2D로 변환
         RenderTexture.active = renderTexture;
@@ -39,23 +33,32 @@ public class TakePhoto : MonoBehaviour
         screenshot.Apply();
 
         // RenderTexture 해제
-        mainCamera.targetTexture = null;
+        Camera.main.targetTexture = null;
         RenderTexture.active = null;
         Destroy(renderTexture);
 
         // 캡처한 사진을 저장
         photo = screenshot;
 
-        GameObject go = Instantiate(photoPrefab);
-        go.GetComponentInChildren<RawImage>().texture = photo;
+        
+        // 인벤토리가 비어있을 경우에만 사진을 저장할 수 있도록
+        if (targetInventory.HasEmptySlot())
+        {
+            // TODO: 화면 번쩍임 효과 추가
 
-        // 찍은 사진을 인벤토리에 넣기
-        go.GetComponent<Pickable>().itemName = "Image";
-        go.GetComponent<Pickable>().itemDescription = "Just Image";
-        go.GetComponent<Pickable>().itemImage = photoPrefab.GetComponent<Pickable>().itemImage;
-        go.GetComponent<Pickable>().itemObjectPrefab = photoPrefab.GetComponent<Pickable>().itemObjectPrefab;
-        go.GetComponent<Photo>().SetCapturedImageUsingTexture2D(photo);
 
-        gameObject.GetComponent<PlayerController>().inventory.AddToInventory(go);
+
+            GameObject go = Instantiate(photoPrefab);
+            go.GetComponentInChildren<RawImage>().texture = photo;
+
+            // 찍은 사진을 인벤토리에 넣기
+            go.GetComponent<Pickable>().itemName = "Image";
+            go.GetComponent<Pickable>().itemDescription = "Just Image";
+            go.GetComponent<Pickable>().itemImage = photoPrefab.GetComponent<Pickable>().itemImage;
+            go.GetComponent<Pickable>().itemObjectPrefab = photoPrefab.GetComponent<Pickable>().itemObjectPrefab;
+            go.GetComponent<Photo>().SetCapturedImageUsingTexture2D(photo);
+
+            gameObject.GetComponent<PlayerController>().inventory.AddToInventory(go);
+        }
     }
 }

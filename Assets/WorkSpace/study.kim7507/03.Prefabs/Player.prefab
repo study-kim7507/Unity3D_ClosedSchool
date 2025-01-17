@@ -159,7 +159,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46348758e4f4f44489fb4a953060fef5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  photoPrefab: {fileID: 0}
+  photoPrefab: {fileID: 2178338838353760982, guid: eafcea9a14d5c794185e50b0662e4d28, type: 3}
+  targetInventory: {fileID: 0}
 --- !u!1 &3594327089782633855
 GameObject:
   m_ObjectHideFlags: 0

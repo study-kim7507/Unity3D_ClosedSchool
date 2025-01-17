@@ -64,5 +64,4 @@ public class ItemDetailViewer : MonoBehaviour
             SetLayerRecursivly(child.gameObject, layerName);
         }
     }
-
 }

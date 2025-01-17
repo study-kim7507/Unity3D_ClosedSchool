@@ -15,9 +15,9 @@ public class PlayerController : MonoBehaviour
     // 손전등
     [SerializeField] PlayerFlashlight flashlight;
 
-    // 드래그 중인 오브젝트
-    private Draggable currentDragging = null;
-    
+    // 드래그 관련
+    private Draggable draggable = null;
+
     private void Start()
     {
         // 마우스 커서를 보이지 않게 설정
@@ -98,7 +98,7 @@ public class PlayerController : MonoBehaviour
         Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, 1.5f))
+        if (Physics.Raycast(ray, out hit, 2.0f))
         {
             // 레이의 시작점과 충돌 지점 사이에 디버그 라인 그리기
             Debug.DrawLine(ray.origin, hit.point, Color.red);
@@ -113,35 +113,33 @@ public class PlayerController : MonoBehaviour
             }
             if (hit.collider.gameObject.GetComponent<Pickable>() != null)
             {
+                // 만약 인벤토리에 저장 가능한 오브젝트가 Ray에 감지될 시, 플레이어는 G키를 통해 해당 오브젝트를 인벤토리에 저장하도록
                 if (Input.GetKeyDown(KeyCode.G))
                 {
                     inventory.AddToInventory(hit.collider.gameObject);
                 }
             }
             if (hit.collider.gameObject.GetComponent<Draggable>() != null)
-            {
-                Draggable draggable = hit.collider.gameObject.GetComponent<Draggable>();
-
-                if (!draggable.isDragging && Input.GetMouseButtonDown(0))
+            {   
+                // 드래그하여 플레이어가 옮길 수 있는 오브젝트가 Ray에 감지될 시, 플레이어는 마우스 좌클릭을 통해 오브젝트를 옮길 수 있도록
+                if (draggable == null)
                 {
-                    draggable.BeginDrag();
-                    currentDragging = draggable;
-                }
-                else if (draggable.isDragging && Input.GetMouseButtonUp(0))
-                {
-                    draggable.EndDrag();
-                    currentDragging = null;
-                }
-                if (Input.GetMouseButton(0) && draggable.isDragging) draggable.Dragging();
-            }
-        }
+                    Draggable currentDraggable = hit.collider.gameObject.GetComponent<Draggable>();
 
-        // 마우스를 빠르게 움직여 드래그 중인 오브젝트가 레이의 감지에서 벗어난 경우
-        else
-        {
-            if (currentDragging != null)
-            {
-                currentDragging.Dragging();
+                    if (!currentDraggable.isDragging && Input.GetMouseButton(0))
+                    {
+                        currentDraggable.BeginDrag();
+                        draggable = currentDraggable;
+                    }
+                }
+                else
+                {
+                    if (draggable.isDragging && !Input.GetMouseButton(0))
+                    {
+                        draggable.EndDrag();
+                        draggable = null;
+                    }
+                }
             }
         }
     }
@@ -169,7 +167,6 @@ public class PlayerController : MonoBehaviour
             Cursor.visible = !Cursor.visible;
 
             inventory.ToggleInventory();
-            
         }
     }
 }
