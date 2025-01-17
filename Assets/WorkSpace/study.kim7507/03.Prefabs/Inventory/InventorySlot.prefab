@@ -199,7 +199,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3634656464547172012}
         m_TargetAssemblyTypeName: InventorySlot, Assembly-CSharp
-        m_MethodName: ShowItemDetails
+        m_MethodName: ShowItemDetail
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -225,5 +225,6 @@ MonoBehaviour:
   itemDescription: 
   itemImage: {fileID: 6616297661985286289}
   itemPrefab: {fileID: 0}
+  photoItemCapturedImage: {fileID: 0}
   isUsed: 0
   itemDetailViewer: {fileID: 0}
