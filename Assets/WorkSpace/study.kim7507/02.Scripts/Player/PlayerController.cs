@@ -18,6 +18,9 @@ public class PlayerController : MonoBehaviour
     // 드래그 관련
     private Draggable draggable = null;
 
+    // 손
+    public Transform rightHand;
+
     private void Start()
     {
         // 마우스 커서를 보이지 않게 설정
@@ -36,11 +39,8 @@ public class PlayerController : MonoBehaviour
         PerformInteraction();
         ManageFlashlight();
         ManageInventory();
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            gameObject.GetComponent<TakePhoto>().Capture();
-        }
+        TakeAPhoto();
+        DropItemInRightHand();
     }
 
     // 마우스 입력을 통한 캐릭터 회전을 담당
@@ -167,6 +167,47 @@ public class PlayerController : MonoBehaviour
             Cursor.visible = !Cursor.visible;
 
             inventory.ToggleInventory();
+        }
+    }
+    
+    private void TakeAPhoto()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            gameObject.GetComponent<TakePhoto>().Capture();
+        }
+    }
+
+    public void EquipItemInRightHand(GameObject item)
+    {
+        isOpenItemDetailViewer = !isOpenItemDetailViewer;
+        isOpenInventory = !isOpenInventory;
+
+        if (!isOpenInventory) Cursor.lockState = CursorLockMode.None;
+        else Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = !Cursor.visible;
+
+        // 현재 오른손에 가지고 있는 오브젝트 버리기
+        DropItemInRightHand();
+        item.transform.SetParent(rightHand);
+        item.transform.localPosition = Vector3.zero;
+        item.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+        item.transform.localRotation = Quaternion.identity;
+    }
+
+    private void DropItemInRightHand()
+    {
+        // 손에 아무런 오브젝트가 없는 경우 바로 종료
+        if (rightHand.childCount <= 0) return;
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            // TODO: 아이템 버리는 로직 구현 필요
+            Debug.Log("아이템을 버립니다.");
+
+            Vector3 dropPosition = Camera.main.transform.position + Camera.main.transform.forward * 0.5f;
+
+            rightHand.GetChild(0).transform.position = dropPosition;
+            rightHand.GetChild(0).transform.SetParent(null);
         }
     }
 }

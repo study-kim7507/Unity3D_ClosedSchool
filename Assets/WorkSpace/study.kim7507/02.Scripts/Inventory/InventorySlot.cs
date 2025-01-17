@@ -9,7 +9,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
     public string itemName;
     public string itemDescription;
     public Image itemImage;
-    public GameObject itemPrefab;
+    public GameObject itemObjectPrefab;
     public Texture2D photoItemCapturedImage;         // 슬롯에 저장될 아이템이 사진인 경우 사용되는 변수
 
     public bool isUsed;                              // 현재 해당 슬롯이 사용 중인지 여부를 저장
@@ -24,7 +24,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
         itemName = pickableItem.itemName;
         itemDescription = pickableItem.itemDescription;
         itemImage.sprite = pickableItem.itemImage;
-        itemPrefab = pickableItem.itemObjectPrefab;
+        itemObjectPrefab = pickableItem.itemObjectPrefab;
 
         // 슬롯에 저장될 아이템이 사진인 경우, 플레이어가 찍은 사진이 설정되도록
         if (item.GetComponent<Photo>() != null) photoItemCapturedImage = item.GetComponent<Photo>().capturedImage.texture as Texture2D;
@@ -37,7 +37,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
         itemName = string.Empty;            // 아이템 이름 초기화
         itemDescription = string.Empty;     // 아이템 설명 초기화
         itemImage.sprite = null;            // 아이템 이미지 초기화
-        itemPrefab = null;                  // 아이템 프리팹 초기화
+        itemObjectPrefab = null;                  // 아이템 프리팹 초기화
         photoItemCapturedImage = null;      // 사진 아이템 이미지 초기화
 
         isUsed = false;                     // 슬롯 사용 중 상태 초기화
@@ -53,19 +53,14 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
     {
         if (!isUsed) return;
 
-        Vector3 dropPosition;
-        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
-        RaycastHit hit;
+        Vector3 dropPosition = Camera.main.transform.position + Camera.main.transform.forward * 0.5f;
 
-        if ((Physics.Raycast(ray, out hit, 1.5f))) dropPosition = hit.point + Camera.main.transform.forward + hit.normal * 1.0f;
-        else dropPosition = Camera.main.transform.position + Camera.main.transform.forward * 1.5f;
-
-        GameObject droppedItem = Instantiate(itemPrefab, dropPosition, Random.rotation);
+        GameObject droppedItem = Instantiate(itemObjectPrefab, dropPosition, Random.rotation);
 
         droppedItem.GetComponent<Pickable>().itemName = itemName;
         droppedItem.GetComponent<Pickable>().itemDescription = itemDescription;
         droppedItem.GetComponent<Pickable>().itemImage = itemImage.sprite;
-        droppedItem.GetComponent<Pickable>().itemObjectPrefab = itemPrefab;
+        droppedItem.GetComponent<Pickable>().itemObjectPrefab = itemObjectPrefab;
 
         // 버릴 아이템이 사진인 경우
         if (droppedItem.GetComponent<Photo>() != null) droppedItem.GetComponent<Photo>().capturedImage.texture = photoItemCapturedImage;

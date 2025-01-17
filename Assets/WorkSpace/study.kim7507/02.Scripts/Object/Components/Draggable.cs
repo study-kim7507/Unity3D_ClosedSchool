@@ -28,10 +28,9 @@ public class Draggable : MonoBehaviour
         rigidbody.useGravity = true;
     }
 
-
     public void Dragging()
     {
-        Vector3 targetPosition = Camera.main.transform.position + Camera.main.transform.forward * 0.75f;
+        Vector3 targetPosition = Camera.main.transform.position + Camera.main.transform.forward * 0.85f;
 
         // 오브젝트의 위치 이동
         gameObject.transform.position = targetPosition;

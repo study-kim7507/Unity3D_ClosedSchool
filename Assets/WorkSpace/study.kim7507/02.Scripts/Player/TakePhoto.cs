@@ -17,6 +17,8 @@ public class TakePhoto : MonoBehaviour
 
     private IEnumerator CaptureScreenshot()
     {
+        // TODO: 플레이어의 화면까지 찍히는 문제 해결 필요
+
         // 프레임이 끝날 때까지 대기
         yield return new WaitForEndOfFrame();
 
@@ -54,9 +56,10 @@ public class TakePhoto : MonoBehaviour
             // 찍은 사진을 인벤토리에 넣기
             go.GetComponent<Pickable>().itemName = "Image";
             go.GetComponent<Pickable>().itemDescription = "Just Image";
-            go.GetComponent<Pickable>().itemImage = photoPrefab.GetComponent<Pickable>().itemImage;
-            go.GetComponent<Pickable>().itemObjectPrefab = photoPrefab.GetComponent<Pickable>().itemObjectPrefab;
             go.GetComponent<Photo>().SetCapturedImageUsingTexture2D(photo);
+            go.GetComponent<Pickable>().itemImage = go.GetComponent<Photo>().CaptureObjectAsSprite();
+            go.GetComponent<Pickable>().itemObjectPrefab = photoPrefab.GetComponent<Pickable>().itemObjectPrefab;
+            
 
             gameObject.GetComponent<PlayerController>().inventory.AddToInventory(go);
         }
