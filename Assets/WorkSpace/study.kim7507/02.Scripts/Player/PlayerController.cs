@@ -108,6 +108,7 @@ public class PlayerController : MonoBehaviour
 
             if (hit.collider.gameObject.GetComponent<IInteractable>() != null)
             {
+                // TODO: 현재 손에 들고 있는 오브젝트와 연관된 상호작용 로직 (ex. 라이터와 양초)
                 // 만약 상호작용 가능한 오브젝트가 Ray에 감지될 시, 플레이어는 E키를 통해 해당 오브젝트와 상호작용이 가능하도록
                 if (Input.GetKeyDown(KeyCode.E))
                 {
@@ -119,15 +120,7 @@ public class PlayerController : MonoBehaviour
                 // 만약 인벤토리에 저장 가능한 오브젝트가 Ray에 감지될 시, 플레이어는 G키를 통해 해당 오브젝트를 인벤토리에 저장하도록
                 if (Input.GetKeyDown(KeyCode.G))
                 {
-                    if (rightHand.childCount <= 0)
-                    {
-                        GameObject currObject = hit.collider.gameObject;
-                        currObject.GetComponent<Rigidbody>().useGravity = false;
-                        currObject.GetComponent<Collider>().enabled = false;
-                        EquipItemInRightHand(currObject);
-                    }
-                        
-                    else inventory.AddToInventory(hit.collider.gameObject);
+                    inventory.AddToInventory(hit.collider.gameObject);
                 }
             }
             if (hit.collider.gameObject.GetComponent<Draggable>() != null)
@@ -199,7 +192,6 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         if(Cursor.visible) Cursor.visible = false;
 
-        DropItemInRightHand();
         item.transform.SetParent(rightHand);
         item.transform.localPosition = Vector3.zero;
         item.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);

@@ -8,7 +8,7 @@ public class InventorySystem : MonoBehaviour
     [SerializeField] Transform inventorySlotHolder;
     private InventorySlot[] inventorySlots;
    
-    [SerializeField] PlayerController ownerPlayer;
+    public PlayerController ownerPlayer;
 
     void Start()
     {

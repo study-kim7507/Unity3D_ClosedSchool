@@ -9,26 +9,13 @@ public class ItemDetailViewer : MonoBehaviour
     public TMP_Text itemDescription;
 
     GameObject currentItem;
-    InventorySlot currentItemSlot;
 
     [SerializeField] PlayerController ownerPlayer;
 
-    private float scaleFactor;
     
     private void Start()
     {
         itemDetailViewerCanvas.SetActive(ownerPlayer.isOpenItemDetailViewer);
-    }
-
-    private void Update()
-    {
-        if (ownerPlayer.isOpenItemDetailViewer)
-        {
-            if (Input.GetKeyDown(KeyCode.G))
-            {
-                EquipItemInRightHand();
-            }
-        }
     }
 
     public void OpenItemDetailViewer(InventorySlot slot)
@@ -36,7 +23,6 @@ public class ItemDetailViewer : MonoBehaviour
         ownerPlayer.isOpenItemDetailViewer = !ownerPlayer.isOpenItemDetailViewer;
         itemDetailViewerCanvas.SetActive(ownerPlayer.isOpenItemDetailViewer);
         ownerPlayer.inventory.inventoryPanel.SetActive(false);
-        currentItemSlot = slot;
 
         currentItem = Instantiate(slot.itemObjectPrefab, itemVisaul);
 
@@ -56,7 +42,7 @@ public class ItemDetailViewer : MonoBehaviour
 
         // 크기 조절
         Vector3 currentItemSize = currentItem.GetComponentInChildren<Renderer>().bounds.size;
-        scaleFactor = 6.0f / currentItemSize.magnitude;
+        float scaleFactor = 6.0f / currentItemSize.magnitude;
         currentItem.transform.localScale *= scaleFactor;
 
         // 캔버스 설정
@@ -68,7 +54,6 @@ public class ItemDetailViewer : MonoBehaviour
     {
         ownerPlayer.isOpenItemDetailViewer = !ownerPlayer.isOpenItemDetailViewer;
         itemDetailViewerCanvas.SetActive(ownerPlayer.isOpenItemDetailViewer);
-        currentItemSlot = null;
        
         Destroy(currentItem);
         currentItem = null;
@@ -85,23 +70,4 @@ public class ItemDetailViewer : MonoBehaviour
             SetLayerRecursivly(child.gameObject, layerName);
         }
     }
-
-    private void EquipItemInRightHand()
-    {
-        itemDetailViewerCanvas.SetActive(false);
-        ownerPlayer.inventory.inventoryPanel.SetActive(false);
-
-        Destroy(currentItem.GetComponent<ItemDetailViewerObjectRotation>());
-        SetLayerRecursivly(currentItem, "Default");
-
-        currentItem.GetComponent<Collider>().enabled = false;
-
-        ownerPlayer.EquipItemInRightHand(currentItem);
-
-        currentItemSlot.ClearSlot();
-        currentItemSlot = null;
-        currentItem = null;
-    }
-
-    
 }

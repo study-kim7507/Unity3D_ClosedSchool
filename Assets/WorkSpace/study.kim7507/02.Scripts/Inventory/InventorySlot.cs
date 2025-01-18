@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using static UnityEditor.Progress;
 
-public class InventorySlot : MonoBehaviour, IPointerClickHandler
+public class InventorySlot : MonoBehaviour
 {
     public string itemName;
     public string itemDescription;
@@ -17,7 +17,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
     [SerializeField] ItemDetailViewer itemDetailViewer;
 
     public void SetSlot(GameObject item)
-    {
+    {           
         Pickable pickableItem = item.GetComponent<Pickable>();
 
         // 슬롯 세팅
@@ -37,16 +37,20 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
         itemName = string.Empty;            // 아이템 이름 초기화
         itemDescription = string.Empty;     // 아이템 설명 초기화
         itemImage.sprite = null;            // 아이템 이미지 초기화
-        itemObjectPrefab = null;                  // 아이템 프리팹 초기화
+        itemObjectPrefab = null;            // 아이템 프리팹 초기화
         photoItemCapturedImage = null;      // 사진 아이템 이미지 초기화
 
         isUsed = false;                     // 슬롯 사용 중 상태 초기화
     }
 
-    public void ShowItemDetail()
+    // 아이템 디테일 뷰를 보거나, 현재 플레이어가 손에 들고 있는 아이템과 바꾸는 기능을 수행
+    public void ClickSlot()
     {
         if (!isUsed) return;         // 현재 해당 슬롯에 아이템이 저장되어 있지 않은 경우
-        itemDetailViewer.OpenItemDetailViewer(this);
+
+        if (!Input.GetKey(KeyCode.G)&& !Input.GetKey(KeyCode.R)) itemDetailViewer.OpenItemDetailViewer(this);
+        else if (Input.GetKey(KeyCode.G)) ChangeItem();
+        else if (Input.GetKey(KeyCode.R)) DropCurrentItem();
     }
 
     public void DropCurrentItem()
@@ -67,6 +71,40 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
         ClearSlot();
     }
 
+    private void ChangeItem()
+    {
+        PlayerController ownerPlayer = transform.root.gameObject.GetComponent<InventorySystem>().ownerPlayer;
+        if (ownerPlayer != null)
+        {
+            GameObject currentItem = Instantiate(itemObjectPrefab);
+
+            if (currentItem.GetComponent<Rigidbody>() != null) currentItem.GetComponent<Rigidbody>().useGravity = false;
+            if (currentItem.GetComponent<Collider>() != null) currentItem.GetComponent<Collider>().enabled = false;
+
+            currentItem.GetComponent<Pickable>().itemName = itemName;
+            currentItem.GetComponent<Pickable>().itemDescription = itemDescription;
+            currentItem.GetComponent<Pickable>().itemImage = itemImage.sprite;
+            currentItem.GetComponent<Pickable>().itemObjectPrefab = itemObjectPrefab;
+
+            // 현재 보여줄 아이템이 사진인 경우
+            if (currentItem.GetComponent<Photo>() != null) currentItem.GetComponent<Photo>().SetCapturedImageUsingTexture2D(photoItemCapturedImage);
+
+            if (ownerPlayer.rightHand.childCount <= 0) ClearSlot(); // 손에 현재 아이템이 없는 경우, 슬롯 클리어
+            else
+            {
+                // 손에 현재 아이템을 가지고 있는 경우, 현재 슬롯을 손에 있는 아이템으로 변경 후 파괴
+                GameObject inHandItem = ownerPlayer.rightHand.GetChild(0).gameObject;
+                SetSlot(inHandItem);
+                Destroy(inHandItem);
+            }
+
+            // 현재 슬롯의 아이템을 손에 장착
+            ownerPlayer.inventory.inventoryPanel.SetActive(false);
+            ownerPlayer.EquipItemInRightHand(currentItem);
+        }
+    }
+
+
     private void SetLayerRecursivly(GameObject obj, string layerName)
     {
         obj.layer = LayerMask.NameToLayer(layerName);
@@ -77,9 +115,5 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if (eventData.button == PointerEventData.InputButton.Right)
-            DropCurrentItem();
-    }
+    
 }
