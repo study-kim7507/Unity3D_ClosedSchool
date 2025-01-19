@@ -24,6 +24,7 @@ public class ItemDetailViewer : MonoBehaviour
         itemDetailViewerCanvas.SetActive(ownerPlayer.isOpenItemDetailViewer);
         ownerPlayer.inventory.inventoryPanel.SetActive(false);
 
+        
         currentItem = Instantiate(slot.itemObjectPrefab, itemVisaul);
 
         if (currentItem.GetComponent<Rigidbody>() != null) currentItem.GetComponent<Rigidbody>().useGravity = false;
@@ -44,6 +45,11 @@ public class ItemDetailViewer : MonoBehaviour
         Vector3 currentItemSize = currentItem.GetComponentInChildren<Renderer>().bounds.size;
         float scaleFactor = 6.0f / currentItemSize.magnitude;
         currentItem.transform.localScale *= scaleFactor;
+
+        Vector3 pivotOffset = currentItem.transform.position - currentItem.GetComponent<Collider>().bounds.center;
+        pivotOffset *= scaleFactor;
+       
+        currentItem.transform.position += pivotOffset;
 
         // Äµ¹ö½º ¼³Á¤
         itemName.text = slot.itemName;

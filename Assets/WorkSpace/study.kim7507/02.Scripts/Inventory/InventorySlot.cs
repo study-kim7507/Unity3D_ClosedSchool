@@ -17,7 +17,8 @@ public class InventorySlot : MonoBehaviour
     [SerializeField] ItemDetailViewer itemDetailViewer;
 
     public void SetSlot(GameObject item)
-    {           
+    {
+        gameObject.transform.GetChild(0).GetComponent<Image>().color = new Color(255.0f, 255.0f, 255.0f, 255.0f);
         Pickable pickableItem = item.GetComponent<Pickable>();
 
         // 슬롯 세팅
@@ -40,6 +41,8 @@ public class InventorySlot : MonoBehaviour
         itemObjectPrefab = null;            // 아이템 프리팹 초기화
         photoItemCapturedImage = null;      // 사진 아이템 이미지 초기화
 
+        gameObject.transform.GetChild(0).GetComponent<Image>().color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+        
         isUsed = false;                     // 슬롯 사용 중 상태 초기화
     }
 
@@ -48,6 +51,7 @@ public class InventorySlot : MonoBehaviour
     {
         if (!isUsed) return;         // 현재 해당 슬롯에 아이템이 저장되어 있지 않은 경우
 
+        
         if (!Input.GetKey(KeyCode.G)&& !Input.GetKey(KeyCode.R)) itemDetailViewer.OpenItemDetailViewer(this);
         else if (Input.GetKey(KeyCode.G)) ChangeItem();
         else if (Input.GetKey(KeyCode.R)) DropCurrentItem();
@@ -77,9 +81,6 @@ public class InventorySlot : MonoBehaviour
         if (ownerPlayer != null)
         {
             GameObject currentItem = Instantiate(itemObjectPrefab);
-
-            if (currentItem.GetComponent<Rigidbody>() != null) currentItem.GetComponent<Rigidbody>().useGravity = false;
-            if (currentItem.GetComponent<Collider>() != null) currentItem.GetComponent<Collider>().enabled = false;
 
             currentItem.GetComponent<Pickable>().itemName = itemName;
             currentItem.GetComponent<Pickable>().itemDescription = itemDescription;

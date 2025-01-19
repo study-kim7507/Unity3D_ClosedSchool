@@ -321,7 +321,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 581722544515408982, guid: a42930a15e221e348b8a8416b5cc227d, type: 3}
       propertyPath: m_ExcludeLayers.m_Bits
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2515224165831072374, guid: a42930a15e221e348b8a8416b5cc227d, type: 3}
       propertyPath: itemName
@@ -340,17 +340,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a42930a15e221e348b8a8416b5cc227d, type: 3}
---- !u!114 &1080307241 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2625945445668750409, guid: 277ae72c0b21e6e40b0be0c8353995da, type: 3}
-  m_PrefabInstance: {fileID: 4770950423046443291}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cceb2e7dc7912e34d8d41c957e31be3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1223317548 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5423655194510526873, guid: e4049b01b9ae3a04a907a26890d1e0dd, type: 3}
@@ -417,11 +406,11 @@ PrefabInstance:
     - target: {fileID: 5423655194510526873, guid: e4049b01b9ae3a04a907a26890d1e0dd, type: 3}
       propertyPath: inventory
       value: 
-      objectReference: {fileID: 1080307241}
+      objectReference: {fileID: 2112783634}
     - target: {fileID: 5646336943898725686, guid: e4049b01b9ae3a04a907a26890d1e0dd, type: 3}
       propertyPath: targetInventory
       value: 
-      objectReference: {fileID: 1080307241}
+      objectReference: {fileID: 2112783634}
     - target: {fileID: 6686168334304330236, guid: e4049b01b9ae3a04a907a26890d1e0dd, type: 3}
       propertyPath: 'm_Cameras.Array.data[0]'
       value: 
@@ -464,7 +453,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4311686269852232, guid: a42930a15e221e348b8a8416b5cc227d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.215
+      value: 1.224
       objectReference: {fileID: 0}
     - target: {fileID: 4311686269852232, guid: a42930a15e221e348b8a8416b5cc227d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -492,6 +481,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4311686269852232, guid: a42930a15e221e348b8a8416b5cc227d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 64364619682270272, guid: a42930a15e221e348b8a8416b5cc227d, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2515224165831072374, guid: a42930a15e221e348b8a8416b5cc227d, type: 3}
@@ -651,6 +644,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2112783634 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1002795495721827394, guid: 277ae72c0b21e6e40b0be0c8353995da, type: 3}
+  m_PrefabInstance: {fileID: 4770950423046443291}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cceb2e7dc7912e34d8d41c957e31be3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2143442681
 GameObject:
   m_ObjectHideFlags: 0
@@ -846,14 +850,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1002795495721827394, guid: 277ae72c0b21e6e40b0be0c8353995da, type: 3}
+      propertyPath: ownerPlayer
+      value: 
+      objectReference: {fileID: 1223317548}
     - target: {fileID: 1038113598644803465, guid: 277ae72c0b21e6e40b0be0c8353995da, type: 3}
       propertyPath: itemDetailViewer
       value: 
       objectReference: {fileID: 1588235782}
-    - target: {fileID: 2625945445668750409, guid: 277ae72c0b21e6e40b0be0c8353995da, type: 3}
-      propertyPath: ownerPlayer
-      value: 
-      objectReference: {fileID: 1223317548}
     - target: {fileID: 3340373729284215877, guid: 277ae72c0b21e6e40b0be0c8353995da, type: 3}
       propertyPath: itemDetailViewer
       value: 

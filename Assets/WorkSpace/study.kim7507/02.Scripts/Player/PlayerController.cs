@@ -192,16 +192,23 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         if(Cursor.visible) Cursor.visible = false;
 
-        item.transform.SetParent(rightHand);
-        item.transform.localPosition = Vector3.zero;
         item.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-
+        item.transform.SetParent(rightHand);
+     
         // 크기 조절
         Vector3 currentItemSize = item.GetComponentInChildren<Renderer>().bounds.size;
         float scaleFactor = 0.25f / currentItemSize.magnitude;
         item.transform.localScale *= scaleFactor;
 
+        // 위치 및 방향 조절
+        Vector3 pivotOffset = item.transform.position - item.GetComponent<Collider>().bounds.center;
+        pivotOffset *= scaleFactor;
+
+        item.transform.localPosition = Vector3.zero + pivotOffset;
         item.transform.localRotation = Quaternion.identity;
+
+        if (item.GetComponent<Rigidbody>() != null) item.GetComponent<Rigidbody>().useGravity = false;
+        if (item.GetComponent<Collider>() != null) item.GetComponent<Collider>().enabled = false;
     }
 
     private void DropItemInRightHand()
@@ -215,7 +222,7 @@ public class PlayerController : MonoBehaviour
 
         currentItem.transform.SetParent(null);
         currentItem.transform.position = dropPosition;
-        currentItem.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+        currentItem.transform.localScale = currentItem.GetComponent<Pickable>().itemObjectPrefab.gameObject.transform.localScale;
         currentItem.GetComponent<Collider>().enabled = true;
         currentItem.GetComponent<Rigidbody>().useGravity = true;
     }
