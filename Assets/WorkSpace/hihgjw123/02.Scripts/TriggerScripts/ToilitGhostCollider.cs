@@ -7,7 +7,7 @@ public class ToilletGhostCollider : MonoBehaviour
 
     private void Start() 
     {
-        toilletghostAnimator = ToilletGhost.GetComponent<Animator>(); //화장실 귀신 애니메이터
+        toilletghostAnimator = ToilletGhost.GetComponentInChildren<Animator>(); //화장실 귀신 애니메이터
     }
 
     private void Update() 
