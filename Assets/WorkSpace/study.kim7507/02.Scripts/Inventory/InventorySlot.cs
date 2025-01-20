@@ -19,6 +19,7 @@ public class InventorySlot : MonoBehaviour
     public void SetSlot(GameObject item)
     {
         gameObject.transform.GetChild(0).GetComponent<Image>().color = new Color(255.0f, 255.0f, 255.0f, 255.0f);
+        
         Pickable pickableItem = item.GetComponent<Pickable>();
 
         // ½½·Ô ¼¼ÆÃ
@@ -104,17 +105,4 @@ public class InventorySlot : MonoBehaviour
             ownerPlayer.EquipItemInRightHand(currentItem);
         }
     }
-
-
-    private void SetLayerRecursivly(GameObject obj, string layerName)
-    {
-        obj.layer = LayerMask.NameToLayer(layerName);
-
-        foreach (Transform child in obj.transform)
-        {
-            SetLayerRecursivly(child.gameObject, layerName);
-        }
-    }
-
-    
 }

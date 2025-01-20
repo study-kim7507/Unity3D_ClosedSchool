@@ -6,7 +6,6 @@ public class PlayerController : MonoBehaviour
 {
     private PlayerMovementController movementController;
     private PlayerLookController lookController;
-    private PlayerStatus status;
 
     // 플레이어 인벤토리 상호작용 관련
     public InventorySystem inventory;
@@ -22,6 +21,9 @@ public class PlayerController : MonoBehaviour
     // 손
     public Transform rightHand;
 
+    // UI 관련
+    public GameObject playerUI;
+
     private void Start()
     {
         // 마우스 커서를 보이지 않게 설정
@@ -30,7 +32,6 @@ public class PlayerController : MonoBehaviour
 
         movementController = GetComponent<PlayerMovementController>(); 
         lookController = GetComponent<PlayerLookController>();
-        status = GetComponent<PlayerStatus>();
     }
 
     private void Update()
@@ -222,7 +223,10 @@ public class PlayerController : MonoBehaviour
 
         currentItem.transform.SetParent(null);
         currentItem.transform.position = dropPosition;
+
+        // 원본 프리팹에서 크기를 가져와 복구 시킴.
         currentItem.transform.localScale = currentItem.GetComponent<Pickable>().itemObjectPrefab.gameObject.transform.localScale;
+        
         currentItem.GetComponent<Collider>().enabled = true;
         currentItem.GetComponent<Rigidbody>().useGravity = true;
     }

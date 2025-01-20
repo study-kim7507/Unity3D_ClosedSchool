@@ -22,13 +22,13 @@ public class ItemDetailViewer : MonoBehaviour
     {
         ownerPlayer.isOpenItemDetailViewer = !ownerPlayer.isOpenItemDetailViewer;
         itemDetailViewerCanvas.SetActive(ownerPlayer.isOpenItemDetailViewer);
+        ownerPlayer.playerUI.gameObject.SetActive(false);
         ownerPlayer.inventory.inventoryPanel.SetActive(false);
 
-        
         currentItem = Instantiate(slot.itemObjectPrefab, itemVisaul);
 
         if (currentItem.GetComponent<Rigidbody>() != null) currentItem.GetComponent<Rigidbody>().useGravity = false;
-        SetLayerRecursivly(currentItem, "UI");
+        SetLayerRecursivly(currentItem, "ItemDetailViewer");
 
         currentItem.GetComponent<Pickable>().itemName = slot.itemName;
         currentItem.GetComponent<Pickable>().itemDescription = slot.itemDescription;
@@ -65,6 +65,7 @@ public class ItemDetailViewer : MonoBehaviour
         currentItem = null;
 
         ownerPlayer.inventory.inventoryPanel.SetActive(true);
+        ownerPlayer.playerUI.gameObject.SetActive(true);
     }
 
     private void SetLayerRecursivly(GameObject obj, string layerName)
