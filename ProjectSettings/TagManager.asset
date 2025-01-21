@@ -17,12 +17,12 @@ TagManager:
   - Player
   - Water
   - UI
+  - LibraryObject
   - 
   - 
   - 
   - 
-  - 
-  - 
+  - ItemDetailViewer
   - 
   - 
   - 
