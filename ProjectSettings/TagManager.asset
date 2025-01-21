@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - NL_LMBV
+  - Sun
+  - PickableItem
+  - Flashlight
+  - VentilationGrid
+  - Basketball
   layers:
   - Default
   - TransparentFX
@@ -11,7 +17,7 @@ TagManager:
   - Player
   - Water
   - UI
-  - 
+  - LibraryObject
   - 
   - 
   - 
