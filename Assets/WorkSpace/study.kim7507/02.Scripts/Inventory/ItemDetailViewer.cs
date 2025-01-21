@@ -9,37 +9,20 @@ public class ItemDetailViewer : MonoBehaviour
     public TMP_Text itemDescription;
 
     GameObject currentItem;
-    InventorySlot currentItemSlot;
 
     [SerializeField] PlayerController ownerPlayer;
-
-    private void Start()
-    {
-        itemDetailViewerCanvas.SetActive(ownerPlayer.isOpenItemDetailViewer);
-    }
-
-    private void Update()
-    {
-        if (ownerPlayer.isOpenItemDetailViewer)
-        {
-            if (Input.GetKeyDown(KeyCode.G))
-            {
-                EquipItemInRightHand();
-            }
-        }
-    }
 
     public void OpenItemDetailViewer(InventorySlot slot)
     {
         ownerPlayer.isOpenItemDetailViewer = !ownerPlayer.isOpenItemDetailViewer;
         itemDetailViewerCanvas.SetActive(ownerPlayer.isOpenItemDetailViewer);
+        ownerPlayer.playerUI.playerUIPanel.SetActive(false);
         ownerPlayer.inventory.inventoryPanel.SetActive(false);
-        currentItemSlot = slot;
 
         currentItem = Instantiate(slot.itemObjectPrefab, itemVisaul);
 
         if (currentItem.GetComponent<Rigidbody>() != null) currentItem.GetComponent<Rigidbody>().useGravity = false;
-        SetLayerRecursivly(currentItem, "UI");
+        SetLayerRecursivly(currentItem, "ItemDetailViewer");
 
         currentItem.GetComponent<Pickable>().itemName = slot.itemName;
         currentItem.GetComponent<Pickable>().itemDescription = slot.itemDescription;
@@ -57,6 +40,11 @@ public class ItemDetailViewer : MonoBehaviour
         float scaleFactor = 6.0f / currentItemSize.magnitude;
         currentItem.transform.localScale *= scaleFactor;
 
+        Vector3 pivotOffset = currentItem.transform.position - currentItem.GetComponent<Collider>().bounds.center;
+        pivotOffset *= scaleFactor;
+       
+        currentItem.transform.position += pivotOffset;
+
         // Äµ¹ö½º ¼³Á¤
         itemName.text = slot.itemName;
         itemDescription.text = slot.itemDescription;
@@ -66,12 +54,12 @@ public class ItemDetailViewer : MonoBehaviour
     {
         ownerPlayer.isOpenItemDetailViewer = !ownerPlayer.isOpenItemDetailViewer;
         itemDetailViewerCanvas.SetActive(ownerPlayer.isOpenItemDetailViewer);
-        currentItemSlot = null;
        
         Destroy(currentItem);
         currentItem = null;
 
         ownerPlayer.inventory.inventoryPanel.SetActive(true);
+        ownerPlayer.playerUI.playerUIPanel.SetActive(true);
     }
 
     private void SetLayerRecursivly(GameObject obj, string layerName)
@@ -83,22 +71,4 @@ public class ItemDetailViewer : MonoBehaviour
             SetLayerRecursivly(child.gameObject, layerName);
         }
     }
-
-    private void EquipItemInRightHand()
-    {
-        itemDetailViewerCanvas.SetActive(false);
-        ownerPlayer.inventory.inventoryPanel.SetActive(false);
-
-        Destroy(currentItem.GetComponent<ItemDetailViewerObjectRotation>());
-        SetLayerRecursivly(currentItem, "Default");
-        currentItem.GetComponent<Collider>().enabled = false;
-
-        ownerPlayer.EquipItemInRightHand(currentItem);
-
-        currentItemSlot.ClearSlot();
-        currentItemSlot = null;
-        currentItem = null;
-    }
-
-    
 }

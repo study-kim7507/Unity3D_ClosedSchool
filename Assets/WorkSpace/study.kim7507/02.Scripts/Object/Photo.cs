@@ -24,7 +24,6 @@ public class Photo : MonoBehaviour
         RenderTexture renderTexture = new RenderTexture(renderCamera.pixelWidth, renderCamera.pixelHeight, 24);
         renderCamera.targetTexture = renderTexture;
 
-        
         renderCamera.Render();
 
         renderCamera.targetTexture = null;
