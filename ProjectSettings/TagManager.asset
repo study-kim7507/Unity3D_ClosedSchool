@@ -9,6 +9,7 @@ TagManager:
   - PickableItem
   - Flashlight
   - VentilationGrid
+  - Basketball
   layers:
   - Default
   - TransparentFX
