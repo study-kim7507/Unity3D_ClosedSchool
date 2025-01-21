@@ -1,11 +1,11 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class PlayerController : MonoBehaviour
 {
     private PlayerMovementController movementController;
     private PlayerLookController lookController;
-    private PlayerStatus status;
 
     // 플레이어 인벤토리 상호작용 관련
     public InventorySystem inventory;
@@ -21,6 +21,9 @@ public class PlayerController : MonoBehaviour
     // 손
     public Transform rightHand;
 
+    // UI 관련
+    public PlayerUI playerUI;
+
     private void Start()
     {
         // 마우스 커서를 보이지 않게 설정
@@ -29,7 +32,6 @@ public class PlayerController : MonoBehaviour
 
         movementController = GetComponent<PlayerMovementController>(); 
         lookController = GetComponent<PlayerLookController>();
-        status = GetComponent<PlayerStatus>();
     }
 
     private void Update()
@@ -40,7 +42,9 @@ public class PlayerController : MonoBehaviour
         ManageFlashlight();
         ManageInventory();
         TakeAPhoto();
-        DropItemInRightHand();
+
+        if (Input.GetKeyDown(KeyCode.R) && !isOpenInventory && !isOpenItemDetailViewer)
+            DropItemInRightHand();
     }
 
     // 마우스 입력을 통한 캐릭터 회전을 담당
@@ -105,6 +109,7 @@ public class PlayerController : MonoBehaviour
 
             if (hit.collider.gameObject.GetComponent<IInteractable>() != null)
             {
+                // TODO: 현재 손에 들고 있는 오브젝트와 연관된 상호작용 로직 (ex. 라이터와 양초)
                 // 만약 상호작용 가능한 오브젝트가 Ray에 감지될 시, 플레이어는 E키를 통해 해당 오브젝트와 상호작용이 가능하도록
                 if (Input.GetKeyDown(KeyCode.E))
                 {
@@ -172,6 +177,8 @@ public class PlayerController : MonoBehaviour
     
     private void TakeAPhoto()
     {
+        if (isOpenInventory) return;
+
         if (Input.GetKeyDown(KeyCode.Q))
         {
             gameObject.GetComponent<TakePhoto>().Capture();
@@ -180,34 +187,47 @@ public class PlayerController : MonoBehaviour
 
     public void EquipItemInRightHand(GameObject item)
     {
-        isOpenItemDetailViewer = !isOpenItemDetailViewer;
-        isOpenInventory = !isOpenInventory;
+        if (isOpenItemDetailViewer) isOpenItemDetailViewer = false;
+        if (isOpenInventory) isOpenInventory = false;
+        
+        Cursor.lockState = CursorLockMode.Locked;
+        if(Cursor.visible) Cursor.visible = false;
 
-        if (!isOpenInventory) Cursor.lockState = CursorLockMode.None;
-        else Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = !Cursor.visible;
-
-        // 현재 오른손에 가지고 있는 오브젝트 버리기
-        DropItemInRightHand();
-        item.transform.SetParent(rightHand);
-        item.transform.localPosition = Vector3.zero;
         item.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+        item.transform.SetParent(rightHand);
+     
+        // 크기 조절
+        Vector3 currentItemSize = item.GetComponentInChildren<Renderer>().bounds.size;
+        float scaleFactor = 0.25f / currentItemSize.magnitude;
+        item.transform.localScale *= scaleFactor;
+
+        // 위치 및 방향 조절
+        Vector3 pivotOffset = item.transform.position - item.GetComponent<Collider>().bounds.center;
+        pivotOffset *= scaleFactor;
+
+        item.transform.localPosition = Vector3.zero + pivotOffset;
         item.transform.localRotation = Quaternion.identity;
+
+        if (item.GetComponent<Rigidbody>() != null) item.GetComponent<Rigidbody>().useGravity = false;
+        if (item.GetComponent<Collider>() != null) item.GetComponent<Collider>().enabled = false;
     }
 
     private void DropItemInRightHand()
     {
         // 손에 아무런 오브젝트가 없는 경우 바로 종료
         if (rightHand.childCount <= 0) return;
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            // TODO: 아이템 버리는 로직 구현 필요
-            Debug.Log("아이템을 버립니다.");
 
-            Vector3 dropPosition = Camera.main.transform.position + Camera.main.transform.forward * 0.5f;
+        Vector3 dropPosition = Camera.main.transform.position + Camera.main.transform.forward * 0.5f;
 
-            rightHand.GetChild(0).transform.position = dropPosition;
-            rightHand.GetChild(0).transform.SetParent(null);
-        }
+        GameObject currentItem = rightHand.GetChild(0).gameObject;
+
+        currentItem.transform.SetParent(null);
+        currentItem.transform.position = dropPosition;
+
+        // 원본 프리팹에서 크기를 가져와 복구 시킴.
+        currentItem.transform.localScale = currentItem.GetComponent<Pickable>().itemObjectPrefab.gameObject.transform.localScale;
+        
+        currentItem.GetComponent<Collider>().enabled = true;
+        currentItem.GetComponent<Rigidbody>().useGravity = true;
     }
 }
