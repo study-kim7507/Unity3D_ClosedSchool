@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2148565138647003839}
   - component: {fileID: 3562666308400228397}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: ItemDetailViewer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62,7 +62,7 @@ GameObject:
   - component: {fileID: 8956618116850928325}
   - component: {fileID: 2905890764151290620}
   - component: {fileID: 2298199115638590128}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: Item Discription
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -200,7 +200,7 @@ GameObject:
   - component: {fileID: 5536922911992180120}
   - component: {fileID: 3697725047552482377}
   - component: {fileID: 1485472350472975645}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: CloseButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -404,7 +404,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4649311096594830897}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: Item Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -441,7 +441,7 @@ GameObject:
   - component: {fileID: 962934312075716065}
   - component: {fileID: 1628142269365892768}
   - component: {fileID: 7809092302804412820}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: ItemDetailViewerCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -495,14 +495,14 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 100
   field of view: 60
   orthographic: 1
   orthographic size: 5
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 2048
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -569,7 +569,7 @@ GameObject:
   - component: {fileID: 6100693148339068962}
   - component: {fileID: 4385616454393800562}
   - component: {fileID: 7011670339836371197}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: Item Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -706,7 +706,7 @@ GameObject:
   - component: {fileID: 3066845771023715370}
   - component: {fileID: 9121535995815337537}
   - component: {fileID: 5919173999440544086}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: ItemDetailViewerCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -807,7 +807,7 @@ GameObject:
   - component: {fileID: 1776040241794173443}
   - component: {fileID: 3835509573845727238}
   - component: {fileID: 7468618825205130085}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}

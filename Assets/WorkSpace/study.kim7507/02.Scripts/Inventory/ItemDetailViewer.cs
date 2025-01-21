@@ -35,6 +35,10 @@ public class ItemDetailViewer : MonoBehaviour
         // 오브젝트가 회전하면서 보여질 수 있도록
         currentItem.AddComponent<ItemDetailViewerObjectRotation>();
 
+        // 콜라이더 및 Shader 설정
+        SetTrigger(currentItem);
+        SetUnlitShader(currentItem);
+
         // 크기 조절
         Vector3 currentItemSize = currentItem.GetComponentInChildren<Renderer>().bounds.size;
         float scaleFactor = 6.0f / currentItemSize.magnitude;
@@ -69,6 +73,31 @@ public class ItemDetailViewer : MonoBehaviour
         foreach (Transform child in obj.transform)
         {
             SetLayerRecursivly(child.gameObject, layerName);
+        }
+    }
+
+
+    private void SetTrigger(GameObject obj)
+    {
+        Collider[] colliders = obj.GetComponentsInChildren<Collider>();
+
+        foreach (Collider collider in colliders)
+        {
+            collider.isTrigger = true;
+        }
+    }
+
+    private void SetUnlitShader(GameObject obj)
+    {
+        Renderer[] renderers = obj.GetComponentsInChildren<Renderer>();
+
+        foreach (Renderer renderer in renderers)
+        {
+            Material[] materials = renderer.materials;
+            foreach (Material material in materials)
+            {
+                material.shader = Shader.Find("Universal Render Pipeline/Unlit");
+            }
         }
     }
 }

@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 5646336943898725686}
   m_Layer: 3
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -148,8 +148,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   photoPrefab: {fileID: 2178338838353760982, guid: eafcea9a14d5c794185e50b0662e4d28, type: 3}
-  flashImage: {fileID: 0}
-  targetInventory: {fileID: 0}
 --- !u!1 &2282954713087799730
 GameObject:
   m_ObjectHideFlags: 0
