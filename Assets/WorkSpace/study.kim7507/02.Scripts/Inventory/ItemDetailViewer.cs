@@ -12,17 +12,11 @@ public class ItemDetailViewer : MonoBehaviour
 
     [SerializeField] PlayerController ownerPlayer;
 
-    
-    private void Start()
-    {
-        itemDetailViewerCanvas.SetActive(ownerPlayer.isOpenItemDetailViewer);
-    }
-
     public void OpenItemDetailViewer(InventorySlot slot)
     {
         ownerPlayer.isOpenItemDetailViewer = !ownerPlayer.isOpenItemDetailViewer;
         itemDetailViewerCanvas.SetActive(ownerPlayer.isOpenItemDetailViewer);
-        ownerPlayer.playerUI.gameObject.SetActive(false);
+        ownerPlayer.playerUI.playerUIPanel.SetActive(false);
         ownerPlayer.inventory.inventoryPanel.SetActive(false);
 
         currentItem = Instantiate(slot.itemObjectPrefab, itemVisaul);
@@ -65,7 +59,7 @@ public class ItemDetailViewer : MonoBehaviour
         currentItem = null;
 
         ownerPlayer.inventory.inventoryPanel.SetActive(true);
-        ownerPlayer.playerUI.gameObject.SetActive(true);
+        ownerPlayer.playerUI.playerUIPanel.SetActive(true);
     }
 
     private void SetLayerRecursivly(GameObject obj, string layerName)

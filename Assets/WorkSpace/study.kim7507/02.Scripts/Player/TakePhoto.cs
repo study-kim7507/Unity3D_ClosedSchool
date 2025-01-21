@@ -7,8 +7,6 @@ public class TakePhoto : MonoBehaviour
     [SerializeField] GameObject photoPrefab;
     private Texture2D photo;
 
-    [SerializeField] InventorySystem targetInventory;
-
     public void Capture()
     {
         // 현재 프레임이 끝난 후에 캡처하도록 대기
@@ -40,23 +38,20 @@ public class TakePhoto : MonoBehaviour
         // 캡처한 사진을 저장
         photo = screenshot;
 
-        
-        // 인벤토리가 비어있을 경우에만 사진을 저장할 수 있도록
-        if (targetInventory.HasEmptySlot())
-        {
-            // TODO: 화면 번쩍임 효과 추가
+        gameObject.GetComponent<PlayerController>().playerUI.PlayerTakePhoto();                      // 사진찍는 효과 (번쩍임)
 
-            GameObject go = Instantiate(photoPrefab);
-            go.GetComponentInChildren<RawImage>().texture = photo;
+        GameObject go = Instantiate(photoPrefab);
+        go.GetComponentInChildren<RawImage>().texture = photo;
 
-            // 찍은 사진을 인벤토리에 넣기
-            go.GetComponent<Pickable>().itemName = "사진";
-            go.GetComponent<Pickable>().itemDescription = Timer.Instance.timerText.text + "에 찍은 사진이다. \n무엇이 찍혔는지 자세히 확인해보자.";
-            go.GetComponent<Photo>().SetCapturedImageUsingTexture2D(photo);
-            go.GetComponent<Pickable>().itemImage = go.GetComponent<Photo>().CaptureObjectAsSprite();
-            go.GetComponent<Pickable>().itemObjectPrefab = photoPrefab.GetComponent<Pickable>().itemObjectPrefab;
-            
-            gameObject.GetComponent<PlayerController>().inventory.AddToInventory(go);
-        }
+        // 찍은 사진을 인벤토리에 넣기
+        go.GetComponent<Pickable>().itemName = "사진";
+        go.GetComponent<Pickable>().itemDescription = gameObject.GetComponent<PlayerController>().playerUI.timer.text + "에 찍은 사진이다. \n무엇이 찍혔는지 자세히 확인해보자.";
+        go.GetComponent<Photo>().SetCapturedImageUsingTexture2D(photo);
+        go.GetComponent<Pickable>().itemImage = go.GetComponent<Photo>().CaptureObjectAsSprite();
+        go.GetComponent<Pickable>().itemObjectPrefab = photoPrefab.GetComponent<Pickable>().itemObjectPrefab;
+
+        gameObject.GetComponent<PlayerController>().inventory.AddToInventory(go);
     }
+
+    
 }

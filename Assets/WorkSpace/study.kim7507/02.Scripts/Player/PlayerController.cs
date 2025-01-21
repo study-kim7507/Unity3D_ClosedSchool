@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     public Transform rightHand;
 
     // UI ฐüทร
-    public GameObject playerUI;
+    public PlayerUI playerUI;
 
     private void Start()
     {
