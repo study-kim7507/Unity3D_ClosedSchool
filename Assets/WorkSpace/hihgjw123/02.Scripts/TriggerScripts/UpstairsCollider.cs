@@ -8,6 +8,7 @@ public class UpstairsCollider : MonoBehaviour
 
     private bool isMoving= false; //움직임 제어변수
     [SerializeField] float speed = 0.2f; //귀신 속도
+    [SerializeField] GameObject Light; //조명 애니메이터
 
     private void Start() 
     {
@@ -38,7 +39,9 @@ public class UpstairsCollider : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
-            isMoving = true; 
+            isMoving = true;
+            Animator Lightanimator = Light.GetComponent<Animator>();
+            Lightanimator.SetTrigger("TurnOn");
         }
     }
 

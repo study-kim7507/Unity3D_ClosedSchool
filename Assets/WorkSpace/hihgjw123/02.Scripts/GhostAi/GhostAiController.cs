@@ -26,9 +26,6 @@ public class GhostAiController : MonoBehaviour
 
     private void Update() 
     {
-        Vector3 directionToPlayer = (player.position - transform.position).normalized;
-        
-        Debug.DrawRay(transform.position, directionToPlayer * detectionRange, Color.red); 
 
         if(isChasing)
         {
@@ -85,7 +82,7 @@ public class GhostAiController : MonoBehaviour
     {
         Vector3 randomDirection = Random.insideUnitSphere * navMeshSearchRadius; // 랜덤 방향
         randomDirection += transform.position;
-
+        animator.SetTrigger("Patrol");
         if (NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, navMeshSearchRadius, NavMesh.AllAreas))
         {
             navMeshAgent.SetDestination(hit.position);
@@ -99,6 +96,7 @@ public class GhostAiController : MonoBehaviour
     private void StartChase() //추격 시작
     {
         isChasing = true;
+        animator.ResetTrigger("Patrol");
         animator.SetTrigger("Chase");
         navMeshAgent.speed = 5;
         Debug.Log("추격 시작");
@@ -107,9 +105,10 @@ public class GhostAiController : MonoBehaviour
     private void StopChase() //추격 종료
     {
         isChasing = false;
-        animator.SetTrigger("Patrol");
-        navMeshAgent.speed = 0.8f;
+        navMeshAgent.speed = 0.5f;
         SetRandomPatrolPoint(); // 순찰 상태로 전환
+        animator.ResetTrigger("Chase");
+        animator.SetTrigger("Patrol");
         Debug.Log("추격 종료, 순찰 시작");
 
     }
