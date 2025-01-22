@@ -7,7 +7,7 @@ public class ToilletGhostCollider : MonoBehaviour
 
     private void Start() 
     {
-        toilletghostAnimator = ToilletGhost.GetComponent<Animator>(); //화장실 귀신 애니메이터
+        toilletghostAnimator = ToilletGhost.GetComponentInChildren<Animator>(); //화장실 귀신 애니메이터
     }
 
     private void Update() 
@@ -15,7 +15,7 @@ public class ToilletGhostCollider : MonoBehaviour
         if(toilletghostAnimator)
         {
             AnimatorStateInfo stateInfo = toilletghostAnimator.GetCurrentAnimatorStateInfo(0); // 애니메이션 상태 가져오기
-            if(stateInfo.IsName("ClassicFemaleGhost_Jumpscare_Wall_LSide_Peekaboo01") && stateInfo.normalizedTime >= 1.0f) //까꿍 애니메이션이 끝나면
+            if(stateInfo.IsName("ClassicFemaleGhost_Jumpscare_Wall_LSide_Peekaboo01") && stateInfo.normalizedTime >= 0.8f) //까꿍 애니메이션이 끝나면
             {
                 Destroy(ToilletGhost); //귀신 오브젝트 삭제
                 Destroy(gameObject); // 콜라이더 오브젝트 삭제
