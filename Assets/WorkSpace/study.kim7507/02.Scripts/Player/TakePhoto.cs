@@ -41,7 +41,7 @@ public class TakePhoto : MonoBehaviour
         gameObject.GetComponent<PlayerController>().playerUI.PlayerTakePhoto();                      // 사진찍는 효과 (번쩍임)
 
         GameObject go = Instantiate(photoPrefab);
-        go.GetComponentInChildren<RawImage>().texture = photo;
+        go.transform.Find("Front").Find("Image").gameObject.GetComponent<MeshRenderer>().material.mainTexture = photo;
 
         // 찍은 사진을 인벤토리에 넣기
         go.GetComponent<Pickable>().itemName = "사진";

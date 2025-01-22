@@ -29,8 +29,7 @@ public class InventorySlot : MonoBehaviour
         itemObjectPrefab = pickableItem.itemObjectPrefab;
 
         // 슬롯에 저장될 아이템이 사진인 경우, 플레이어가 찍은 사진이 설정되도록
-        if (item.GetComponent<Photo>() != null) photoItemCapturedImage = item.GetComponent<Photo>().capturedImage.texture as Texture2D;
-        
+        if (item.GetComponent<Photo>() != null) photoItemCapturedImage = item.GetComponent<Photo>().imageMeshRenderer.sharedMaterial.mainTexture as Texture2D;
         isUsed = true;  
     }
 
@@ -72,7 +71,7 @@ public class InventorySlot : MonoBehaviour
         droppedItem.GetComponent<Pickable>().itemObjectPrefab = itemObjectPrefab;
 
         // 버릴 아이템이 사진인 경우
-        if (droppedItem.GetComponent<Photo>() != null) droppedItem.GetComponent<Photo>().capturedImage.texture = photoItemCapturedImage;
+        if (droppedItem.GetComponent<Photo>() != null) droppedItem.GetComponent<Photo>().imageMeshRenderer.material.mainTexture = photoItemCapturedImage;
         ClearSlot();
     }
 
