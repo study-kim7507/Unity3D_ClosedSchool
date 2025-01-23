@@ -15,6 +15,8 @@ public class PlayerUI : MonoBehaviour
     public TMP_Text timer;
     public Image flashImage;
     public TMP_Text interactionDescription;
+    public Image flashlightBattery;
+    public Image stamina;
 
     private float playTime = 0.0f;
     private Coroutine interactionDescriptionCoroutine;
@@ -29,9 +31,11 @@ public class PlayerUI : MonoBehaviour
     private void Update()
     {
         UpdateTimer();
+        UpdateFlashlightBattery();
+        UpdatePlayerStamina();
 
-        // 60초가 지나면 키설명 창이 없어지도록
-        if (playTime >= 60.0f && keyDescription.gameObject.activeSelf)
+        // 30초가 지나면 키설명 창이 없어지도록
+        if (playTime >= 30.0f && keyDescription.gameObject.activeSelf)
             StartCoroutine(FadeOutKeyDescription());
     }
 
@@ -143,5 +147,23 @@ public class PlayerUI : MonoBehaviour
 
         interactionDescription.gameObject.SetActive(false);
         interactionDescription.text = "";
+    }
+
+    private void UpdateFlashlightBattery()
+    {
+        if (ownerPlayer.flashlight.remainBattery >= 70) flashlightBattery.color = new Color(0, 1, 0);
+        else if (ownerPlayer.flashlight.remainBattery >= 30) flashlightBattery.color = new Color(1, 1, 0);
+        else if (ownerPlayer.flashlight.remainBattery >= 0) flashlightBattery.color = new Color(1, 0, 0);
+
+        flashlightBattery.fillAmount = ownerPlayer.flashlight.remainBattery / 100.0f;
+    }
+
+    private void UpdatePlayerStamina()
+    {
+        if (ownerPlayer.stamina >= 70) stamina.color = new Color(0, 1, 0);
+        else if (ownerPlayer.stamina >= 30) stamina.color = new Color(1, 1, 0);
+        else if (ownerPlayer.stamina >= 0) stamina.color = new Color(1, 0, 0);
+
+        stamina.fillAmount = ownerPlayer.stamina / 100.0f;
     }
 }

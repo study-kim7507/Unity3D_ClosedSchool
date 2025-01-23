@@ -29,6 +29,10 @@ public class PlayerController : MonoBehaviour
     [Header("Player UI")]
     public PlayerUI playerUI;
 
+    // 스태미너
+    [Header("Player Stamina")]
+    public float stamina = 100.0f;
+
     private void Start()
     {
         // 마우스 커서를 보이지 않게 설정
@@ -80,7 +84,11 @@ public class PlayerController : MonoBehaviour
         if (x != 0 || z != 0)
         {
             if (Input.GetKey(KeyCode.LeftControl)) movementController.SlowWalk();
-            else if (Input.GetKey(KeyCode.LeftShift)) movementController.Run();
+            else if (Input.GetKey(KeyCode.LeftShift) && stamina > 0.0f)
+            {
+                stamina -= Time.deltaTime * 5.0f;
+                movementController.Run();
+            }
             else movementController.Walk();
         }
         else movementController.Idle();
@@ -118,6 +126,7 @@ public class PlayerController : MonoBehaviour
                 // 만약 상호작용 가능한 오브젝트가 Ray에 감지될 시, 플레이어는 E키를 통해 해당 오브젝트와 상호작용이 가능하도록
                 if (Input.GetKeyDown(KeyCode.E))
                 {
+                    if (rightHand.childCount > 0) hit.collider.gameObject.GetComponent<IInteractable>().InteractWith(rightHand.GetChild(0).gameObject);
                     hit.collider.gameObject.GetComponent<IInteractable>().Interact();
                 }
             }
@@ -202,7 +211,7 @@ public class PlayerController : MonoBehaviour
         item.transform.SetParent(rightHand);
      
         // 크기 조절
-        Vector3 currentItemSize = item.GetComponentInChildren<Renderer>().bounds.size;
+        Vector3 currentItemSize = item.GetComponentInChildren<Collider>().bounds.size;
         float scaleFactor = 0.25f / currentItemSize.magnitude;
         item.transform.localScale *= scaleFactor;
 

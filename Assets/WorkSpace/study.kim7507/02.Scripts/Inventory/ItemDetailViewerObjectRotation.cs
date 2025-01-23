@@ -30,7 +30,7 @@ public class ItemDetailViewerObjectRotation : MonoBehaviour
             Vector3 origin = gameObject.GetComponent<Collider>().bounds.center;
 
             Vector3 delta = Input.mousePosition - lastMousePosition;         // 마우스 이동량 계산
-            float rotationY = -delta.x * rotationSpeed * Time.deltaTime;     // Y축 회전량 계산
+            float rotationY = delta.x * rotationSpeed * Time.deltaTime;     // Y축 회전량 계산
             float rotationX = delta.y * rotationSpeed * Time.deltaTime;      // X축 회전량 계산
 
             // 오브젝트를 origin을 기준으로 회전 적용 (좌우 및 상하 회전)
