@@ -30,7 +30,7 @@ public class UpstairsCollider : MonoBehaviour
             );
         }
 
-        // 귀신이 타겟 포지션에 도착하면 귀신, 콜라이더 오브젝트 삭제
+        // 귀신이 타겟 포지션에 도착하면 귀신, 콜라이더 오브젝트 삭제, 플레이어 다시 움직임
         if(Vector3.Distance(UpstarisGhost.transform.position, targetPosition) < 0.1f) 
         {
             Destroy(UpstarisGhost);
@@ -97,8 +97,6 @@ public class UpstairsCollider : MonoBehaviour
         {
             cameraTransform.rotation = targetRotation;
             isCameraRotating = false; // 회전 완료
-
-            
         }
     }
 
