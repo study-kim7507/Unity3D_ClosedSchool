@@ -43,7 +43,6 @@ public class UpstairsCollider : MonoBehaviour
             SmoothCameraRotation();
         }
 
-
     }
 
 
@@ -51,7 +50,9 @@ public class UpstairsCollider : MonoBehaviour
     private void OnTriggerEnter(Collider other) 
     {
         if(other.CompareTag("Player"))
+        
         {
+            isCameraRotating = true;
             isMoving = true;
             Animator Lightanimator = Light.GetComponent<Animator>();
             Lightanimator.SetTrigger("TurnOn");
@@ -66,7 +67,7 @@ public class UpstairsCollider : MonoBehaviour
             playerScript.enabled = false; // 플레이어 스크립트 비활성화
             
         }
-        isCameraRotating = true;
+        
 
 
     }
@@ -83,7 +84,7 @@ public class UpstairsCollider : MonoBehaviour
 
     private void SmoothCameraRotation()
     {
-        // 카메라가 부드럽게 회전하도록 처리
+        // 카메라가 부드럽게 회전
         Quaternion targetRotation = Quaternion.LookRotation(targetCamraDirection);
         cameraTransform.rotation = Quaternion.Slerp(
             cameraTransform.rotation,
@@ -96,6 +97,8 @@ public class UpstairsCollider : MonoBehaviour
         {
             cameraTransform.rotation = targetRotation;
             isCameraRotating = false; // 회전 완료
+
+            
         }
     }
 
