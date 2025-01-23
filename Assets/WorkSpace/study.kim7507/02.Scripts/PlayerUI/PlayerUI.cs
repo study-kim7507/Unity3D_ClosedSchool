@@ -30,8 +30,8 @@ public class PlayerUI : MonoBehaviour
     {
         UpdateTimer();
 
-        // 10초가 지나면 키설명 창이 없어지도록
-        if (playTime >= 30.0f && keyDescription.gameObject.activeSelf)
+        // 60초가 지나면 키설명 창이 없어지도록
+        if (playTime >= 60.0f && keyDescription.gameObject.activeSelf)
             StartCoroutine(FadeOutKeyDescription());
     }
 

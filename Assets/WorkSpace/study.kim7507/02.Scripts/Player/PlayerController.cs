@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
 
     // 손전등
     [Header("Flashlight")]
-    [SerializeField] private PlayerFlashlight flashlight;
+    public PlayerFlashlight flashlight;
 
     // 손
     [Header("Hand, Item Equip")]
