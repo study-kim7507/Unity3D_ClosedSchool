@@ -43,6 +43,13 @@ public class PlayerController : MonoBehaviour
         lookController = GetComponent<PlayerLookController>();
     }
 
+    private void OnDisable()
+    {
+        // 움직임 막기
+        movementController.Idle();
+        movementController.MoveTo(new Vector3(0, 0, 0));
+    }
+
     private void Update()
     {
         UpdateRotation();
@@ -122,11 +129,12 @@ public class PlayerController : MonoBehaviour
 
             if (hit.collider.gameObject.GetComponent<IInteractable>() != null)
             {
-                // TODO: 현재 손에 들고 있는 오브젝트와 연관된 상호작용 로직 (ex. 라이터와 양초)
                 // 만약 상호작용 가능한 오브젝트가 Ray에 감지될 시, 플레이어는 E키를 통해 해당 오브젝트와 상호작용이 가능하도록
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    hit.collider.gameObject.GetComponent<IInteractable>().Interact();
+                    GameObject inHandItem = null;
+                    if (rightHand.childCount > 0) inHandItem = rightHand.GetChild(0).gameObject;
+                    hit.collider.gameObject.GetComponent<IInteractable>().Interact(inHandItem);
                 }
             }
             if (hit.collider.gameObject.GetComponent<Pickable>() != null)
