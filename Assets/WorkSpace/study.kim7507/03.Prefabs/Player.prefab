@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 5646336943898725686}
   m_Layer: 3
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -148,8 +148,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   photoPrefab: {fileID: 2178338838353760982, guid: eafcea9a14d5c794185e50b0662e4d28, type: 3}
-  flashImage: {fileID: 0}
-  targetInventory: {fileID: 0}
 --- !u!1 &2282954713087799730
 GameObject:
   m_ObjectHideFlags: 0
@@ -175,7 +173,7 @@ Transform:
   m_GameObject: {fileID: 2282954713087799730}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.335, y: -0.2, z: 0.481}
+  m_LocalPosition: {x: 0.335, y: -0.2, z: 0.45}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -395,7 +393,7 @@ Transform:
   m_GameObject: {fileID: 8874078303709012201}
   serializedVersion: 2
   m_LocalRotation: {x: -0.043619405, y: 0, z: 0, w: 0.9990483}
-  m_LocalPosition: {x: 0, y: 0, z: 0.15}
+  m_LocalPosition: {x: 0, y: 0, z: -0.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -415,7 +413,7 @@ Light:
   m_Intensity: 15
   m_Range: 10
   m_SpotAngle: 75
-  m_InnerSpotAngle: 15
+  m_InnerSpotAngle: 15.030534
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
