@@ -6,15 +6,23 @@ using static UnityEditor.Progress;
 
 public class InventorySlot : MonoBehaviour
 {
+    public bool isUsed;                              // 현재 해당 슬롯이 사용 중인지 여부를 저장
+
+    [Header("Item Information")]
     public string itemName;
     public string itemDescription;
     public Image itemImage;
     public GameObject itemObjectPrefab;
     public Texture2D photoItemCapturedImage;         // 슬롯에 저장될 아이템이 사진인 경우 사용되는 변수
 
-    public bool isUsed;                              // 현재 해당 슬롯이 사용 중인지 여부를 저장
+    private PlayerController ownerPlayer;
+    private ItemDetailViewer itemDetailViewer;
 
-    [SerializeField] ItemDetailViewer itemDetailViewer;
+    private void Start()
+    {
+        ownerPlayer = transform.root.gameObject.GetComponent<InventorySystem>().ownerPlayer;
+        itemDetailViewer = ownerPlayer.itemDetailViewer;
+    }
 
     public void SetSlot(GameObject item)
     {
@@ -29,7 +37,11 @@ public class InventorySlot : MonoBehaviour
         itemObjectPrefab = pickableItem.itemObjectPrefab;
 
         // 슬롯에 저장될 아이템이 사진인 경우, 플레이어가 찍은 사진이 설정되도록
-        if (item.GetComponent<Photo>() != null) photoItemCapturedImage = item.GetComponent<Photo>().imageMeshRenderer.sharedMaterial.mainTexture as Texture2D;
+        if (item.TryGetComponent<Photo>(out Photo photo))
+        {
+            photoItemCapturedImage = photo.imageMeshRenderer.sharedMaterial.mainTexture as Texture2D;
+        }
+
         isUsed = true;  
     }
 
@@ -51,7 +63,6 @@ public class InventorySlot : MonoBehaviour
     {
         if (!isUsed) return;         // 현재 해당 슬롯에 아이템이 저장되어 있지 않은 경우
 
-        
         if (!Input.GetKey(KeyCode.G)&& !Input.GetKey(KeyCode.R)) itemDetailViewer.OpenItemDetailViewer(this);
         else if (Input.GetKey(KeyCode.G)) ChangeItem();
         else if (Input.GetKey(KeyCode.R)) DropCurrentItem();
@@ -71,24 +82,35 @@ public class InventorySlot : MonoBehaviour
         droppedItem.GetComponent<Pickable>().itemObjectPrefab = itemObjectPrefab;
 
         // 버릴 아이템이 사진인 경우
-        if (droppedItem.GetComponent<Photo>() != null) droppedItem.GetComponent<Photo>().imageMeshRenderer.material.mainTexture = photoItemCapturedImage;
+        if (droppedItem.TryGetComponent<Photo>(out Photo photo))
+        {
+            photo.imageMeshRenderer.material.mainTexture = photoItemCapturedImage;
+        }
+
         ClearSlot();
     }
 
     private void ChangeItem()
     {
-        PlayerController ownerPlayer = transform.root.gameObject.GetComponent<InventorySystem>().ownerPlayer;
         if (ownerPlayer != null)
         {
             GameObject currentItem = Instantiate(itemObjectPrefab);
 
-            currentItem.GetComponent<Pickable>().itemName = itemName;
-            currentItem.GetComponent<Pickable>().itemDescription = itemDescription;
-            currentItem.GetComponent<Pickable>().itemImage = itemImage.sprite;
-            currentItem.GetComponent<Pickable>().itemObjectPrefab = itemObjectPrefab;
+            if (currentItem.TryGetComponent<Pickable>(out Pickable pickable))
+            {
+                pickable.itemName = itemName;
+                pickable.itemDescription = itemDescription;
+                pickable.itemImage = itemImage.sprite;
+                pickable.itemObjectPrefab = itemObjectPrefab;
+            }
 
+            
             // 현재 보여줄 아이템이 사진인 경우
-            if (currentItem.GetComponent<Photo>() != null) currentItem.GetComponent<Photo>().SetCapturedImageUsingTexture2D(photoItemCapturedImage);
+            if (currentItem.TryGetComponent<Photo>(out Photo photo))
+            {
+                photo.SetPhotoImage(photoItemCapturedImage);
+            }
+
 
             if (ownerPlayer.rightHand.childCount <= 0) ClearSlot(); // 손에 현재 아이템이 없는 경우, 슬롯 클리어
             else

@@ -11,14 +11,14 @@ public class Photo : MonoBehaviour
         renderCamera.gameObject.SetActive(false);
     }
 
-    public void SetCapturedImageUsingTexture2D(Texture2D image)
+    public void SetPhotoImage(Texture2D image)
     {
         Material newMaterial = new Material(imageMeshRenderer.sharedMaterial);
         newMaterial.mainTexture = image;
         imageMeshRenderer.material = newMaterial;
     }
 
-    public Sprite CaptureObjectAsSprite()
+    public Sprite CapturePhotoObjectAsSprite()
     {
         renderCamera.gameObject.SetActive(true);
         SetLayerRecursivly(gameObject, "UI");
@@ -45,6 +45,8 @@ public class Photo : MonoBehaviour
         renderCamera.gameObject.SetActive(false);
         SetLayerRecursivly(gameObject, "Default");
 
+        ChangeShader("Universal Render Pipeline/Lit");
+
         // 생성된 Sprite 반환
         return sprite;
     }
@@ -62,7 +64,7 @@ public class Photo : MonoBehaviour
 
     private void ChangeShader(string shader)
     {
-        MeshRenderer[] meshRenderers = GetComponentsInChildren<MeshRenderer>();
+        MeshRenderer[] meshRenderers = gameObject.GetComponentsInChildren<MeshRenderer>();
 
         foreach (MeshRenderer meshRenderer in meshRenderers)
         {

@@ -9,28 +9,33 @@ public class ItemDetailViewer : MonoBehaviour
     public TMP_Text itemDescription;
 
     GameObject currentItem;
-
-    [SerializeField] PlayerController ownerPlayer;
+    public PlayerController ownerPlayer;
 
     public void OpenItemDetailViewer(InventorySlot slot)
     {
-        ownerPlayer.isOpenItemDetailViewer = !ownerPlayer.isOpenItemDetailViewer;
-        itemDetailViewerCanvas.SetActive(ownerPlayer.isOpenItemDetailViewer);
+        // ItemDetailViewer 활성화
+        ownerPlayer.isOpenItemDetailViewer = true;
+        itemDetailViewerCanvas.SetActive(true);
+
+        // 플레이어 UI, 인벤토리 비활성화
         ownerPlayer.playerUI.playerUIPanel.SetActive(false);
         ownerPlayer.inventory.inventoryPanel.SetActive(false);
 
         currentItem = Instantiate(slot.itemObjectPrefab, itemVisaul);
 
-        if (currentItem.GetComponent<Rigidbody>() != null) currentItem.GetComponent<Rigidbody>().useGravity = false;
+        if (currentItem.TryGetComponent<Rigidbody>(out Rigidbody rb)) rb.GetComponent<Rigidbody>().useGravity = false;
         SetLayerRecursivly(currentItem, "ItemDetailViewer");
 
-        currentItem.GetComponent<Pickable>().itemName = slot.itemName;
-        currentItem.GetComponent<Pickable>().itemDescription = slot.itemDescription;
-        currentItem.GetComponent<Pickable>().itemImage = slot.itemImage.sprite;
-        currentItem.GetComponent<Pickable>().itemObjectPrefab = slot.itemObjectPrefab;
-
+        if (currentItem.TryGetComponent<Pickable>(out Pickable pickable))
+        {
+            pickable.itemName = slot.itemName;
+            pickable.itemDescription = slot.itemDescription;
+            pickable.itemImage = slot.itemImage.sprite;
+            pickable.itemObjectPrefab = slot.itemObjectPrefab;
+        }
+        
         // 현재 보여줄 아이템이 사진인 경우
-        if (currentItem.GetComponent<Photo>() != null) currentItem.GetComponent<Photo>().SetCapturedImageUsingTexture2D(slot.photoItemCapturedImage);
+        if (currentItem.TryGetComponent<Photo>(out Photo photo)) photo.SetPhotoImage(slot.photoItemCapturedImage);
 
         // 오브젝트가 회전하면서 보여질 수 있도록
         currentItem.AddComponent<ItemDetailViewerObjectRotation>();
@@ -56,12 +61,14 @@ public class ItemDetailViewer : MonoBehaviour
 
     public void CloseItemDetailViewer()
     {
-        ownerPlayer.isOpenItemDetailViewer = !ownerPlayer.isOpenItemDetailViewer;
-        itemDetailViewerCanvas.SetActive(ownerPlayer.isOpenItemDetailViewer);
+        // ItemDetailViewer 비활성화
+        ownerPlayer.isOpenItemDetailViewer = false;
+        itemDetailViewerCanvas.SetActive(false);
        
         Destroy(currentItem);
         currentItem = null;
 
+        // 플레이어 UI, 인벤토리 활성화
         ownerPlayer.inventory.inventoryPanel.SetActive(true);
         ownerPlayer.playerUI.playerUIPanel.SetActive(true);
     }

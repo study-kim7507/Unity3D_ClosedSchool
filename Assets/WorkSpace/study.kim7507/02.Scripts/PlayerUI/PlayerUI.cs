@@ -19,6 +19,8 @@ public class PlayerUI : MonoBehaviour
     private float playTime = 0.0f;
     private Coroutine interactionDescriptionCoroutine;
 
+    public PlayerController ownerPlayer;
+
     private void Start()
     {
         StartCoroutine(BlinkInRecImage());
@@ -29,7 +31,7 @@ public class PlayerUI : MonoBehaviour
         UpdateTimer();
 
         // 10초가 지나면 키설명 창이 없어지도록
-        if (playTime >= 10.0f && keyDescription.gameObject.activeSelf)
+        if (playTime >= 30.0f && keyDescription.gameObject.activeSelf)
             StartCoroutine(FadeOutKeyDescription());
     }
 
