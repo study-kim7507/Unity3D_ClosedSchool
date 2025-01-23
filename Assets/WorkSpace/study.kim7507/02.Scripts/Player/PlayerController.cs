@@ -1,6 +1,5 @@
 using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class PlayerController : MonoBehaviour
 {
@@ -50,6 +49,12 @@ public class PlayerController : MonoBehaviour
         movementController.MoveTo(new Vector3(0, 0, 0));
     }
 
+    private void OnEnable()
+    {
+        // 카메라 로컬 회전값 초기화
+        Camera.main.transform.localRotation = Quaternion.identity;
+    }
+
     private void Update()
     {
         UpdateRotation();
@@ -58,7 +63,7 @@ public class PlayerController : MonoBehaviour
         ManageFlashlight();
         ManageInventory();
         TakeAPhoto();
-
+        
         if (Input.GetKeyDown(KeyCode.R) && !isOpenInventory && !isOpenItemDetailViewer)
             DropItemInRightHand();
     }
