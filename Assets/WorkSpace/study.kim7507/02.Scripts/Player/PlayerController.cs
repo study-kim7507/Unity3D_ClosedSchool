@@ -126,7 +126,6 @@ public class PlayerController : MonoBehaviour
                 // 만약 상호작용 가능한 오브젝트가 Ray에 감지될 시, 플레이어는 E키를 통해 해당 오브젝트와 상호작용이 가능하도록
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    if (rightHand.childCount > 0) hit.collider.gameObject.GetComponent<IInteractable>().InteractWith(rightHand.GetChild(0).gameObject);
                     hit.collider.gameObject.GetComponent<IInteractable>().Interact();
                 }
             }

@@ -7,5 +7,4 @@ public interface IInteractable
     void BeginInteract();
     void EndInteract();
     void Interact();                        // 상호작용 로직
-    void InteractWith(GameObject item);     // 상호작용 로직
 }
