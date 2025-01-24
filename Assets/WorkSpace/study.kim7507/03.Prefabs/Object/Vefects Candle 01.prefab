@@ -5041,6 +5041,7 @@ MonoBehaviour:
   itemName: 
   itemDescription: 
   itemImage: {fileID: 21300000, guid: b40cf84d22c464e409edbbbb4ac782ba, type: 3}
+  PrefabName: Vefects Candle 01
   itemObjectPrefab: {fileID: 0}
 --- !u!114 &1230062246223192243
 MonoBehaviour:

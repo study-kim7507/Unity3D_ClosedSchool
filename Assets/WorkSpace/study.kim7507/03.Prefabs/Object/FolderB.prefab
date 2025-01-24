@@ -154,6 +154,7 @@ MonoBehaviour:
   itemName: 
   itemDescription: 
   itemImage: {fileID: 21300000, guid: c0fa4e13912ed7f4599cea231a18f6a2, type: 3}
+  PrefabName: FolderB
   itemObjectPrefab: {fileID: 0}
 --- !u!114 &5211620055601596915
 MonoBehaviour:
