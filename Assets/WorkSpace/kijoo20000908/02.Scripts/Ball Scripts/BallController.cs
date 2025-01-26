@@ -8,6 +8,7 @@ public class BallController : MonoBehaviour
     private float chargePower = 0f; // 충전된 힘
     private float maxPower = 15f; // 최대 힘
     private float chargeRate = 10f; // 힘 증가 속도
+    private bool isReleased = false; // 공이 던져졌는지 확인
 
     public Camera playerCamera; // 플레이어가 사용하는 카메라
 
@@ -25,7 +26,7 @@ public class BallController : MonoBehaviour
     private void Update()
     {
         // 오른쪽 마우스 버튼으로 공 선택
-        if (Input.GetMouseButtonDown(1)) // 오른쪽 마우스 버튼 (1)
+        if (Input.GetMouseButtonDown(1))
         {
             SelectBall();
         }
@@ -38,7 +39,7 @@ public class BallController : MonoBehaviour
                 ChargePower();
             }
 
-            if (Input.GetMouseButtonUp(1) && isCharging)
+            if (Input.GetMouseButtonUp(1) && isCharging && !isReleased)
             {
                 ReleaseBall();
             }
@@ -55,6 +56,7 @@ public class BallController : MonoBehaviour
             {
                 selectedBall = this; // 이 공을 선택
                 isCharging = true;   // 공을 집었으므로 충전 가능
+                isReleased = false; // 공이 아직 던져지지 않은 상태
                 Debug.Log($"{gameObject.name} 공이 선택되었습니다.");
             }
         }
@@ -69,11 +71,18 @@ public class BallController : MonoBehaviour
 
     private void ReleaseBall()
     {
+        if (chargePower <= 0f)
+        {
+            Debug.LogWarning("충전된 힘이 부족하여 공이 던져지지 않습니다.");
+            return;
+        }
+
         isCharging = false;
+        isReleased = true;
 
         // 카메라가 바라보는 방향을 계산
         Vector3 cameraForward = playerCamera.transform.forward; // 카메라의 전방 벡터
-        Vector3 launchDirection = (cameraForward + Vector3.up * 0.1f).normalized; // 약간 위로 향하도록 조정
+        Vector3 launchDirection = (cameraForward + Vector3.up * 0.1f).normalized; // 약간 위로 던지기
 
         // 힘 적용
         rb.AddForce(launchDirection * chargePower, ForceMode.Impulse);

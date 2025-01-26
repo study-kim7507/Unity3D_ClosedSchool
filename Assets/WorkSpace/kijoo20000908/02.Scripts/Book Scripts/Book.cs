@@ -17,27 +17,27 @@ public class Book : MonoBehaviour, IInteractable
         puzzleManager = FindObjectOfType<PuzzleManager>();
     }
 
-    public void BeginFocus()
+    public void BeginFocus(GameObject withItem = null)
     {
         Debug.Log($"{bookName}에 초점이 맞춰졌습니다."); // 아웃라인 활성화 로직 추가 가능
     }
 
-    public void EndFocus()
+    public void EndFocus(GameObject withItem = null)
     {
         Debug.Log($"{bookName}에서 초점이 해제되었습니다."); // 아웃라인 비활성화 로직 추가 가능
     }
 
-    public void BeginInteract()
+    public void BeginInteract(GameObject withItem = null)
     {
         Debug.Log($"{bookName}을 집었습니다.");
     }
 
-    public void EndInteract()
+    public void EndInteract(GameObject withItem = null)
     {
         Debug.Log($"{bookName}을 놓았습니다.");
     }
 
-    public void Interact()
+    public void Interact(GameObject withItem = null)
     {
         puzzleManager.SelectBook(this);  // 퍼즐 매니저에 책 선택
     }

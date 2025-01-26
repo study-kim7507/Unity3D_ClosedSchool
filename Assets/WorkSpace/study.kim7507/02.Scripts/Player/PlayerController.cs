@@ -1,6 +1,5 @@
 using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class PlayerController : MonoBehaviour
 {
@@ -43,6 +42,23 @@ public class PlayerController : MonoBehaviour
         lookController = GetComponent<PlayerLookController>();
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log(other.gameObject.name);
+    }
+    private void OnDisable()
+    {
+        // 움직임 막기
+        movementController.Idle();
+        movementController.MoveTo(new Vector3(0, 0, 0));
+    }
+
+    private void OnEnable()
+    {
+        // 카메라 로컬 회전값 초기화
+        Camera.main.transform.localRotation = Quaternion.identity;
+    }
+
     private void Update()
     {
         UpdateRotation();
@@ -51,7 +67,7 @@ public class PlayerController : MonoBehaviour
         ManageFlashlight();
         ManageInventory();
         TakeAPhoto();
-
+        
         if (Input.GetKeyDown(KeyCode.R) && !isOpenInventory && !isOpenItemDetailViewer)
             DropItemInRightHand();
     }
@@ -122,11 +138,12 @@ public class PlayerController : MonoBehaviour
 
             if (hit.collider.gameObject.GetComponent<IInteractable>() != null)
             {
-                // TODO: 현재 손에 들고 있는 오브젝트와 연관된 상호작용 로직 (ex. 라이터와 양초)
                 // 만약 상호작용 가능한 오브젝트가 Ray에 감지될 시, 플레이어는 E키를 통해 해당 오브젝트와 상호작용이 가능하도록
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    hit.collider.gameObject.GetComponent<IInteractable>().Interact();
+                    GameObject inHandItem = null;
+                    if (rightHand.childCount > 0) inHandItem = rightHand.GetChild(0).gameObject;
+                    hit.collider.gameObject.GetComponent<IInteractable>().Interact(inHandItem);
                 }
             }
             if (hit.collider.gameObject.GetComponent<Pickable>() != null)
