@@ -42,6 +42,10 @@ public class PlayerController : MonoBehaviour
         lookController = GetComponent<PlayerLookController>();
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log(other.gameObject.name);
+    }
     private void OnDisable()
     {
         // 움직임 막기

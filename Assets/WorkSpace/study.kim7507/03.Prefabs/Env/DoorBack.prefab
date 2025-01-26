@@ -10,8 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7033198713425038499}
   - component: {fileID: 3272047870354778666}
-  - component: {fileID: 1061345962434013159}
-  - component: {fileID: 8696412163907077040}
   m_Layer: 0
   m_Name: DoorBack
   m_TagString: Untagged
@@ -45,7 +43,7 @@ Animation:
   m_GameObject: {fileID: 236791878840790417}
   m_Enabled: 1
   serializedVersion: 4
-  m_Animation: {fileID: 7400000, guid: 2731550324d401143a73076e7fea0d29, type: 2}
+  m_Animation: {fileID: 0}
   m_Animations:
   - {fileID: 7400000, guid: 2731550324d401143a73076e7fea0d29, type: 2}
   m_WrapMode: 0
@@ -53,39 +51,6 @@ Animation:
   m_AnimatePhysics: 0
   m_UpdateMode: 0
   m_CullingType: 1
---- !u!65 &1061345962434013159
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 236791878840790417}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.1760924, y: 2.2523637, z: 0.21182656}
-  m_Center: {x: 0.0021954775, y: 1.105989, z: -0.10580456}
---- !u!114 &8696412163907077040
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 236791878840790417}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30ee85628f8cce64c9922a63ef28e657, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &340969949894427470
 GameObject:
   m_ObjectHideFlags: 0
@@ -218,6 +183,7 @@ GameObject:
   m_Component:
   - component: {fileID: 423158952289166057}
   - component: {fileID: 8491937537242073777}
+  - component: {fileID: 5425371035892950752}
   m_Layer: 0
   m_Name: Joint
   m_TagString: Untagged
@@ -262,6 +228,32 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.021168, y: 2.1133041, z: 0.042766824}
   m_Center: {x: 0.5080077, y: 1.0899377, z: -0.039577533}
+--- !u!114 &5425371035892950752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8482513164657653850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30ee85628f8cce64c9922a63ef28e657, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isOpened: 0
+  isLocked: 0
+  animationNames:
+    OpeningAnim: DoorBack_open
+    LockedAnim: Door_locked
+    ClosingAnim: Door_close
+  doorSounds:
+    enabled: 1
+    open: {fileID: 0}
+    locked: {fileID: 0}
+    unlocked: {fileID: 0}
+    closed: {fileID: 0}
+    volume: 1
+    pitchRandom: 0.2
 --- !u!1 &8835449765197690748
 GameObject:
   m_ObjectHideFlags: 0
