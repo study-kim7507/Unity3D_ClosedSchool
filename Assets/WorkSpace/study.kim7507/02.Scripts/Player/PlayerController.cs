@@ -1,28 +1,36 @@
 using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class PlayerController : MonoBehaviour
 {
     private PlayerMovementController movementController;
     private PlayerLookController lookController;
 
+    // 드래그 관련
+    private Draggable draggable = null;
+
     // 플레이어 인벤토리 상호작용 관련
+    [Header("Inventory")]
     public InventorySystem inventory;
+    public ItemDetailViewer itemDetailViewer;
     [HideInInspector] public bool isOpenInventory;
     [HideInInspector] public bool isOpenItemDetailViewer;
 
     // 손전등
-    [SerializeField] PlayerFlashlight flashlight;
-
-    // 드래그 관련
-    private Draggable draggable = null;
+    [Header("Flashlight")]
+    public PlayerFlashlight flashlight;
 
     // 손
+    [Header("Hand, Item Equip")]
     public Transform rightHand;
 
     // UI 관련
+    [Header("Player UI")]
     public PlayerUI playerUI;
+
+    // 스태미너
+    [Header("Player Stamina")]
+    public float stamina = 100.0f;
 
     private void Start()
     {
@@ -34,6 +42,23 @@ public class PlayerController : MonoBehaviour
         lookController = GetComponent<PlayerLookController>();
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log(other.gameObject.name);
+    }
+    private void OnDisable()
+    {
+        // 움직임 막기
+        movementController.Idle();
+        movementController.MoveTo(new Vector3(0, 0, 0));
+    }
+
+    private void OnEnable()
+    {
+        // 카메라 로컬 회전값 초기화
+        Camera.main.transform.localRotation = Quaternion.identity;
+    }
+
     private void Update()
     {
         UpdateRotation();
@@ -42,7 +67,7 @@ public class PlayerController : MonoBehaviour
         ManageFlashlight();
         ManageInventory();
         TakeAPhoto();
-
+        
         if (Input.GetKeyDown(KeyCode.R) && !isOpenInventory && !isOpenItemDetailViewer)
             DropItemInRightHand();
     }
@@ -75,7 +100,11 @@ public class PlayerController : MonoBehaviour
         if (x != 0 || z != 0)
         {
             if (Input.GetKey(KeyCode.LeftControl)) movementController.SlowWalk();
-            else if (Input.GetKey(KeyCode.LeftShift)) movementController.Run();
+            else if (Input.GetKey(KeyCode.LeftShift) && stamina > 0.0f)
+            {
+                stamina -= Time.deltaTime * 5.0f;
+                movementController.Run();
+            }
             else movementController.Walk();
         }
         else movementController.Idle();
@@ -109,11 +138,12 @@ public class PlayerController : MonoBehaviour
 
             if (hit.collider.gameObject.GetComponent<IInteractable>() != null)
             {
-                // TODO: 현재 손에 들고 있는 오브젝트와 연관된 상호작용 로직 (ex. 라이터와 양초)
                 // 만약 상호작용 가능한 오브젝트가 Ray에 감지될 시, 플레이어는 E키를 통해 해당 오브젝트와 상호작용이 가능하도록
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    hit.collider.gameObject.GetComponent<IInteractable>().Interact();
+                    GameObject inHandItem = null;
+                    if (rightHand.childCount > 0) inHandItem = rightHand.GetChild(0).gameObject;
+                    hit.collider.gameObject.GetComponent<IInteractable>().Interact(inHandItem);
                 }
             }
             if (hit.collider.gameObject.GetComponent<Pickable>() != null)
@@ -197,7 +227,7 @@ public class PlayerController : MonoBehaviour
         item.transform.SetParent(rightHand);
      
         // 크기 조절
-        Vector3 currentItemSize = item.GetComponentInChildren<Renderer>().bounds.size;
+        Vector3 currentItemSize = item.GetComponentInChildren<Collider>().bounds.size;
         float scaleFactor = 0.25f / currentItemSize.magnitude;
         item.transform.localScale *= scaleFactor;
 
@@ -208,8 +238,8 @@ public class PlayerController : MonoBehaviour
         item.transform.localPosition = Vector3.zero + pivotOffset;
         item.transform.localRotation = Quaternion.identity;
 
-        if (item.GetComponent<Rigidbody>() != null) item.GetComponent<Rigidbody>().useGravity = false;
-        if (item.GetComponent<Collider>() != null) item.GetComponent<Collider>().enabled = false;
+        if (item.TryGetComponent<Rigidbody>(out Rigidbody rb)) rb.useGravity = false;
+        if (item.TryGetComponent<Collider>(out Collider collider)) collider.enabled = false;
     }
 
     private void DropItemInRightHand()
