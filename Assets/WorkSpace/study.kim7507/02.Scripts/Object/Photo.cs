@@ -3,23 +3,27 @@ using UnityEngine.UI;
 
 public class Photo : MonoBehaviour
 {
-    public RawImage capturedImage;
     public Camera renderCamera;
+    public Renderer imageMeshRenderer;
 
     private void Start()
     {
         renderCamera.gameObject.SetActive(false);
     }
 
-    public void SetCapturedImageUsingTexture2D(Texture2D image)
+    public void SetPhotoImage(Texture2D image)
     {
-        capturedImage.texture = image;
+        Material newMaterial = new Material(imageMeshRenderer.sharedMaterial);
+        newMaterial.mainTexture = image;
+        imageMeshRenderer.material = newMaterial;
     }
 
-    public Sprite CaptureObjectAsSprite()
+    public Sprite CapturePhotoObjectAsSprite()
     {
         renderCamera.gameObject.SetActive(true);
         SetLayerRecursivly(gameObject, "UI");
+
+        ChangeShader("Universal Render Pipeline/Unlit");
 
         RenderTexture renderTexture = new RenderTexture(renderCamera.pixelWidth, renderCamera.pixelHeight, 24);
         renderCamera.targetTexture = renderTexture;
@@ -41,6 +45,8 @@ public class Photo : MonoBehaviour
         renderCamera.gameObject.SetActive(false);
         SetLayerRecursivly(gameObject, "Default");
 
+        ChangeShader("Universal Render Pipeline/Lit");
+
         // 생성된 Sprite 반환
         return sprite;
     }
@@ -53,6 +59,21 @@ public class Photo : MonoBehaviour
         foreach (Transform child in obj.transform)
         {
             SetLayerRecursivly(child.gameObject, layerName);
+        }
+    }
+
+    private void ChangeShader(string shader)
+    {
+        MeshRenderer[] meshRenderers = gameObject.GetComponentsInChildren<MeshRenderer>();
+
+        foreach (MeshRenderer meshRenderer in meshRenderers)
+        {
+            Material[] materials = meshRenderer.materials;
+
+            foreach (Material material in materials)
+            {
+                material.shader = Shader.Find(shader);
+            }
         }
     }
 }

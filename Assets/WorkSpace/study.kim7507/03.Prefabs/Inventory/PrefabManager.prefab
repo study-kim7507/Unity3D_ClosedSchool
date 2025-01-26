@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2277153503798447846
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7151481400736038433}
+  - component: {fileID: 6008475852630824448}
+  m_Layer: 0
+  m_Name: PrefabManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7151481400736038433
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2277153503798447846}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6008475852630824448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2277153503798447846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93b95b4b9fa965b4e824fe6965d80d0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabList:
+  - name: AA_Battery
+    originalPrefab: {fileID: 1599817486239839901, guid: f8f03e442c4781d48af6f33945a398f9, type: 3}
+  - name: Cigarette Lighter
+    originalPrefab: {fileID: 5164494689530423239, guid: 63c008bf9cc43964e9163df5e21918b6, type: 3}
+  - name: FolderB
+    originalPrefab: {fileID: 1803825579383462, guid: a42930a15e221e348b8a8416b5cc227d, type: 3}
+  - name: Pepsi
+    originalPrefab: {fileID: 5140209425535243899, guid: b98c278d9d1e19b4192942a9965258ea, type: 3}
+  - name: Vefects Candle 01
+    originalPrefab: {fileID: 1139938393056049431, guid: 53bfb04dd6f522041bf64d7b7982f7b2, type: 3}

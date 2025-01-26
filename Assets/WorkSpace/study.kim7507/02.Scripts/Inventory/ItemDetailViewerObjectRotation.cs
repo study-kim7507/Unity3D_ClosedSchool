@@ -4,6 +4,8 @@ public class ItemDetailViewerObjectRotation : MonoBehaviour
 {
     public float rotationSpeed = 10.0f;         // 회전 속도
     public float autoRotateSpeed = 50.0f;       // 자동 회전 속도
+
+    public bool autoRotate = false;             // 자동회전 여부
     private bool isDragging = false;            // 드래그 여부
     private Vector3 lastMousePosition;
 
@@ -28,7 +30,7 @@ public class ItemDetailViewerObjectRotation : MonoBehaviour
             Vector3 origin = gameObject.GetComponent<Collider>().bounds.center;
 
             Vector3 delta = Input.mousePosition - lastMousePosition;         // 마우스 이동량 계산
-            float rotationY = -delta.x * rotationSpeed * Time.deltaTime;     // Y축 회전량 계산
+            float rotationY = delta.x * rotationSpeed * Time.deltaTime;     // Y축 회전량 계산
             float rotationX = delta.y * rotationSpeed * Time.deltaTime;      // X축 회전량 계산
 
             // 오브젝트를 origin을 기준으로 회전 적용 (좌우 및 상하 회전)
@@ -37,7 +39,7 @@ public class ItemDetailViewerObjectRotation : MonoBehaviour
 
             lastMousePosition = Input.mousePosition;                         // 마지막 마우스 위치 업데이트
         }
-        else
+        else if (autoRotate)
         {
             Vector3 origin = gameObject.GetComponent<Collider>().bounds.center;
 
