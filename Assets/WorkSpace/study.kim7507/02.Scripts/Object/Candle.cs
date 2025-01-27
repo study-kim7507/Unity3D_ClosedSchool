@@ -6,7 +6,6 @@ public class Candle : MonoBehaviour, IInteractable
     [SerializeField] GameObject Smoke;
     [SerializeField] GameObject Light;
 
-
     public void BeginFocus(GameObject withItem = null)
     {
         throw new System.NotImplementedException();
@@ -34,6 +33,8 @@ public class Candle : MonoBehaviour, IInteractable
             Flame.SetActive(true);
             Smoke.SetActive(true);
             Light.SetActive(true);
+
+            withItem.GetComponent<Cigarette_Lighter>().Fire();
         }
     }
 }

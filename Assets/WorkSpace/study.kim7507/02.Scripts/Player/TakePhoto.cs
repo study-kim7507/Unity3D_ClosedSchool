@@ -9,6 +9,7 @@ public class TakePhoto : MonoBehaviour
 
     private PlayerController ownerPlayer;
 
+    public AudioSource takePhotoAudioSource;
     private void Start()
     {
         ownerPlayer = gameObject.GetComponent<PlayerController>();
@@ -46,6 +47,7 @@ public class TakePhoto : MonoBehaviour
         photo = screenshot;
 
         ownerPlayer.playerUI.PlayerTakePhoto();                      // 사진찍는 효과 (번쩍임)
+        takePhotoAudioSource.Play();
 
         GameObject go = Instantiate(photoPrefab);
         go.transform.Find("Front").Find("Image").gameObject.GetComponent<MeshRenderer>().material.mainTexture = photo;

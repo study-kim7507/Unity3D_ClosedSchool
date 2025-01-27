@@ -5058,6 +5058,7 @@ MonoBehaviour:
   Flame: {fileID: 7411196640687153699}
   Smoke: {fileID: 239260556282276448}
   Light: {fileID: 8140635615480422063}
+  SmokeSound: {fileID: 0}
 --- !u!198 &280290161654770880
 ParticleSystem:
   m_ObjectHideFlags: 0
