@@ -55,3 +55,5 @@ MonoBehaviour:
     originalPrefab: {fileID: 5140209425535243899, guid: b98c278d9d1e19b4192942a9965258ea, type: 3}
   - name: Vefects Candle 01
     originalPrefab: {fileID: 1139938393056049431, guid: 53bfb04dd6f522041bf64d7b7982f7b2, type: 3}
+  - name: paper_and_tablet
+    originalPrefab: {fileID: 5038778100417125059, guid: 3c57ec27fdc9ddf4ca3081cbbffabd07, type: 3}
