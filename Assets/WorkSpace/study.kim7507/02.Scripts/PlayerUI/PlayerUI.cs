@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
 {
+    public static PlayerUI instance = null;
+
     public GameObject playerUIPanel;
 
     public TMP_Text keyDescription;
@@ -25,6 +27,9 @@ public class PlayerUI : MonoBehaviour
 
     private void Start()
     {
+        if (instance == null) instance = this;
+        else Destroy(this.gameObject);
+        
         StartCoroutine(BlinkInRecImage());
     }
 

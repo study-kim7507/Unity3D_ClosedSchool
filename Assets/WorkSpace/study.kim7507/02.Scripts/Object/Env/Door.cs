@@ -18,8 +18,8 @@ public class Door : MonoBehaviour, IInteractable
         public bool enabled = true;
         public AudioClip open;
         public AudioClip locked;
-        public AudioClip unlocked;      // 키를 가지고 문과 상호작용 시 잠금이 풀리는 사운드
-        public AudioClip closed;
+        public AudioClip unlock;      // 키를 가지고 문과 상호작용 시 잠금이 풀리는 사운드
+        public AudioClip close;
 
         [Range(0f, 1f)]
         public float volume = 1.0f;
@@ -29,17 +29,24 @@ public class Door : MonoBehaviour, IInteractable
 
     public bool isOpened;              // 현재 문이 열려 있는지 여부
     public bool isLocked;              // 현재 문이 잠겨 있는지 여부
-                                       
+
+    public string where;
+
     public AnimNames animationNames = new AnimNames();
     public DoorSounds doorSounds = new DoorSounds();
 
     private Animation animation;
     private float animationStartTime;
 
+    private AudioSource audioSource;
+
     private void Start()
     {
         animation = GetComponent<Animation>();
         if (animation == null) animation = GetComponentInParent<Animation>();
+
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null) audioSource = GetComponentInParent<AudioSource>();
     }
 
 
@@ -66,14 +73,15 @@ public class Door : MonoBehaviour, IInteractable
     public void Interact(GameObject withItem = null)
     {
         if (!isOpened && !isLocked) OpenDoor();
-        else if (!isOpened && isLocked) LockedDoor(withItem);
+        else if (!isOpened && isLocked && withItem == null) LockedDoor();
+        else if (!isOpened && isLocked && withItem != null && withItem.GetComponent<Key>() != null) UnlockDoor(withItem);
         else if (isOpened) CloseDoor();
     }
 
     // 플레이어가 닫힌 문을 열기 위한 상호작용을 시도
     private void OpenDoor()
     {
-        // TODO: 문 열리는 사운드
+        if (doorSounds.open != null) audioSource.PlayOneShot(doorSounds.open);
 
         float curAnimationTime = 0.0f;
         
@@ -90,9 +98,9 @@ public class Door : MonoBehaviour, IInteractable
     // 플레이어가 열린 문을 닫기 위한 상호작용을 시도
     private void CloseDoor()
     {
-        // TODO: 문 열리는 사운드
-        
-        float curAnimationTime = animation[animationNames.OpeningAnim].length;
+        if (doorSounds.close != null) audioSource.PlayOneShot(doorSounds.close);
+
+        float curAnimationTime = animation[animationNames.OpeningAnim].length * 0.35f;
 
         if (animation.isPlaying) curAnimationTime = Time.time - animationStartTime;
         animationStartTime = Time.time;
@@ -104,13 +112,25 @@ public class Door : MonoBehaviour, IInteractable
         isOpened = false;
     }
 
-    // 잠겨있는 경우 손에 키가 있어야 함
-    private void LockedDoor(GameObject key)
+    private void LockedDoor()
     {
-        // TODO: 열쇠 로직
-        // if (withItem != null && withItem.GetComponent<Key>() != null)
+        if (doorSounds.locked != null)
+            audioSource.PlayOneShot(doorSounds.locked);
+        PlayerUI.instance.DisplayInteractionDescription("문이 잠겨있다. 열쇠가 필요할 것 같다.");
+    }
 
-        // TODO: 문 열리는 사운드
-        animation.Play(animationNames.LockedAnim);
+    private void UnlockDoor(GameObject key)
+    {
+        if (key.GetComponent<Key>() != null)
+        {
+            if (key.GetComponent<Key>().where == this.where)
+            {
+                if (doorSounds.unlock != null)
+                    audioSource.PlayOneShot(doorSounds.unlock);
+                PlayerUI.instance.DisplayInteractionDescription("문이 열렸다.");
+                isLocked = false;
+                Destroy(key);
+            }
+        }
     }
 }
