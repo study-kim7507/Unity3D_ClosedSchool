@@ -10,6 +10,7 @@ TagManager:
   - Flashlight
   - VentilationGrid
   - Basketball
+  - Book
   layers:
   - Default
   - TransparentFX
