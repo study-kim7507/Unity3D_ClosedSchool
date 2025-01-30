@@ -102,6 +102,7 @@ MonoBehaviour:
   itemName: 
   itemDescription: 
   itemImage: {fileID: 0}
+  PrefabName: Photo
   itemObjectPrefab: {fileID: 2178338838353760982}
 --- !u!114 &5651276674313607005
 MonoBehaviour:

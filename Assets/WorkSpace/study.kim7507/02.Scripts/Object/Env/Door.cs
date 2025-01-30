@@ -79,7 +79,7 @@ public class Door : MonoBehaviour, IInteractable
     }
 
     // 플레이어가 닫힌 문을 열기 위한 상호작용을 시도
-    private void OpenDoor()
+    public void OpenDoor()
     {
         if (doorSounds.open != null) audioSource.PlayOneShot(doorSounds.open);
 
@@ -87,7 +87,7 @@ public class Door : MonoBehaviour, IInteractable
         
         if (animation.isPlaying) curAnimationTime = Time.time - animationStartTime;
         animationStartTime = Time.time;
-        
+
         animation[animationNames.OpeningAnim].speed = 1.0f;
         animation[animationNames.OpeningAnim].time = curAnimationTime;
         animation.Play(animationNames.OpeningAnim);
@@ -96,7 +96,7 @@ public class Door : MonoBehaviour, IInteractable
     }
 
     // 플레이어가 열린 문을 닫기 위한 상호작용을 시도
-    private void CloseDoor()
+    public void CloseDoor()
     {
         if (doorSounds.close != null) audioSource.PlayOneShot(doorSounds.close);
 

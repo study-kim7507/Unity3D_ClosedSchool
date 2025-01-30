@@ -32,6 +32,9 @@ public class PlayerController : MonoBehaviour
     [Header("Player Stamina")]
     public float stamina = 100.0f;
 
+    // 숨기 관련
+    [HideInInspector] public bool isHide = false;
+
     private void Start()
     {
         // 마우스 커서를 보이지 않게 설정
@@ -42,10 +45,6 @@ public class PlayerController : MonoBehaviour
         lookController = GetComponent<PlayerLookController>();
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log(other.gameObject.name);
-    }
     private void OnDisable()
     {
         // 움직임 막기
@@ -75,18 +74,18 @@ public class PlayerController : MonoBehaviour
     // 마우스 입력을 통한 캐릭터 회전을 담당
     private void UpdateRotation()
     {
-        if (isOpenInventory) return;
+        if (isOpenInventory || isHide) return;
 
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
-
+        
         lookController.UpdateRotation(mouseX, mouseY);
     }
 
     // 키보드 입력을 통한 캐릭터 이동을 담당
     private void UpdateMove()
     {
-        if (isOpenInventory)
+        if (isOpenInventory || isHide)
         {
             movementController.Idle();
             movementController.MoveTo(new Vector3(0, 0, 0));

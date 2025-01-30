@@ -36,6 +36,7 @@ public class PlayerMovementController : MonoBehaviour
     private float originalHeight;
     private float originalCameraYPos;
 
+    private PlayerController playerController;
     private CharacterController characterController;
     private CapsuleCollider capsuleCollider;
     public AudioSource movementAudioSource;
@@ -46,6 +47,7 @@ public class PlayerMovementController : MonoBehaviour
 
     private void Start()
     {
+        playerController = GetComponent<PlayerController>();
         characterController = GetComponent<CharacterController>();
         capsuleCollider = GetComponent<CapsuleCollider>();
         
@@ -55,6 +57,8 @@ public class PlayerMovementController : MonoBehaviour
 
     private void Update()
     {
+        if (playerController.isHide) return;
+
         if (!characterController.isGrounded) moveForce.y -= 9.81f * Time.deltaTime;
         characterController.Move(moveForce * Time.deltaTime);
     }
