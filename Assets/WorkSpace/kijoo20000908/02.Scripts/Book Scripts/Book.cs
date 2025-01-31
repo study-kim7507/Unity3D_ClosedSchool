@@ -1,54 +1,11 @@
 using UnityEngine;
 
-public class Book : MonoBehaviour, IInteractable
+public class Book : MonoBehaviour
 {
-    [SerializeField] private string bookName;  // 책 이름
-    [SerializeField] private int bookOrder;    // 책의 순서 (정답 순서)
+    [SerializeField] private string bookName; // 책 이름
 
-    private bool isPlacedCorrectly = false;
-
-    public string GetBookName() => bookName;
-    public int GetBookOrder() => bookOrder;
-
-    private PuzzleManager puzzleManager;
-
-    private void Start()
+    public string GetBookName()
     {
-        puzzleManager = FindObjectOfType<PuzzleManager>();
-    }
-
-    public void BeginFocus(GameObject withItem = null)
-    {
-        Debug.Log($"{bookName}에 초점이 맞춰졌습니다."); // 아웃라인 활성화 로직 추가 가능
-    }
-
-    public void EndFocus(GameObject withItem = null)
-    {
-        Debug.Log($"{bookName}에서 초점이 해제되었습니다."); // 아웃라인 비활성화 로직 추가 가능
-    }
-
-    public void BeginInteract(GameObject withItem = null)
-    {
-        Debug.Log($"{bookName}을 집었습니다.");
-    }
-
-    public void EndInteract(GameObject withItem = null)
-    {
-        Debug.Log($"{bookName}을 놓았습니다.");
-    }
-
-    public void Interact(GameObject withItem = null)
-    {
-        puzzleManager.SelectBook(this);  // 퍼즐 매니저에 책 선택
-    }
-
-    public bool IsPlacedCorrectly()
-    {
-        return isPlacedCorrectly;
-    }
-
-    public void SetPlacedCorrectly(bool value)
-    {
-        isPlacedCorrectly = value;
+        return bookName;
     }
 }
