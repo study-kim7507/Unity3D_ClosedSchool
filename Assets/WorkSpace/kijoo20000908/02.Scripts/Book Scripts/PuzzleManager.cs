@@ -16,7 +16,7 @@ public class PuzzleManager : MonoBehaviour
 
     private void CompletePuzzle()
     {
-        Debug.Log("퍼즐이 완료되었습니다! 모든 책이 올바른 위치에 놓였습니다.");
-        // 문 열기, 효과 발생 등의 추가 기능 실행
+        Debug.Log("퍼즐이 완료되었습니다! 모든 책이 놓였습니다.");
+        // 문 열기, 효과 발생 등의 추가 기능 실행 가능
     }
 }
