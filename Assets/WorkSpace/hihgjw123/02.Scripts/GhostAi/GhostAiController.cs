@@ -102,7 +102,7 @@ public class GhostAiController : MonoBehaviour
         Debug.Log("추격 시작");
     }
 
-    private void StopChase() //추격 종료
+    public void StopChase() //추격 종료
     {
         isChasing = false;
         navMeshAgent.speed = 0.5f;
@@ -112,6 +112,5 @@ public class GhostAiController : MonoBehaviour
         Debug.Log("추격 종료, 순찰 시작");
 
     }
-
 
 }
