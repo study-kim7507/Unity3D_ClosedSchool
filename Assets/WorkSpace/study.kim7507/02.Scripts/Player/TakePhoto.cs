@@ -15,9 +15,17 @@ public class TakePhoto : MonoBehaviour
     {
         ownerPlayer = gameObject.GetComponent<PlayerController>();
 
-        // "Ghost" 태그가 붙은 모든 오브젝트를 찾고 저장
-        ghostObjects = GameObject.FindGameObjectsWithTag("Ghost");
-        
+        ownerPlayer = gameObject.GetComponent<PlayerController>();
+
+        // "LibraryGhost"와 "OneCorriDorGhost" 태그가 붙은 모든 오브젝트를 찾고 저장
+        GameObject[] libraryGhosts = GameObject.FindGameObjectsWithTag("LibraryGhost");
+        GameObject[] oneCorriDorGhosts = GameObject.FindGameObjectsWithTag("OneCorriDorGhost");
+
+        // 두 배열을 합쳐서 ghostObjects에 저장
+        ghostObjects = new GameObject[libraryGhosts.Length + oneCorriDorGhosts.Length];
+        Debug.Log(ghostObjects);
+        libraryGhosts.CopyTo(ghostObjects, 0);
+        oneCorriDorGhosts.CopyTo(ghostObjects, libraryGhosts.Length);
     }
 
     public void Capture()

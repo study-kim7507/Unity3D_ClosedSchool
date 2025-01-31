@@ -175,6 +175,7 @@ public class PlayerUI : MonoBehaviour
 
     public void PlayerDie()
     {
+        playerDiePanel.SetActive(true);
         StartCoroutine(PlayerDiePanelActiveCoroutine());
     }
 

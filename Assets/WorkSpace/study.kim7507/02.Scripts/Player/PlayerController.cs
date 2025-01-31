@@ -38,8 +38,8 @@ public class PlayerController : MonoBehaviour
     // 플레이어의 죽음 
     // TODO: 수정 필요
     [Header("For Player Die")]
-    [SerializeField] private GameObject ghost1;
-    [SerializeField] private GameObject ghost2;
+    [SerializeField] private GameObject libraryGhost;
+    [SerializeField] private GameObject oneCorriDorGhost;
 
 
     private void Start()
@@ -52,8 +52,8 @@ public class PlayerController : MonoBehaviour
         lookController = GetComponent<PlayerLookController>();
 
         // 플레이어가 귀신과의 접촉이 일어나 죽었을 때 스폰될 귀신들 비활성화
-        ghost1.SetActive(false);
-        ghost2.SetActive(false);
+        libraryGhost.SetActive(false);
+        oneCorriDorGhost.SetActive(false);
     }
 
     private void OnDisable()
@@ -276,11 +276,18 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log(Vector3.Distance(other.gameObject.transform.position, transform.position));
-        if (other.gameObject.CompareTag("Ghost") && Vector3.Distance(other.gameObject.transform.position, transform.position) <= 3.0f)
+        if (other.gameObject.CompareTag("LibraryGhost") && Vector3.Distance(other.gameObject.transform.position, transform.position) <= 3.0f)
         {
             // 귀신과의 접촉이 일어난 경우, 접촉이 일어난 귀신은 삭제하고 화면에 보여질 귀신을 활성화
             Destroy(other.gameObject);
-            ghost1.SetActive(true);
+            libraryGhost.SetActive(true);
+            PlayerUI.instance.PlayerDie();
+        }
+        else if (other.gameObject.CompareTag("OneCorriDorGhost") && Vector3.Distance(other.gameObject.transform.position, transform.position) <= 3.0f)
+        {
+            // 귀신과의 접촉이 일어난 경우, 접촉이 일어난 귀신은 삭제하고 화면에 보여질 귀신을 활성화
+            Destroy(other.gameObject);
+            oneCorriDorGhost.SetActive(true);
             PlayerUI.instance.PlayerDie();
         }
     }
