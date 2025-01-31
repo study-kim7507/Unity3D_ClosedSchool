@@ -9,6 +9,7 @@ public class PlayerUI : MonoBehaviour
     public static PlayerUI instance = null;
 
     public GameObject playerUIPanel;
+    public GameObject playerDiePanel;
 
     public TMP_Text keyDescription;
     public Image background;
@@ -170,5 +171,33 @@ public class PlayerUI : MonoBehaviour
         else if (ownerPlayer.stamina >= 0) stamina.color = new Color(1, 0, 0);
 
         stamina.fillAmount = ownerPlayer.stamina / 100.0f;
+    }
+
+    public void PlayerDie()
+    {
+        StartCoroutine(PlayerDiePanelActiveCoroutine());
+    }
+
+    private IEnumerator PlayerDiePanelActiveCoroutine()
+    {
+        float duration = 5f; 
+        float elapsedTime = 0f; 
+        Image image = playerDiePanel.GetComponent<Image>(); 
+
+        Color color = image.color; 
+        color.a = 0; 
+        image.color = color; 
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime; 
+            float alpha = Mathf.Clamp01(elapsedTime / duration); 
+            color.a = alpha; 
+            image.color = color; 
+            yield return null; 
+        }
+
+        color.a = 1; 
+        image.color = color; // 최종 색상 적용
     }
 }

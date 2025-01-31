@@ -6,7 +6,6 @@ public class Locker : MonoBehaviour, IInteractable
     [SerializeField] private Door door;
 
     private PlayerController playerController;
-    private CapsuleCollider playerCapsuleCollider;
     private CharacterController playerCharacterController;
 
     private Vector3 backupPos;
@@ -17,7 +16,6 @@ public class Locker : MonoBehaviour, IInteractable
         player = GameObject.FindWithTag("Player");
 
         playerController = player.GetComponent<PlayerController>();
-        playerCapsuleCollider = player.GetComponent<CapsuleCollider>();
         playerCharacterController = player.GetComponent<CharacterController>();
     }
 
@@ -59,7 +57,6 @@ public class Locker : MonoBehaviour, IInteractable
         player.transform.position = transform.position;
 
         playerCharacterController.enabled = false;
-        playerCapsuleCollider.enabled = false;
         playerController.isHide = true;
 
         door.CloseDoor();
@@ -73,7 +70,6 @@ public class Locker : MonoBehaviour, IInteractable
         player.transform.position = backupPos;
 
         playerCharacterController.enabled = true;
-        playerCapsuleCollider.enabled = true;
         playerController.isHide = false;
     }
 

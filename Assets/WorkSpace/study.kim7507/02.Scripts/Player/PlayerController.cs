@@ -35,6 +35,13 @@ public class PlayerController : MonoBehaviour
     // 숨기 관련
     [HideInInspector] public bool isHide = false;
 
+    // 플레이어의 죽음 
+    // TODO: 수정 필요
+    [Header("For Player Die")]
+    [SerializeField] private GameObject ghost1;
+    [SerializeField] private GameObject ghost2;
+
+
     private void Start()
     {
         // 마우스 커서를 보이지 않게 설정
@@ -43,6 +50,10 @@ public class PlayerController : MonoBehaviour
 
         movementController = GetComponent<PlayerMovementController>(); 
         lookController = GetComponent<PlayerLookController>();
+
+        // 플레이어가 귀신과의 접촉이 일어나 죽었을 때 스폰될 귀신들 비활성화
+        ghost1.SetActive(false);
+        ghost2.SetActive(false);
     }
 
     private void OnDisable()
@@ -258,5 +269,19 @@ public class PlayerController : MonoBehaviour
         
         currentItem.GetComponent<Collider>().enabled = true;
         currentItem.GetComponent<Rigidbody>().useGravity = true;
+    }
+
+    // TODO: 수정 필요
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log(Vector3.Distance(other.gameObject.transform.position, transform.position));
+        if (other.gameObject.CompareTag("Ghost") && Vector3.Distance(other.gameObject.transform.position, transform.position) <= 3.0f)
+        {
+            // 귀신과의 접촉이 일어난 경우, 접촉이 일어난 귀신은 삭제하고 화면에 보여질 귀신을 활성화
+            Destroy(other.gameObject);
+            ghost1.SetActive(true);
+            PlayerUI.instance.PlayerDie();
+        }
     }
 }

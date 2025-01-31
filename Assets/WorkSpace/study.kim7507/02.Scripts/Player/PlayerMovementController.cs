@@ -38,7 +38,6 @@ public class PlayerMovementController : MonoBehaviour
 
     private PlayerController playerController;
     private CharacterController characterController;
-    private CapsuleCollider capsuleCollider;
     public AudioSource movementAudioSource;
 
 
@@ -49,7 +48,6 @@ public class PlayerMovementController : MonoBehaviour
     {
         playerController = GetComponent<PlayerController>();
         characterController = GetComponent<CharacterController>();
-        capsuleCollider = GetComponent<CapsuleCollider>();
         
         originalHeight = characterController.height;
         originalCameraYPos = Camera.main.transform.localPosition.y;
@@ -113,9 +111,6 @@ public class PlayerMovementController : MonoBehaviour
         // 캐릭터 컨트롤러 조정
         characterController.height = originalHeight / 2.0f;
 
-        // 콜라이더 조정
-        capsuleCollider.height = originalHeight / 2.0f;
-
         // 카메라 위치 조정
         StartCoroutine(ChangeCameraPosition(new Vector3(0, characterController.center.y, 0), 0.15f));
 
@@ -128,9 +123,6 @@ public class PlayerMovementController : MonoBehaviour
         {
             // 캐릭터 컨트롤러 조정
             characterController.height = originalHeight;
-
-            // 콜라이더 조정
-            capsuleCollider.height = originalHeight;
 
             // 카메라 위치 조정
             StartCoroutine(ChangeCameraPosition(new Vector3(0, originalCameraYPos, 0), 0.15f));
