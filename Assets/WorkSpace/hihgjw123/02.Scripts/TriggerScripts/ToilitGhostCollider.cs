@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class ToilletGhostCollider : MonoBehaviour
 {
+    [SerializeField] AudioSource audioSource;
     public GameObject ToilletGhost; // 화장실 귀신
     Animator toilletghostAnimator; 
 
@@ -28,6 +29,8 @@ public class ToilletGhostCollider : MonoBehaviour
         if(other.CompareTag("Player")) //플레이어가 화장실에 배치된 콜라이더에 감지되면
         {
             toilletghostAnimator.SetTrigger("Go"); //빼꼼 애니메이션
+            audioSource.Play();
+            
         }
            
     }
