@@ -9,8 +9,9 @@ public class GhostAiController : MonoBehaviour
     [SerializeField] float detectionRange = 10f; //귀신 감지 거리
     [SerializeField] float patrolWaitTime = 2f; //순찰 포인트 도착 후 대기시간
     [SerializeField] float navMeshSearchRadius = 20f; //랜덤 포인트를 찾을 범위
+    [SerializeField] HeartbeatEffect heartbeatEffect;
 
-   
+
     public Animator animator;
     private NavMeshAgent navMeshAgent;
     private bool isChasing = false; //추적 중인지 상태를 체크
@@ -67,6 +68,8 @@ public class GhostAiController : MonoBehaviour
                 {
                     Debug.Log("플레이어 감지");
                     StartChase();
+                    heartbeatEffect.isEffectActive = true;
+                    heartbeatEffect.heartbeatSound.Play();
                 }
                 else
                 {
