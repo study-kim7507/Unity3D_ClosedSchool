@@ -5,8 +5,8 @@ public class BookZone : MonoBehaviour
 {
     [SerializeField] private int requiredBookCount = 4; // 필요한 책 개수
     private int currentBookCount = 0;
-    [SerializeField] private GameObject rewardPrefab; // 미션 클리어 보상 프리팹
-    [SerializeField] private Transform rewardSpawnPoint; // 보상 생성 위치
+    private List<Book> placedBooks = new List<Book>(); // 배치된 책 목록
+    [SerializeField] private Transform[] bookSlots; // 책을 놓을 슬롯 (4개)
     private PuzzleManager puzzleManager;
 
     private void Start()
@@ -19,36 +19,46 @@ public class BookZone : MonoBehaviour
         if (other.CompareTag("Book"))
         {
             Book book = other.GetComponent<Book>();
-            if (book != null)
+            if (book != null && !placedBooks.Contains(book))
             {
-                currentBookCount++;
-                Debug.Log($"책 {book.GetBookName()}이 놓여짐 ({currentBookCount}/{requiredBookCount})");
-
-                Destroy(other.gameObject); // 책 제거
-
-                puzzleManager.CheckPuzzleCompletion(currentBookCount, requiredBookCount);
-
-                if (currentBookCount >= requiredBookCount)
+                if (currentBookCount < bookSlots.Length)
                 {
-                    SpawnReward();
-                    RemoveBookZone(); // 퍼즐 완료 시 BookZone 제거
+                    PlaceBookInSlot(book);
+                    currentBookCount++;
+
+                    Debug.Log($" 책 {book.GetBookName()}이 배치됨 ({currentBookCount}/{requiredBookCount})");
+
+                    puzzleManager.CheckPuzzleCompletion(currentBookCount, requiredBookCount);
                 }
             }
         }
     }
 
-    private void SpawnReward()
+    private void PlaceBookInSlot(Book book)
     {
-        if (rewardPrefab != null && rewardSpawnPoint != null)
+        int slotIndex = placedBooks.Count;
+        if (slotIndex < bookSlots.Length)
         {
-            Instantiate(rewardPrefab, rewardSpawnPoint.position, Quaternion.identity);
-            Debug.Log("미션 클리어! 보상이 생성되었습니다.");
-        }
-    }
+            // 책을 슬롯 위치로 이동
+            book.transform.position = bookSlots[slotIndex].position;
+            book.transform.rotation = bookSlots[slotIndex].rotation;
 
-    private void RemoveBookZone()
-    {
-        Debug.Log("BookZone 제거!");
-        Destroy(gameObject); // BookZone 제거
+            // 책의 Rigidbody 물리 효과 제거 (고정됨)
+            Rigidbody rb = book.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.isKinematic = true;
+                rb.useGravity = false;
+            }
+
+            // 책이 움직이지 않도록 충돌 박스 비활성화
+            Collider bookCollider = book.GetComponent<Collider>();
+            if (bookCollider != null)
+            {
+                bookCollider.enabled = false;
+            }
+
+            placedBooks.Add(book);
+        }
     }
 }
