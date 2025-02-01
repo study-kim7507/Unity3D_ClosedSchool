@@ -10,6 +10,8 @@ TagManager:
   - Flashlight
   - VentilationGrid
   - Basketball
+  - LibraryGhost
+  - OneCorridorGhost
   layers:
   - Default
   - TransparentFX
