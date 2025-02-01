@@ -33,10 +33,13 @@ public class ItemDetailViewer : MonoBehaviour
             pickable.itemImage = slot.itemImage.sprite;
             pickable.itemObjectPrefab = slot.itemObjectPrefab;
         }
-        
-        // 현재 보여줄 아이템이 사진인 경우
-        if (currentItem.TryGetComponent<Photo>(out Photo photo)) photo.SetPhotoImage(slot.photoItemCapturedImage);
 
+        // 현재 보여줄 아이템이 사진인 경우
+        if (currentItem.TryGetComponent<Photo>(out Photo photo))
+        {
+            photo.SetPhotoImage(slot.photoItemCapturedImage);
+            photo.isInGhost = slot.isInGhost;
+        }
         // 오브젝트가 회전하면서 보여질 수 있도록
         currentItem.AddComponent<ItemDetailViewerObjectRotation>();
 
