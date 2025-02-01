@@ -5,14 +5,16 @@ using UnityEngine.Rendering.Universal;
 
 public class HeartbeatEffect : MonoBehaviour
 {
-    [SerializeField] private AudioSource heartbeatSound;  // 심장박동 소리
+   
     [SerializeField] private Volume postProcessVolume;   // Post Process Volume
     [SerializeField] private float effectDuration = 3f;  // 효과 지속 시간
     [SerializeField] private float maxIntensity = 0.5f;  // 최대 붉은 효과 강도
     [SerializeField] GhostAiController ghostAiController;
-    
+
+
+    public AudioSource heartbeatSound;  // 심장박동 소리
     private ColorAdjustments colorAdjustments;
-    private bool isEffectActive = false;
+    public bool isEffectActive = false;
     private float effectTimeElapsed = 0f;
 
     private void Start()
@@ -26,10 +28,8 @@ public class HeartbeatEffect : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Player") && !isEffectActive)
+        if (other.gameObject.CompareTag("Player"))
         {
-            heartbeatSound.Play(); // 심장박동 소리 재생
-            isEffectActive = true;  // 효과 활성화
             ghostAiController.StopChase();
         }
     }
@@ -52,6 +52,7 @@ public class HeartbeatEffect : MonoBehaviour
                 isEffectActive = false; // 효과 비활성화
                 effectTimeElapsed = 0f;  // 시간 리셋
             }
+              
         }
     }
 }
