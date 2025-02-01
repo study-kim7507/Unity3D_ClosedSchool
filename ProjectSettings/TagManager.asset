@@ -12,6 +12,7 @@ TagManager:
   - Basketball
   - LibraryGhost
   - OneCorridorGhost
+  - Book
   layers:
   - Default
   - TransparentFX
