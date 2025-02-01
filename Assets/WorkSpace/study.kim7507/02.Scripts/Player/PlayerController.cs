@@ -283,7 +283,7 @@ public class PlayerController : MonoBehaviour
             libraryGhost.SetActive(true);
             PlayerUI.instance.PlayerDie();
         }
-        else if (other.gameObject.CompareTag("OneCorriDorGhost") && Vector3.Distance(other.gameObject.transform.position, transform.position) <= 3.0f)
+        else if (other.gameObject.CompareTag("OneCorridorGhost") && Vector3.Distance(other.gameObject.transform.position, transform.position) <= 3.0f)
         {
             // 귀신과의 접촉이 일어난 경우, 접촉이 일어난 귀신은 삭제하고 화면에 보여질 귀신을 활성화
             Destroy(other.gameObject);

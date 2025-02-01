@@ -21,11 +21,14 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
     private ItemDetailViewer itemDetailViewer;
 
     private IConsumable consumable;
+    private AudioSource audioSource;                  // 아이템 사용 시 발생하는 사운드 재생을 위함
 
     private void Start()
     {
         ownerPlayer = transform.root.gameObject.GetComponent<InventorySystem>().ownerPlayer;
         itemDetailViewer = ownerPlayer.itemDetailViewer;
+
+        audioSource = transform.root.gameObject.GetComponent<InventorySystem>().audioSourceForCousumableItem;  
     }
 
     public void SetSlot(GameObject item)
@@ -140,6 +143,9 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
     {
         if (consumable == null) return;
         consumable.Consume(ownerPlayer);
+        if (consumable.ConsumeSound != null)
+            audioSource.PlayOneShot(consumable.ConsumeSound);
+
         ClearSlot();
     }
 
