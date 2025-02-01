@@ -7,9 +7,11 @@ public class PlayerFlashlight : MonoBehaviour
 
     public float remainBattery;                                     // 남은 배터리
 
+    private AudioSource audioSource;
     private void Start()
     {
         flashlightLight.gameObject.SetActive(false);
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -32,12 +34,14 @@ public class PlayerFlashlight : MonoBehaviour
 
     private void TurnOn()
     {
+        audioSource.Play();
         flashlightLight.gameObject.SetActive(true);
         isFlashlightOn = !isFlashlightOn;
     }
 
     public void TurnOff() 
     {
+        audioSource.Play();
         flashlightLight.gameObject.SetActive(false);
         isFlashlightOn = !isFlashlightOn;
     }

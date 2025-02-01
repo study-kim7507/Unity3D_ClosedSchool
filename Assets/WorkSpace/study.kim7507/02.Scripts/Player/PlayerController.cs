@@ -32,6 +32,16 @@ public class PlayerController : MonoBehaviour
     [Header("Player Stamina")]
     public float stamina = 100.0f;
 
+    // 숨기 관련
+    [HideInInspector] public bool isHide = false;
+
+    // 플레이어의 죽음 
+    // TODO: 수정 필요
+    [Header("For Player Die")]
+    [SerializeField] private GameObject libraryGhost;
+    [SerializeField] private GameObject oneCorriDorGhost;
+
+
     private void Start()
     {
         // 마우스 커서를 보이지 않게 설정
@@ -40,12 +50,12 @@ public class PlayerController : MonoBehaviour
 
         movementController = GetComponent<PlayerMovementController>(); 
         lookController = GetComponent<PlayerLookController>();
+
+        // 플레이어가 귀신과의 접촉이 일어나 죽었을 때 스폰될 귀신들 비활성화
+        libraryGhost.SetActive(false);
+        oneCorriDorGhost.SetActive(false);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log(other.gameObject.name);
-    }
     private void OnDisable()
     {
         // 움직임 막기
@@ -75,18 +85,18 @@ public class PlayerController : MonoBehaviour
     // 마우스 입력을 통한 캐릭터 회전을 담당
     private void UpdateRotation()
     {
-        if (isOpenInventory) return;
+        if (isOpenInventory || isHide) return;
 
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
-
+        
         lookController.UpdateRotation(mouseX, mouseY);
     }
 
     // 키보드 입력을 통한 캐릭터 이동을 담당
     private void UpdateMove()
     {
-        if (isOpenInventory)
+        if (isOpenInventory || isHide)
         {
             movementController.Idle();
             movementController.MoveTo(new Vector3(0, 0, 0));
@@ -259,5 +269,26 @@ public class PlayerController : MonoBehaviour
         
         currentItem.GetComponent<Collider>().enabled = true;
         currentItem.GetComponent<Rigidbody>().useGravity = true;
+    }
+
+    // TODO: 수정 필요
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log(Vector3.Distance(other.gameObject.transform.position, transform.position));
+        if (other.gameObject.CompareTag("LibraryGhost") && Vector3.Distance(other.gameObject.transform.position, transform.position) <= 3.0f)
+        {
+            // 귀신과의 접촉이 일어난 경우, 접촉이 일어난 귀신은 삭제하고 화면에 보여질 귀신을 활성화
+            Destroy(other.gameObject);
+            libraryGhost.SetActive(true);
+            PlayerUI.instance.PlayerDie();
+        }
+        else if (other.gameObject.CompareTag("OneCorriDorGhost") && Vector3.Distance(other.gameObject.transform.position, transform.position) <= 3.0f)
+        {
+            // 귀신과의 접촉이 일어난 경우, 접촉이 일어난 귀신은 삭제하고 화면에 보여질 귀신을 활성화
+            Destroy(other.gameObject);
+            oneCorriDorGhost.SetActive(true);
+            PlayerUI.instance.PlayerDie();
+        }
     }
 }

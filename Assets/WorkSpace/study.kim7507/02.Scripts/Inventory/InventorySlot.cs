@@ -13,7 +13,9 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
     public string itemDescription;
     public Image itemImage;
     public GameObject itemObjectPrefab;
+
     public Texture2D photoItemCapturedImage;         // 슬롯에 저장될 아이템이 사진인 경우 사용되는 변수
+    public bool isInGhost;                           // 슬롯에 저장될 아이템이 사진인 경우 사용되는 변수
 
     private PlayerController ownerPlayer;
     private ItemDetailViewer itemDetailViewer;
@@ -38,8 +40,12 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
         itemImage.sprite = pickableItem.itemImage;
         itemObjectPrefab = pickableItem.itemObjectPrefab;
 
-        // 슬롯에 저장될 아이템이 사진인 경우, 플레이어가 찍은 사진이 설정되도록
-        if (item.TryGetComponent<Photo>(out Photo photo)) photoItemCapturedImage = photo.imageMeshRenderer.sharedMaterial.mainTexture as Texture2D;
+        // 슬롯에 저장될 아이템이 사진인 경우
+        if (item.TryGetComponent<Photo>(out Photo photo))
+        {
+            photoItemCapturedImage = photo.imageMeshRenderer.sharedMaterial.mainTexture as Texture2D;
+            isInGhost = photo.isInGhost;
+        }
 
         // 슬롯에 저장될 아이템이 소비 가능한 아이템인 경우
         if (item.GetComponent<IConsumable>() != null) consumable = item.GetComponent<IConsumable>();
@@ -88,6 +94,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
         if (droppedItem.TryGetComponent<Photo>(out Photo photo))
         {
             photo.imageMeshRenderer.material.mainTexture = photoItemCapturedImage;
+            photo.isInGhost = isInGhost;
         }
 
         ClearSlot();
@@ -111,6 +118,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
             if (currentItem.TryGetComponent<Photo>(out Photo photo))
             {
                 photo.SetPhotoImage(photoItemCapturedImage);
+                photo.isInGhost = isInGhost;
             }
 
             if (ownerPlayer.rightHand.childCount <= 0) ClearSlot(); // 손에 현재 아이템이 없는 경우, 슬롯 클리어
