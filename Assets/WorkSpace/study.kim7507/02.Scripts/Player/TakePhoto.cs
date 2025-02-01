@@ -1,6 +1,6 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class TakePhoto : MonoBehaviour
 {
@@ -8,10 +8,24 @@ public class TakePhoto : MonoBehaviour
     private Texture2D photo;
 
     private PlayerController ownerPlayer;
+    private GameObject[] ghostObjects;
 
+    public AudioSource takePhotoAudioSource;
     private void Start()
     {
         ownerPlayer = gameObject.GetComponent<PlayerController>();
+
+        ownerPlayer = gameObject.GetComponent<PlayerController>();
+
+        // "LibraryGhost"와 "OneCorriDorGhost" 태그가 붙은 모든 오브젝트를 찾고 저장
+        GameObject[] libraryGhosts = GameObject.FindGameObjectsWithTag("LibraryGhost");
+        GameObject[] oneCorriDorGhosts = GameObject.FindGameObjectsWithTag("OneCorriDorGhost");
+
+        // 두 배열을 합쳐서 ghostObjects에 저장
+        ghostObjects = new GameObject[libraryGhosts.Length + oneCorriDorGhosts.Length];
+        Debug.Log(ghostObjects);
+        libraryGhosts.CopyTo(ghostObjects, 0);
+        oneCorriDorGhosts.CopyTo(ghostObjects, libraryGhosts.Length);
     }
 
     public void Capture()
@@ -44,8 +58,11 @@ public class TakePhoto : MonoBehaviour
 
         // 캡처한 사진을 저장
         photo = screenshot;
+        
+        bool isInGhost = CheckForGhostInPhoto();
 
         ownerPlayer.playerUI.PlayerTakePhoto();                      // 사진찍는 효과 (번쩍임)
+        takePhotoAudioSource.Play();
 
         GameObject go = Instantiate(photoPrefab);
         go.transform.Find("Front").Find("Image").gameObject.GetComponent<MeshRenderer>().material.mainTexture = photo;
@@ -54,13 +71,41 @@ public class TakePhoto : MonoBehaviour
         if (go.TryGetComponent<Pickable>(out Pickable pickable))
         {
             pickable.itemName = "사진";
-            pickable.itemDescription = ownerPlayer.playerUI.timer.text + "에 찍은 사진이다. \n무엇이 찍혔는지 자세히 확인해보자.";
+            if (isInGhost) pickable.itemDescription = ownerPlayer.playerUI.timer.text + "에 찍은 사진이다. \n퇴마하려는 귀신이 찍혀있다. \n퇴마에 사용할 수 있을 것 같다.";
+            else pickable.itemDescription = ownerPlayer.playerUI.timer.text + "에 찍은 사진이다. \n퇴마하려는 귀신이 찍혀있지는 않은 것 같다.";
             go.GetComponent<Photo>().SetPhotoImage(photo);
+            go.GetComponent<Photo>().isInGhost = isInGhost;
             pickable.itemImage = go.GetComponent<Photo>().CapturePhotoObjectAsSprite();
             pickable.itemObjectPrefab = photoPrefab.GetComponent<Pickable>().itemObjectPrefab;
         }
 
 
         ownerPlayer.inventory.AddToInventory(go);
+    }
+
+    private bool CheckForGhostInPhoto()
+    {
+        for (int i = 0; i < ghostObjects.Length; i++)
+        {
+            Vector3 viewPos = Camera.main.WorldToViewportPoint(ghostObjects[i].transform.position);
+            
+            // 오브젝트가 카메라의 뷰포트 내에 있는지 확인
+            if (viewPos.x >= 0 && viewPos.x <= 1 && viewPos.y >= 0 && viewPos.y <= 1 && viewPos.z > 0)
+            {
+                // 카메라와 귀신 오브젝트 간의 방향 벡터
+                Vector3 directionToGhost = ghostObjects[i].transform.position - Camera.main.transform.position;
+
+                // Raycast를 사용하여 가려지는지 확인
+                if (Physics.Raycast(Camera.main.transform.position, directionToGhost, out RaycastHit hit))
+                {
+                    if (hit.collider.gameObject == ghostObjects[i])
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 }

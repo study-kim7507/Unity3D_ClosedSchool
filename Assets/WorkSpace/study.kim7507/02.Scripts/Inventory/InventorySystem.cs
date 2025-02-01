@@ -9,15 +9,18 @@ public class InventorySystem : MonoBehaviour
     private InventorySlot[] inventorySlots;
    
     public PlayerController ownerPlayer;
+    private AudioSource audioSource;
 
     void Start()
     {
         inventorySlots = inventorySlotHolder.GetComponentsInChildren<InventorySlot>();
         inventoryPanel.SetActive(ownerPlayer.isOpenInventory);    
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void ToggleInventory()
     {
+        audioSource.PlayOneShot(audioSource.clip);
         inventoryPanel.SetActive(ownerPlayer.isOpenInventory);
     }
 
