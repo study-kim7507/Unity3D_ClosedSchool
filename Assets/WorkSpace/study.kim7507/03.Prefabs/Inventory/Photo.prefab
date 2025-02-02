@@ -131,6 +131,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderCamera: {fileID: 3819757987274832334}
   imageMeshRenderer: {fileID: 6728448985591575332}
+  isInGhost: 0
 --- !u!1 &2529400087321909995
 GameObject:
   m_ObjectHideFlags: 0
