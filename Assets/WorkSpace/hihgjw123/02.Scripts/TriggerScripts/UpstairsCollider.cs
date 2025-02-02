@@ -59,7 +59,7 @@ public class UpstairsCollider : MonoBehaviour
             Animator Lightanimator = Light.GetComponent<Animator>();
             Lightanimator.SetTrigger("TurnOn");
             StopPlayer();
-            audioSource.Play();
+            Invoke("SoundPlay", 3f);
         }
     }
 
@@ -101,6 +101,11 @@ public class UpstairsCollider : MonoBehaviour
             cameraTransform.rotation = targetRotation;
             isCameraRotating = false; // 회전 완료
         }
+    }
+
+    private void SoundPlay()
+    {
+        audioSource.Play();
     }
 
 
