@@ -14,6 +14,7 @@ public class act2 : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             mannequinAnimator.SetTrigger("Stand");
+            gameObject.GetComponent<BoxCollider>().enabled = false;
         }
     }
 }
