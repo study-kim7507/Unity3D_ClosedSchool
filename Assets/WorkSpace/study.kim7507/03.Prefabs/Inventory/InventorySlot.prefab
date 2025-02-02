@@ -222,13 +222,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd05c0356479bf74b9dca0c2d7735802, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isUsed: 0
   itemName: 
   itemDescription: 
   itemImage: {fileID: 6616297661985286289}
   itemObjectPrefab: {fileID: 0}
   photoItemCapturedImage: {fileID: 0}
-  isUsed: 0
-  itemDetailViewer: {fileID: 0}
+  isInGhost: 0
 --- !u!114 &5838582797076714677
 MonoBehaviour:
   m_ObjectHideFlags: 0

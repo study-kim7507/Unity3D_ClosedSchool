@@ -707,11 +707,11 @@ MonoBehaviour:
   m_text: "G : \uC90D\uAE30\t\t\t\t\tC : \uC549\uAE30\nE : \uC0C1\uD638\uC791\uC6A9\t\t\t\tCtrl
     : \uB290\uB9AC\uAC8C \uAC77\uAE30\nQ : \uC0AC\uC9C4 \uCD2C\uC601\t\t\t\tShift
     : \uB2EC\uB9AC\uAE30\nR : \uC190\uC5D0 \uB4E0 \uC544\uC774\uD15C \uBC84\uB9AC\uAE30\tV
-    : \uC190\uC804\uB4F1 \uC628/\uC624\uD504\nTab : \uC778\uBCA4\uD1A0\uB9AC\n\n(\uC778\uBCA4\uD1A0\uB9AC)
+    : \uC190\uC804\uB4F1 \uC628/\uC624\uD504\n\uC6B0\uD074\uB9AD : \uC190\uC5D0 \uB4E0
+    \uC544\uC774\uD15C \uC0AC\uC6A9\nTab : \uC778\uBCA4\uD1A0\uB9AC \n\n(\uC778\uBCA4\uD1A0\uB9AC)
     \uC88C\uD074\uB9AD : \uC790\uC138\uD788 \uBCF4\uAE30\n(\uC778\uBCA4\uD1A0\uB9AC)
     \uC88C\uD074\uB9AD + G : \uC190\uC5D0 \uB4E4\uAE30\n(\uC778\uBCA4\uD1A0\uB9AC)
-    \uC88C\uD074\uB9AD + R : \uBC84\uB9AC\uAE30\n(\uC778\uBCA4\uD1A0\uB9AC) \uC6B0\uD074\uB9AD
-    : \uC544\uC774\uD15C \uC0AC\uC6A9\uD558\uAE30"
+    \uC88C\uD074\uB9AD + R : \uBC84\uB9AC\uAE30\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 207eaa9b609d7084484e0a1c079b069f, type: 2}
   m_sharedMaterial: {fileID: -3877487446586556488, guid: 207eaa9b609d7084484e0a1c079b069f, type: 2}
@@ -1203,7 +1203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.39215687}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.78431374}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
