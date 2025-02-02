@@ -14,6 +14,7 @@ public class act : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             mannequinAnimator.SetTrigger("Backbend");
+            gameObject.GetComponent<BoxCollider>().enabled = false;
         }
     }
 }
