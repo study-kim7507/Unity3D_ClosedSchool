@@ -10,8 +10,6 @@ public class InventorySystem : MonoBehaviour
    
     public PlayerController ownerPlayer;
     private AudioSource audioSource;
-    public AudioSource audioSourceForCousumableItem;
-
     void Start()
     {
         inventorySlots = inventorySlotHolder.GetComponentsInChildren<InventorySlot>();
