@@ -2,21 +2,21 @@ using UnityEngine;
 
 public class BallController : MonoBehaviour
 {
-    private Rigidbody rb; // ³ó±¸°øÀÇ Rigidbody
-    private static BallController selectedBall; // ÇöÀç ¼±ÅÃµÈ °øÀ» ÃßÀûÇÏ´Â static º¯¼ö
-    private bool isCharging = false; // ÃæÀü »óÅÂ È®ÀÎ
-    private float chargePower = 0f; // ÃæÀüµÈ Èû
-    private float maxPower = 15f; // ÃÖ´ë Èû
-    private float chargeRate = 10f; // Èû Áõ°¡ ¼Óµµ
-    private bool isReleased = false; // °øÀÌ ´øÁ®Á³´ÂÁö È®ÀÎ
+    private Rigidbody rb; // ë†êµ¬ê³µì˜ Rigidbody
+    private static BallController selectedBall; // í˜„ì¬ ì„ íƒëœ ê³µì„ ì¶”ì í•˜ëŠ” static ë³€ìˆ˜
+    private bool isCharging = false; // ì¶©ì „ ìƒíƒœ í™•ì¸
+    private float chargePower = 0f; // ì¶©ì „ëœ í˜
+    private float maxPower = 15f; // ìµœëŒ€ í˜
+    private float chargeRate = 10f; // í˜ ì¦ê°€ ì†ë„
+    private bool isReleased = false; // ê³µì´ ë˜ì ¸ì¡ŒëŠ”ì§€ í™•ì¸
 
-    public Camera playerCamera; // ÇÃ·¹ÀÌ¾î°¡ »ç¿ëÇÏ´Â Ä«¸Ş¶ó
+    public Camera playerCamera; // í”Œë ˆì´ì–´ê°€ ì‚¬ìš©í•˜ëŠ” ì¹´ë©”ë¼
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
 
-        // Ä«¸Ş¶ó°¡ ¼³Á¤µÇÁö ¾ÊÀº °æ¿ì ±âº»ÀûÀ¸·Î ¸ŞÀÎ Ä«¸Ş¶ó¸¦ »ç¿ë
+        // ì¹´ë©”ë¼ê°€ ì„¤ì •ë˜ì§€ ì•Šì€ ê²½ìš° ê¸°ë³¸ì ìœ¼ë¡œ ë©”ì¸ ì¹´ë©”ë¼ë¥¼ ì‚¬ìš©
         if (playerCamera == null)
         {
             playerCamera = Camera.main;
@@ -25,13 +25,13 @@ public class BallController : MonoBehaviour
 
     private void Update()
     {
-        // ¿À¸¥ÂÊ ¸¶¿ì½º ¹öÆ°À¸·Î °ø ¼±ÅÃ
+        // ì˜¤ë¥¸ìª½ ë§ˆìš°ìŠ¤ ë²„íŠ¼ìœ¼ë¡œ ê³µ ì„ íƒ
         if (Input.GetMouseButtonDown(1))
         {
             SelectBall();
         }
 
-        // ¼±ÅÃµÈ °ø¸¸ ÃæÀü ¹× ´øÁö±â °¡´É
+        // ì„ íƒëœ ê³µë§Œ ì¶©ì „ ë° ë˜ì§€ê¸° ê°€ëŠ¥
         if (selectedBall == this)
         {
             if (Input.GetMouseButton(1) && isCharging)
@@ -48,16 +48,16 @@ public class BallController : MonoBehaviour
 
     private void SelectBall()
     {
-        // ¸¶¿ì½º Å¬¸¯ÇÑ À§Ä¡¿¡¼­ Raycast¸¦ ÅëÇØ °øÀ» ¼±ÅÃ
+        // ë§ˆìš°ìŠ¤ í´ë¦­í•œ ìœ„ì¹˜ì—ì„œ Raycastë¥¼ í†µí•´ ê³µì„ ì„ íƒ
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            if (hit.collider.gameObject == gameObject) // Å¬¸¯ÇÑ ¿ÀºêÁ§Æ®°¡ ÇöÀç °øÀÎÁö È®ÀÎ
+            if (hit.collider.gameObject == gameObject) // í´ë¦­í•œ ì˜¤ë¸Œì íŠ¸ê°€ í˜„ì¬ ê³µì¸ì§€ í™•ì¸
             {
-                selectedBall = this; // ÀÌ °øÀ» ¼±ÅÃ
-                isCharging = true;   // °øÀ» Áı¾úÀ¸¹Ç·Î ÃæÀü °¡´É
-                isReleased = false; // °øÀÌ ¾ÆÁ÷ ´øÁ®ÁöÁö ¾ÊÀº »óÅÂ
-                Debug.Log($"{gameObject.name} °øÀÌ ¼±ÅÃµÇ¾ú½À´Ï´Ù.");
+                selectedBall = this; // ì´ ê³µì„ ì„ íƒ
+                isCharging = true;   // ê³µì„ ì§‘ì—ˆìœ¼ë¯€ë¡œ ì¶©ì „ ê°€ëŠ¥
+                isReleased = false; // ê³µì´ ì•„ì§ ë˜ì ¸ì§€ì§€ ì•Šì€ ìƒíƒœ
+                Debug.Log($"{gameObject.name} ê³µì´ ì„ íƒë˜ì—ˆìŠµë‹ˆë‹¤.");
             }
         }
     }
@@ -66,31 +66,31 @@ public class BallController : MonoBehaviour
     {
         chargePower += chargeRate * Time.deltaTime;
         chargePower = Mathf.Clamp(chargePower, 0f, maxPower);
-        Debug.Log($"Èû ÃæÀü Áß: {chargePower}");
+        Debug.Log($"í˜ ì¶©ì „ ì¤‘: {chargePower}");
     }
 
     private void ReleaseBall()
     {
         if (chargePower <= 0f)
         {
-            Debug.LogWarning("ÃæÀüµÈ ÈûÀÌ ºÎÁ·ÇÏ¿© °øÀÌ ´øÁ®ÁöÁö ¾Ê½À´Ï´Ù.");
+            Debug.LogWarning("ì¶©ì „ëœ í˜ì´ ë¶€ì¡±í•˜ì—¬ ê³µì´ ë˜ì ¸ì§€ì§€ ì•ŠìŠµë‹ˆë‹¤.");
             return;
         }
 
         isCharging = false;
         isReleased = true;
 
-        // Ä«¸Ş¶ó°¡ ¹Ù¶óº¸´Â ¹æÇâÀ» °è»ê
-        Vector3 cameraForward = playerCamera.transform.forward; // Ä«¸Ş¶óÀÇ Àü¹æ º¤ÅÍ
-        Vector3 launchDirection = (cameraForward + Vector3.up * 0.1f).normalized; // ¾à°£ À§·Î ´øÁö±â
+        // ì¹´ë©”ë¼ê°€ ë°”ë¼ë³´ëŠ” ë°©í–¥ì„ ê³„ì‚°
+        Vector3 cameraForward = playerCamera.transform.forward; // ì¹´ë©”ë¼ì˜ ì „ë°© ë²¡í„°
+        Vector3 launchDirection = (cameraForward + Vector3.up * 0.1f).normalized; // ì•½ê°„ ìœ„ë¡œ ë˜ì§€ê¸°
 
-        // Èû Àû¿ë
+        // í˜ ì ìš©
         rb.AddForce(launchDirection * chargePower, ForceMode.Impulse);
 
-        Debug.Log($"{gameObject.name} °øÀ» ´øÁü: Èû = {chargePower}, ¹æÇâ = {launchDirection}");
+        Debug.Log($"{gameObject.name} ê³µì„ ë˜ì§: í˜ = {chargePower}, ë°©í–¥ = {launchDirection}");
         chargePower = 0f;
 
-        // ¼±ÅÃ »óÅÂ ÃÊ±âÈ­
+        // ì„ íƒ ìƒíƒœ ì´ˆê¸°í™”
         selectedBall = null;
     }
 }
