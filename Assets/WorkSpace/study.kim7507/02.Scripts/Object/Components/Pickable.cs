@@ -13,6 +13,5 @@ public class Pickable : MonoBehaviour
     private void Start()
     {
         itemObjectPrefab = PrefabManager.Instance.GetOriginalPrefab(PrefabName);
-
     }
 }
