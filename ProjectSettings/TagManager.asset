@@ -14,10 +14,6 @@ TagManager:
   - OneCorridorGhost
   - Book
   - PuzzleBook
-  - BloodItem
-  - Candle
-  - Photo
-  - Lighter
   layers:
   - Default
   - TransparentFX
