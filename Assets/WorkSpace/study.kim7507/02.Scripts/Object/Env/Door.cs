@@ -40,6 +40,8 @@ public class Door : MonoBehaviour, IInteractable
 
     private AudioSource audioSource;
 
+    [SerializeField] GameObject interactionMessage;  
+
     private void Start()
     {
         animation = GetComponent<Animation>();
@@ -49,25 +51,23 @@ public class Door : MonoBehaviour, IInteractable
         if (audioSource == null) audioSource = GetComponentInParent<AudioSource>();
     }
 
+    private void Update()
+    {
+        if (interactionMessage != null && !isLocked)
+            EndFocus();
+    }
 
     public void BeginFocus(GameObject withItem = null)
     {
-        throw new System.NotImplementedException();
+        if (interactionMessage != null && isLocked)
+            interactionMessage.SetActive(true);
     }
 
-    public void BeginInteract(GameObject withItem = null)
-    {
-        throw new System.NotImplementedException();
-    }
 
     public void EndFocus(GameObject withItem = null)
     {
-        throw new System.NotImplementedException();
-    }
-
-    public void EndInteract(GameObject withItem = null)
-    {
-        throw new System.NotImplementedException();
+        if (interactionMessage != null)
+            interactionMessage.SetActive(false);
     }
 
     public void Interact(GameObject withItem = null)

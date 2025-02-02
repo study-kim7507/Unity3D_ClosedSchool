@@ -11,6 +11,8 @@ public class Locker : MonoBehaviour, IInteractable
     private Vector3 backupPos;
     private Quaternion backupRot;
 
+    [SerializeField] GameObject interactionMessage;
+
     private void Start()
     {
         player = GameObject.FindWithTag("Player");
@@ -22,22 +24,15 @@ public class Locker : MonoBehaviour, IInteractable
 
     public void BeginFocus(GameObject withItem = null)
     {
-        
-    }
+        if (interactionMessage != null && !playerController.isHide)
+            interactionMessage.SetActive(true);
 
-    public void BeginInteract(GameObject withItem = null)
-    {
-        
     }
 
     public void EndFocus(GameObject withItem = null)
     {
-        
-    }
-
-    public void EndInteract(GameObject withItem = null)
-    {
-        
+        if (interactionMessage != null)
+            interactionMessage.SetActive(false);
     }
 
     public void Interact(GameObject withItem = null)
