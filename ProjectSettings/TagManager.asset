@@ -13,6 +13,7 @@ TagManager:
   - LibraryGhost
   - OneCorridorGhost
   - Book
+  - PuzzleBook
   layers:
   - Default
   - TransparentFX
