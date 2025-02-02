@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,6 +9,9 @@ public class PlayerController : MonoBehaviour
 
     // 드래그 관련
     private Draggable draggable = null;
+
+    // 상호작용 관련
+    private GameObject currFocusObject = null;
 
     // 플레이어 인벤토리 상호작용 관련
     [Header("Inventory")]
@@ -23,6 +27,7 @@ public class PlayerController : MonoBehaviour
     // 손
     [Header("Hand, Item Equip")]
     public Transform rightHand;
+    public AudioSource forItemConsumeSound;
 
     // UI 관련
     [Header("Player UI")]
@@ -32,6 +37,16 @@ public class PlayerController : MonoBehaviour
     [Header("Player Stamina")]
     public float stamina = 100.0f;
 
+    // 숨기 관련
+    [HideInInspector] public bool isHide = false;
+
+    // 플레이어의 죽음 
+    // TODO: 수정 필요
+    [Header("For Player Die")]
+    [SerializeField] private GameObject libraryGhost;
+    [SerializeField] private GameObject oneCorriDorGhost;
+
+
     private void Start()
     {
         // 마우스 커서를 보이지 않게 설정
@@ -40,12 +55,12 @@ public class PlayerController : MonoBehaviour
 
         movementController = GetComponent<PlayerMovementController>(); 
         lookController = GetComponent<PlayerLookController>();
+
+        // 플레이어가 귀신과의 접촉이 일어나 죽었을 때 스폰될 귀신들 비활성화
+        libraryGhost.SetActive(false);
+        oneCorriDorGhost.SetActive(false);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log(other.gameObject.name);
-    }
     private void OnDisable()
     {
         // 움직임 막기
@@ -70,23 +85,25 @@ public class PlayerController : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.R) && !isOpenInventory && !isOpenItemDetailViewer)
             DropItemInRightHand();
+        if (rightHand.childCount > 0 && Input.GetMouseButtonDown(1))
+            ConsumeItemInHand();
     }
 
     // 마우스 입력을 통한 캐릭터 회전을 담당
     private void UpdateRotation()
     {
-        if (isOpenInventory) return;
+        if (isOpenInventory || isHide) return;
 
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
-
+        
         lookController.UpdateRotation(mouseX, mouseY);
     }
 
     // 키보드 입력을 통한 캐릭터 이동을 담당
     private void UpdateMove()
     {
-        if (isOpenInventory)
+        if (isOpenInventory || isHide)
         {
             movementController.Idle();
             movementController.MoveTo(new Vector3(0, 0, 0));
@@ -133,11 +150,11 @@ public class PlayerController : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, 2.0f))
         {
-            // 레이의 시작점과 충돌 지점 사이에 디버그 라인 그리기
-            Debug.DrawLine(ray.origin, hit.point, Color.red);
-
             if (hit.collider.gameObject.GetComponent<IInteractable>() != null)
             {
+                currFocusObject = hit.collider.gameObject;
+                currFocusObject.GetComponent<IInteractable>().BeginFocus();
+
                 // 만약 상호작용 가능한 오브젝트가 Ray에 감지될 시, 플레이어는 E키를 통해 해당 오브젝트와 상호작용이 가능하도록
                 if (Input.GetKeyDown(KeyCode.E))
                 {
@@ -146,6 +163,12 @@ public class PlayerController : MonoBehaviour
                     hit.collider.gameObject.GetComponent<IInteractable>().Interact(inHandItem);
                 }
             }
+            else
+            {
+                if (currFocusObject != null)
+                    currFocusObject.GetComponent<IInteractable>().EndFocus();
+            }
+
             if (hit.collider.gameObject.GetComponent<Pickable>() != null)
             {
                 // 만약 인벤토리에 저장 가능한 오브젝트가 Ray에 감지될 시, 플레이어는 G키를 통해 해당 오브젝트를 인벤토리에 저장하도록
@@ -236,7 +259,7 @@ public class PlayerController : MonoBehaviour
         pivotOffset *= scaleFactor;
 
         item.transform.localPosition = Vector3.zero + pivotOffset;
-        item.transform.localRotation = Quaternion.identity;
+        item.transform.localRotation = Quaternion.Euler(0.0f, 180.0f, 0.0f) * item.transform.rotation;
 
         if (item.TryGetComponent<Rigidbody>(out Rigidbody rb)) rb.useGravity = false;
         if (item.TryGetComponent<Collider>(out Collider collider)) collider.enabled = false;
@@ -259,5 +282,33 @@ public class PlayerController : MonoBehaviour
         
         currentItem.GetComponent<Collider>().enabled = true;
         currentItem.GetComponent<Rigidbody>().useGravity = true;
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("LibraryGhost"))
+        {
+            // 귀신과의 접촉이 일어난 경우, 접촉이 일어난 귀신은 삭제하고 화면에 보여질 귀신을 활성화
+            Destroy(other.gameObject);
+            libraryGhost.SetActive(true);
+            PlayerUI.instance.PlayerDie();
+        }
+        else if (other.gameObject.CompareTag("OneCorridorGhost"))
+        {
+            // 귀신과의 접촉이 일어난 경우, 접촉이 일어난 귀신은 삭제하고 화면에 보여질 귀신을 활성화
+            Destroy(other.gameObject);
+            oneCorriDorGhost.SetActive(true);
+            PlayerUI.instance.PlayerDie();
+        }
+    }
+
+    private void ConsumeItemInHand()
+    {
+        if (rightHand.GetChild(0).TryGetComponent<IConsumable>(out IConsumable consumable))
+        {
+            consumable.Consume(this);
+            forItemConsumeSound.PlayOneShot(consumable.ConsumeSound);
+            Destroy(rightHand.GetChild(0).gameObject);
+        }
     }
 }

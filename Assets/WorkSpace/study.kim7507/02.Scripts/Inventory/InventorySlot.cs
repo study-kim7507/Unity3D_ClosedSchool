@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using static UnityEditor.Progress;
 
-public class InventorySlot : MonoBehaviour, IPointerClickHandler
+public class InventorySlot : MonoBehaviour
 {
     public bool isUsed;                              // 현재 해당 슬롯이 사용 중인지 여부를 저장
 
@@ -13,12 +13,12 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
     public string itemDescription;
     public Image itemImage;
     public GameObject itemObjectPrefab;
+
     public Texture2D photoItemCapturedImage;         // 슬롯에 저장될 아이템이 사진인 경우 사용되는 변수
+    public bool isInGhost;                           // 슬롯에 저장될 아이템이 사진인 경우 사용되는 변수
 
     private PlayerController ownerPlayer;
     private ItemDetailViewer itemDetailViewer;
-
-    private IConsumable consumable;
 
     private void Start()
     {
@@ -38,11 +38,12 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
         itemImage.sprite = pickableItem.itemImage;
         itemObjectPrefab = pickableItem.itemObjectPrefab;
 
-        // 슬롯에 저장될 아이템이 사진인 경우, 플레이어가 찍은 사진이 설정되도록
-        if (item.TryGetComponent<Photo>(out Photo photo)) photoItemCapturedImage = photo.imageMeshRenderer.sharedMaterial.mainTexture as Texture2D;
-
-        // 슬롯에 저장될 아이템이 소비 가능한 아이템인 경우
-        if (item.GetComponent<IConsumable>() != null) consumable = item.GetComponent<IConsumable>();
+        // 슬롯에 저장될 아이템이 사진인 경우
+        if (item.TryGetComponent<Photo>(out Photo photo))
+        {
+            photoItemCapturedImage = photo.imageMeshRenderer.sharedMaterial.mainTexture as Texture2D;
+            isInGhost = photo.isInGhost;
+        }
 
         isUsed = true;  
     }
@@ -58,7 +59,6 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
         gameObject.transform.GetChild(0).GetComponent<Image>().color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
         
         isUsed = false;                     // 슬롯 사용 중 상태 초기화
-        consumable = null;
     }
 
     // 아이템 디테일 뷰를 보거나, 현재 플레이어가 손에 들고 있는 아이템과 바꾸는 기능을 수행
@@ -66,7 +66,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
     {
         if (!isUsed) return;         // 현재 해당 슬롯에 아이템이 저장되어 있지 않은 경우
 
-        if (!Input.GetKey(KeyCode.G)&& !Input.GetKey(KeyCode.R)) itemDetailViewer.OpenItemDetailViewer(this);
+        if (!Input.GetKey(KeyCode.G)&& !Input.GetKey(KeyCode.R)) itemDetailViewer.OpenItemDetailViewerBySlot(this);
         else if (Input.GetKey(KeyCode.G)) ChangeItem();
         else if (Input.GetKey(KeyCode.R)) DropCurrentItem();
     }
@@ -88,6 +88,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
         if (droppedItem.TryGetComponent<Photo>(out Photo photo))
         {
             photo.imageMeshRenderer.material.mainTexture = photoItemCapturedImage;
+            photo.isInGhost = isInGhost;
         }
 
         ClearSlot();
@@ -111,6 +112,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
             if (currentItem.TryGetComponent<Photo>(out Photo photo))
             {
                 photo.SetPhotoImage(photoItemCapturedImage);
+                photo.isInGhost = isInGhost;
             }
 
             if (ownerPlayer.rightHand.childCount <= 0) ClearSlot(); // 손에 현재 아이템이 없는 경우, 슬롯 클리어
@@ -125,21 +127,6 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
             // 현재 슬롯의 아이템을 손에 장착
             ownerPlayer.inventory.inventoryPanel.SetActive(false);
             ownerPlayer.EquipItemInRightHand(currentItem);
-        }
-    }
-
-    private void ConsumeItem()
-    {
-        if (consumable == null) return;
-        consumable.Consume(ownerPlayer);
-        ClearSlot();
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if (eventData.button == PointerEventData.InputButton.Right)
-        {
-            ConsumeItem();
         }
     }
 }

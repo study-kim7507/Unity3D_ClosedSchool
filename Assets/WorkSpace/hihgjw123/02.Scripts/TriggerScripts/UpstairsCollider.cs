@@ -8,7 +8,9 @@ public class UpstairsCollider : MonoBehaviour
     private bool isMoving= false; //움직임 제어변수
     private Vector3 targetCamraDirection = new Vector3(1, 0, 0); //카메라가 바라볼 방향
     private bool isCameraRotating = false; //카메라 회전 여부
+    
 
+    [SerializeField] AudioSource audioSource;
     [SerializeField] Transform cameraTransform;
     [SerializeField] float speed = 0.2f; //귀신 속도
     [SerializeField] GameObject Light; //조명 애니메이터
@@ -57,6 +59,7 @@ public class UpstairsCollider : MonoBehaviour
             Animator Lightanimator = Light.GetComponent<Animator>();
             Lightanimator.SetTrigger("TurnOn");
             StopPlayer();
+            Invoke("SoundPlay", 3f);
         }
     }
 
@@ -98,6 +101,11 @@ public class UpstairsCollider : MonoBehaviour
             cameraTransform.rotation = targetRotation;
             isCameraRotating = false; // 회전 완료
         }
+    }
+
+    private void SoundPlay()
+    {
+        audioSource.Play();
     }
 
 

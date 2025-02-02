@@ -2,24 +2,27 @@ using UnityEngine;
 
 public class PuzzleManager3 : MonoBehaviour
 {
-    public GameObject goalEffect; // 골 성공 시 표시할 효과 (예: 파티클)
+    public GameObject rewardItemPrefab; // 보상 아이템 (예: 열쇠)
+    public Transform rewardSpawnPoint; // 보상 생성 위치
     private bool isPuzzleSolved = false;
 
-    // 퍼즐 상태를 확인
     public void CompletePuzzle()
     {
         if (!isPuzzleSolved)
         {
             isPuzzleSolved = true;
-            Debug.Log("퍼즐이 풀렸습니다!");
+            Debug.Log("퍼즐이 완료되었습니다! 보상이 생성됩니다.");
 
-            // 골 성공 효과 실행
-            if (goalEffect != null)
+            // 보상 아이템 생성
+            if (rewardItemPrefab != null && rewardSpawnPoint != null)
             {
-                Instantiate(goalEffect, transform.position, Quaternion.identity);
+                Instantiate(rewardItemPrefab, rewardSpawnPoint.position, Quaternion.identity);
+                Debug.Log("보상이 생성되었습니다!");
             }
-
-            // 추가로 퍼즐 완료 로직을 작성하세요 (예: 문 열기, 아이템 생성 등)
+            else
+            {
+                Debug.LogWarning("보상 아이템 또는 위치가 설정되지 않았습니다!");
+            }
         }
     }
 }

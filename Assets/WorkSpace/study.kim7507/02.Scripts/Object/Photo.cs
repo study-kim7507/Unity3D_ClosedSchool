@@ -5,6 +5,7 @@ public class Photo : MonoBehaviour
 {
     public Camera renderCamera;
     public Renderer imageMeshRenderer;
+    public bool isInGhost = false;
 
     private void Start()
     {

@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class ItemDetailViewer : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class ItemDetailViewer : MonoBehaviour
     GameObject currentItem;
     public PlayerController ownerPlayer;
 
-    public void OpenItemDetailViewer(InventorySlot slot)
+    public void OpenItemDetailViewerBySlot(InventorySlot slot)
     {
         // ItemDetailViewer 활성화
         ownerPlayer.isOpenItemDetailViewer = true;
@@ -33,10 +34,13 @@ public class ItemDetailViewer : MonoBehaviour
             pickable.itemImage = slot.itemImage.sprite;
             pickable.itemObjectPrefab = slot.itemObjectPrefab;
         }
-        
-        // 현재 보여줄 아이템이 사진인 경우
-        if (currentItem.TryGetComponent<Photo>(out Photo photo)) photo.SetPhotoImage(slot.photoItemCapturedImage);
 
+        // 현재 보여줄 아이템이 사진인 경우
+        if (currentItem.TryGetComponent<Photo>(out Photo photo))
+        {
+            photo.SetPhotoImage(slot.photoItemCapturedImage);
+            photo.isInGhost = slot.isInGhost;
+        }
         // 오브젝트가 회전하면서 보여질 수 있도록
         currentItem.AddComponent<ItemDetailViewerObjectRotation>();
 
@@ -52,6 +56,7 @@ public class ItemDetailViewer : MonoBehaviour
         pivotOffset *= scaleFactor;
        
         currentItem.transform.position += pivotOffset;
+        currentItem.transform.rotation = Quaternion.Euler(0.0f, 180.0f, 0.0f) * currentItem.transform.rotation; ;
 
         // 캔버스 설정
         itemName.text = slot.itemName;
