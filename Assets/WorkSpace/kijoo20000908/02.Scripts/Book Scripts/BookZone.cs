@@ -13,13 +13,17 @@ public class BookZone : MonoBehaviour
     [SerializeField]
     private string[] requiredBooks =
     {
-        "📖 고대 마법서",
-        "📖 사라진 역사",
-        "📖 금단의 지식",
-        "📖 빛과 어둠의 균형"
+        "고대 마법서",
+        "사라진 역사",
+        "금단의 지식",
+        "빛과 어둠의 균형"
     };
 
+    [Header("퍼즐 클리어 사운드")]
+    [SerializeField] private AudioSource puzzleClearAudio; // 퍼즐 클리어 사운드
+
     private int currentBookCount = 0;
+    private bool puzzleCompleted = false;
     private List<Book> placedBooks = new List<Book>(); // 배치된 책 목록
     private PuzzleManager puzzleManager;
 
@@ -27,25 +31,20 @@ public class BookZone : MonoBehaviour
     {
         puzzleManager = FindObjectOfType<PuzzleManager>();
 
-        // UI가 연결되지 않았을 경우 오류 방지
-        if (bookListPanel == null)
+        if (bookListPanel != null)
         {
-            Debug.LogError("❌ BookListPanel이 연결되지 않았습니다!");
-        }
-        else
-        {
-            bookListPanel.SetActive(false); // 시작 시 UI 숨김
+            bookListPanel.SetActive(false); // UI 처음엔 숨김
         }
 
-        if (bookListText == null)
+        if (puzzleClearAudio == null)
         {
-            Debug.LogError("❌ BookListText가 연결되지 않았습니다!");
+            Debug.LogError("퍼즐 클리어 사운드가 설정되지 않았습니다!");
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player")) // 플레이어가 근처로 가면
+        if (other.CompareTag("Player")) // 플레이어가 북존 근처로 가면
         {
             ShowBookList();
         }
@@ -69,7 +68,6 @@ public class BookZone : MonoBehaviour
                 bookListText.text += book + "\n";
             }
             bookListPanel.SetActive(true);
-            Debug.Log("책 목록이 표시되었습니다.");
         }
     }
 
@@ -78,13 +76,12 @@ public class BookZone : MonoBehaviour
         if (bookListPanel != null)
         {
             bookListPanel.SetActive(false);
-            Debug.Log(" 책 목록이 사라졌습니다.");
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Book")) // 책이 들어왔을 때 배치
+        if (other.CompareTag("Book")) // 책이 북존 안에 들어왔을 때
         {
             Book book = other.GetComponent<Book>();
             if (book != null && !placedBooks.Contains(book))
@@ -94,9 +91,9 @@ public class BookZone : MonoBehaviour
                     PlaceBookInSlot(book);
                     currentBookCount++;
 
-                    Debug.Log($"📖 책 {book.GetBookName()}이 배치됨 ({currentBookCount}/{requiredBooks.Length})");
+                    Debug.Log($"책 '{book.GetBookName()}'이 배치됨 ({currentBookCount}/{requiredBooks.Length})");
 
-                    puzzleManager.CheckPuzzleCompletion(currentBookCount, requiredBooks.Length);
+                    CheckPuzzleCompletion(); // 퍼즐 클리어 확인
                 }
             }
         }
@@ -110,7 +107,6 @@ public class BookZone : MonoBehaviour
             book.transform.position = bookSlots[slotIndex].position;
             book.transform.rotation = bookSlots[slotIndex].rotation;
 
-            // 책 고정 (물리 영향 제거)
             Rigidbody rb = book.GetComponent<Rigidbody>();
             if (rb != null)
             {
@@ -118,7 +114,6 @@ public class BookZone : MonoBehaviour
                 rb.useGravity = false;
             }
 
-            // 책 충돌 박스 비활성화 (밀리지 않도록)
             Collider bookCollider = book.GetComponent<Collider>();
             if (bookCollider != null)
             {
@@ -126,6 +121,19 @@ public class BookZone : MonoBehaviour
             }
 
             placedBooks.Add(book);
+        }
+    }
+
+    private void CheckPuzzleCompletion()
+    {
+        if (!puzzleCompleted && currentBookCount == requiredBooks.Length)
+        {
+            puzzleCompleted = true;
+            Debug.Log("퍼즐이 완료되었습니다.");
+            if (puzzleClearAudio != null)
+            {
+                puzzleClearAudio.Play();
+            }
         }
     }
 }
