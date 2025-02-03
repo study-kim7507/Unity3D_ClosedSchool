@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     private PlayerLookController lookController;
 
     // 드래그 관련
-    private Draggable draggable = null;
+    [HideInInspector] public Draggable draggable = null;
 
     // 상호작용 관련
     private GameObject currFocusObject = null;

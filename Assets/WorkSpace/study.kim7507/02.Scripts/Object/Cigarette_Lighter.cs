@@ -14,17 +14,8 @@ public class Cigarette_Lighter: MonoBehaviour, IInteractable
 
     }
 
-    public void BeginInteract(GameObject withItem = null)
-    {
-
-    }
 
     public void EndFocus(GameObject withItem = null)
-    {
-
-    }
-
-    public void EndInteract(GameObject withItem = null)
     {
 
     }
