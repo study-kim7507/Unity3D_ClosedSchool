@@ -395,7 +395,7 @@ MonoBehaviour:
   slowWalkSpeed: 1.5
   walkSpeed: 3
   runSpeed: 5
-  jumpForce: 5
+  jumpForce: 3
   isCrouching: 0
   movementAudioSource: {fileID: 2763200768753460791}
   playerMovementSounds:

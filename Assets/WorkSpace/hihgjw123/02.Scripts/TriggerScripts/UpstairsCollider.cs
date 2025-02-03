@@ -59,7 +59,7 @@ public class UpstairsCollider : MonoBehaviour
             Animator Lightanimator = Light.GetComponent<Animator>();
             Lightanimator.SetTrigger("TurnOn");
             StopPlayer();
-            Invoke("SoundPlay", 3f);
+            Invoke("SoundPlay", 4f);
         }
     }
 
