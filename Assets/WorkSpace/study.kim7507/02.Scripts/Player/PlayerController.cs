@@ -289,19 +289,31 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("LibraryGhost"))
         {
             // 귀신과의 접촉이 일어난 경우, 접촉이 일어난 귀신은 삭제하고 화면에 보여질 귀신을 활성화
-            Destroy(other.gameObject);
+            DeactiveGhost(other.gameObject);
             libraryGhost.SetActive(true);
             PlayerUI.instance.PlayerDie();
         }
         else if (other.gameObject.CompareTag("OneCorridorGhost"))
         {
             // 귀신과의 접촉이 일어난 경우, 접촉이 일어난 귀신은 삭제하고 화면에 보여질 귀신을 활성화
-            Destroy(other.gameObject);
+            DeactiveGhost(other.gameObject);
             oneCorriDorGhost.SetActive(true);
             PlayerUI.instance.PlayerDie();
         }
     }
 
+    private void DeactiveGhost(GameObject ghost)
+    {
+        Collider[] colliders = ghost.GetComponentsInChildren<Collider>();
+        foreach (Collider collider in colliders)
+        {
+            collider.enabled = false;
+        }
+
+        Renderer[] renderers = ghost.GetComponentsInChildren<Renderer>();
+        foreach (Renderer renderer in renderers)
+            renderer.enabled = false;
+    }
     private void ConsumeItemInHand()
     {
         if (rightHand.GetChild(0).TryGetComponent<IConsumable>(out IConsumable consumable))
