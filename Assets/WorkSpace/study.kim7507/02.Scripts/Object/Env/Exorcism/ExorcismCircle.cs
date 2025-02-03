@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,13 +7,19 @@ public class ExorcismCircle : MonoBehaviour
     [SerializeField] ObjectPlacement[] candle;
     [SerializeField] ObjectPlacement photo;
 
+    private float fireElapsedTime = 0.0f;
+    [SerializeField] GameObject photoFire;
+    [SerializeField] GameObject ghostFire;
+
     [SerializeField] GameObject libraryGhost;
     [SerializeField] GameObject oneCorridorGhost;
+    private bool isGhostSpawned = false;
+
     private void Update()
     {
-        if (CheckComplete())
+        if (CheckComplete() && !isGhostSpawned)
         {
-            SpawnGhost();
+            SpawnFire();
         }
     }
 
@@ -30,19 +37,38 @@ public class ExorcismCircle : MonoBehaviour
         return true;
     }
 
+    private void SpawnFire()
+    {
+        photoFire.SetActive(true);
+        StartCoroutine(SpawnGhostCoroutine());
+    }
+
     private void SpawnGhost()
     {
-        // TODO: 귀신 울음 소리 재생 (고통스러워하는 소리)
         switch (photo.currObject.GetComponent<Photo>().ghostType)
         {
             case GhostType.None:
                 break;
             case GhostType.LibraryGhost:
+                GetComponent<AudioSource>().Play();
                 libraryGhost.SetActive(true);
+                ghostFire.SetActive(true);
+                isGhostSpawned = true;
                 break;
             case GhostType.OneCorridorGhost:
+                GetComponent<AudioSource>().Play();
                 oneCorridorGhost.SetActive(true);
+                ghostFire.SetActive(true);
+                isGhostSpawned = true;
                 break;
         }
+    }
+
+    private IEnumerator SpawnGhostCoroutine()
+    {
+        fireElapsedTime += Time.deltaTime;
+        while (fireElapsedTime <= 5.0f) yield return null;
+        photoFire.SetActive(false);
+        SpawnGhost();
     }
 }

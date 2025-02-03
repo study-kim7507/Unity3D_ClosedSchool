@@ -116,6 +116,7 @@ public class InventorySlot : MonoBehaviour
             {
                 photo.SetPhotoImage(photoItemCapturedImage);
                 photo.isInGhost = isInGhost;
+                photo.ghostType = ghostType;
             }
 
             if (ownerPlayer.rightHand.childCount <= 0) ClearSlot(); // 손에 현재 아이템이 없는 경우, 슬롯 클리어
