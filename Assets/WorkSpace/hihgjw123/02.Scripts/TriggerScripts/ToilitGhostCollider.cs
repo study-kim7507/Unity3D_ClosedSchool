@@ -16,7 +16,7 @@ public class ToilletGhostCollider : MonoBehaviour
         if(toilletghostAnimator)
         {
             AnimatorStateInfo stateInfo = toilletghostAnimator.GetCurrentAnimatorStateInfo(0); // 애니메이션 상태 가져오기
-            if(stateInfo.IsName("ClassicFemaleGhost_Jumpscare_Wall_LSide_Peekaboo01") && stateInfo.normalizedTime >= 0.8f) //까꿍 애니메이션이 끝나면
+            if(stateInfo.IsName("ClassicFemaleGhost_Jumpscare_Wall_LSide_Peekaboo01") && stateInfo.normalizedTime >= 0.6f) //까꿍 애니메이션이 끝나면
             {
                 Destroy(ToilletGhost); //귀신 오브젝트 삭제
                 Destroy(gameObject); // 콜라이더 오브젝트 삭제
