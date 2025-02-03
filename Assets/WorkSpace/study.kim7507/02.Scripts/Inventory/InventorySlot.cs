@@ -16,6 +16,7 @@ public class InventorySlot : MonoBehaviour
 
     public Texture2D photoItemCapturedImage;         // 슬롯에 저장될 아이템이 사진인 경우 사용되는 변수
     public bool isInGhost;                           // 슬롯에 저장될 아이템이 사진인 경우 사용되는 변수
+    public GhostType ghostType;                      // 슬롯에 저장될 아이템이 사진인 경우 사용되는 변수
 
     private PlayerController ownerPlayer;
     private ItemDetailViewer itemDetailViewer;
@@ -43,6 +44,7 @@ public class InventorySlot : MonoBehaviour
         {
             photoItemCapturedImage = photo.imageMeshRenderer.sharedMaterial.mainTexture as Texture2D;
             isInGhost = photo.isInGhost;
+            ghostType = photo.ghostType;
         }
 
         isUsed = true;  
@@ -89,6 +91,7 @@ public class InventorySlot : MonoBehaviour
         {
             photo.imageMeshRenderer.material.mainTexture = photoItemCapturedImage;
             photo.isInGhost = isInGhost;
+            photo.ghostType = ghostType;
         }
 
         ClearSlot();
