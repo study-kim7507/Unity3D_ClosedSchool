@@ -5,7 +5,9 @@ public class Photo : MonoBehaviour
 {
     public Camera renderCamera;
     public Renderer imageMeshRenderer;
+
     public bool isInGhost = false;
+    public GhostType ghostType = GhostType.None;
 
     private void Start()
     {

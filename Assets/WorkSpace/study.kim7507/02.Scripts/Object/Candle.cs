@@ -6,6 +6,8 @@ public class Candle : MonoBehaviour, IInteractable
     [SerializeField] GameObject smoke;
     [SerializeField] GameObject light;
     [SerializeField] GameObject interactionMessage;
+    [HideInInspector] public bool isFired = false;
+
     public void BeginFocus(GameObject withItem = null)
     {
         if (interactionMessage != null)
@@ -26,6 +28,7 @@ public class Candle : MonoBehaviour, IInteractable
             smoke.SetActive(true);
             light.SetActive(true);
 
+            isFired = true;
             withItem.GetComponent<Cigarette_Lighter>().Fire();
         }
         else
