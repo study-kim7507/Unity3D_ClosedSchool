@@ -41,11 +41,12 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public bool isHide = false;
 
     // 플레이어의 죽음 
-    // TODO: 수정 필요
     [Header("For Player Die")]
     [SerializeField] private GameObject libraryGhost;
     [SerializeField] private GameObject oneCorriDorGhost;
 
+    // 게임 정지
+    [HideInInspector] public bool isPausedGame = false;
 
     private void Start()
     {
@@ -76,17 +77,24 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (isPausedGame) return;
+
         UpdateRotation();
         UpdateMove();
         PerformInteraction();
         ManageFlashlight();
         ManageInventory();
         TakeAPhoto();
-        
+
+        // 아이템 관련
         if (Input.GetKeyDown(KeyCode.R) && !isOpenInventory && !isOpenItemDetailViewer)
             DropItemInRightHand();
         if (rightHand.childCount > 0 && Input.GetMouseButtonDown(1))
             ConsumeItemInHand();
+
+        // 게임 일시 정지
+        if (Input.GetKeyDown(KeyCode.Escape))
+            PauseGame();
     }
 
     // 마우스 입력을 통한 캐릭터 회전을 담당
@@ -322,5 +330,10 @@ public class PlayerController : MonoBehaviour
             forItemConsumeSound.PlayOneShot(consumable.ConsumeSound);
             Destroy(rightHand.GetChild(0).gameObject);
         }
+    }
+
+    private void PauseGame()
+    {
+        PlayerUI.instance.PauseGame();
     }
 }

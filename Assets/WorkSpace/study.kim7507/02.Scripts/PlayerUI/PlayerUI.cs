@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
@@ -9,7 +10,8 @@ public class PlayerUI : MonoBehaviour
     public static PlayerUI instance = null;
 
     public GameObject playerUIPanel;
-    public GameObject playerDiePanel;
+    public GameObject gameEndPanel;
+    public GameObject gamePausePanel;
 
     public TMP_Text keyDescription;
     public Image background;
@@ -175,15 +177,15 @@ public class PlayerUI : MonoBehaviour
 
     public void PlayerDie()
     {
-        playerDiePanel.SetActive(true);
-        StartCoroutine(PlayerDiePanelActiveCoroutine());
+        gameEndPanel.SetActive(true);
+        StartCoroutine(PlayerEndPanelActiveCoroutine());
     }
 
-    private IEnumerator PlayerDiePanelActiveCoroutine()
+    private IEnumerator PlayerEndPanelActiveCoroutine()
     {
         float duration = 5f; 
         float elapsedTime = 0f; 
-        Image image = playerDiePanel.GetComponent<Image>(); 
+        Image image = gameEndPanel.GetComponent<Image>(); 
 
         Color color = image.color; 
         color.a = 0; 
@@ -200,5 +202,40 @@ public class PlayerUI : MonoBehaviour
 
         color.a = 1; 
         image.color = color; // 최종 색상 적용
+    }
+
+    public void PauseGame()
+    {
+        // 마우스 커서를 보이게 설정
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        Time.timeScale = 0.0f;
+        AudioListener.pause = true;
+
+        GetComponent<Canvas>().sortingOrder = 2;
+
+        gamePausePanel.SetActive(true);
+        ownerPlayer.isPausedGame = true;        
+    }
+
+    public void ResumeGame()
+    {
+        // 마우스 커서를 보이지 않게 설정
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        Time.timeScale = 1.0f;
+        AudioListener.pause = false;
+
+        GetComponent<Canvas>().sortingOrder = 0;
+
+        gamePausePanel.SetActive(false);
+        ownerPlayer.isPausedGame = false;
+    }
+
+    public void ExitGameToIntroScene()
+    {
+        // SceneManager.LoadScene()
     }
 }
