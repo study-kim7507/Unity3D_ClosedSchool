@@ -2,21 +2,17 @@ using UnityEngine;
 
 public class BallController : MonoBehaviour
 {
-    private Rigidbody rb; // ³ó±¸°øÀÇ Rigidbody
-    private static BallController selectedBall; // ÇöÀç ¼±ÅÃµÈ °øÀ» ÃßÀûÇÏ´Â static º¯¼ö
-    private bool isCharging = false; // ÃæÀü »óÅÂ È®ÀÎ
-    private float chargePower = 0f; // ÃæÀüµÈ Èû
-    private float maxPower = 15f; // ÃÖ´ë Èû
-    private float chargeRate = 10f; // Èû Áõ°¡ ¼Óµµ
-    private bool isReleased = false; // °øÀÌ ´øÁ®Á³´ÂÁö È®ÀÎ
-
-    public Camera playerCamera; // ÇÃ·¹ÀÌ¾î°¡ »ç¿ëÇÏ´Â Ä«¸Ş¶ó
+    private Rigidbody rb;
+    public Camera playerCamera;
+    public float throwForce = 18f; // ë˜ì§ˆ í˜
+    public float spinForce = 5f; // íšŒì „ í˜
+    private bool isHolding = false; // ìš°í´ë¦­ì„ ëˆ„ë¥´ê³  ìˆëŠ”ì§€ í™•ì¸
+    private static BallController selectedBall = null; // í˜„ì¬ ì„ íƒëœ ê³µ (í•˜ë‚˜ë§Œ í™œì„±í™”)
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
 
-        // Ä«¸Ş¶ó°¡ ¼³Á¤µÇÁö ¾ÊÀº °æ¿ì ±âº»ÀûÀ¸·Î ¸ŞÀÎ Ä«¸Ş¶ó¸¦ »ç¿ë
         if (playerCamera == null)
         {
             playerCamera = Camera.main;
@@ -25,72 +21,60 @@ public class BallController : MonoBehaviour
 
     private void Update()
     {
-        // ¿À¸¥ÂÊ ¸¶¿ì½º ¹öÆ°À¸·Î °ø ¼±ÅÃ
-        if (Input.GetMouseButtonDown(1))
+        // ë§ˆìš°ìŠ¤ë¡œ íŠ¹ì • ê³µ ì„ íƒ
+        if (Input.GetMouseButtonDown(0)) // ì™¼ìª½ í´ë¦­ìœ¼ë¡œ ê³µ ì„ íƒ
         {
             SelectBall();
         }
 
-        // ¼±ÅÃµÈ °ø¸¸ ÃæÀü ¹× ´øÁö±â °¡´É
-        if (selectedBall == this)
+        if (selectedBall == this) // í˜„ì¬ ì„ íƒëœ ê³µë§Œ ë˜ì§ˆ ìˆ˜ ìˆìŒ
         {
-            if (Input.GetMouseButton(1) && isCharging)
+            if (Input.GetMouseButtonDown(1)) // ìš°í´ë¦­ì„ ëˆ„ë¥´ë©´ ì¤€ë¹„ ìƒíƒœ
             {
-                ChargePower();
+                isHolding = true;
             }
 
-            if (Input.GetMouseButtonUp(1) && isCharging && !isReleased)
+            if (Input.GetMouseButtonUp(1) && isHolding) // ìš°í´ë¦­ì„ ë–¼ë©´ ë˜ì§€ê¸°
             {
-                ReleaseBall();
+                ThrowBall();
+                isHolding = false;
+                selectedBall = null; // ì„ íƒ í•´ì œ
             }
         }
     }
 
     private void SelectBall()
     {
-        // ¸¶¿ì½º Å¬¸¯ÇÑ À§Ä¡¿¡¼­ Raycast¸¦ ÅëÇØ °øÀ» ¼±ÅÃ
+        // ë§ˆìš°ìŠ¤ë¡œ í´ë¦­í•œ ê³µë§Œ ì„ íƒ (Raycast ì‚¬ìš©)
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            if (hit.collider.gameObject == gameObject) // Å¬¸¯ÇÑ ¿ÀºêÁ§Æ®°¡ ÇöÀç °øÀÎÁö È®ÀÎ
+            if (hit.collider.gameObject == gameObject) // í´ë¦­í•œ ê³µë§Œ ì„ íƒ
             {
-                selectedBall = this; // ÀÌ °øÀ» ¼±ÅÃ
-                isCharging = true;   // °øÀ» Áı¾úÀ¸¹Ç·Î ÃæÀü °¡´É
-                isReleased = false; // °øÀÌ ¾ÆÁ÷ ´øÁ®ÁöÁö ¾ÊÀº »óÅÂ
-                Debug.Log($"{gameObject.name} °øÀÌ ¼±ÅÃµÇ¾ú½À´Ï´Ù.");
+                selectedBall = this;
+                Debug.Log($"{gameObject.name} ì„ íƒë¨");
             }
         }
     }
 
-    private void ChargePower()
+    private void ThrowBall()
     {
-        chargePower += chargeRate * Time.deltaTime;
-        chargePower = Mathf.Clamp(chargePower, 0f, maxPower);
-        Debug.Log($"Èû ÃæÀü Áß: {chargePower}");
-    }
+        // ë˜ì§€ê¸° ì „ì— ë¬¼ë¦¬ í™œì„±í™”
+        rb.isKinematic = false;
+        rb.useGravity = true;
 
-    private void ReleaseBall()
-    {
-        if (chargePower <= 0f)
-        {
-            Debug.LogWarning("ÃæÀüµÈ ÈûÀÌ ºÎÁ·ÇÏ¿© °øÀÌ ´øÁ®ÁöÁö ¾Ê½À´Ï´Ù.");
-            return;
-        }
+        // ì¹´ë©”ë¼ ë°©í–¥ìœ¼ë¡œ ê³µ ë˜ì§€ê¸°
+        Vector3 throwDirection = (playerCamera.transform.forward + Vector3.up * 0.1f).normalized;
 
-        isCharging = false;
-        isReleased = true;
+        // ê³µì„ ì†ì—ì„œ ì•½ê°„ ì•ìœ¼ë¡œ ë°€ì–´ì¤Œ (ì¶©ëŒ ë°©ì§€)
+        transform.position += throwDirection * 0.3f;
 
-        // Ä«¸Ş¶ó°¡ ¹Ù¶óº¸´Â ¹æÇâÀ» °è»ê
-        Vector3 cameraForward = playerCamera.transform.forward; // Ä«¸Ş¶óÀÇ Àü¹æ º¤ÅÍ
-        Vector3 launchDirection = (cameraForward + Vector3.up * 0.1f).normalized; // ¾à°£ À§·Î ´øÁö±â
+        // ì¦‰ì‹œ ì†ë„ë¥¼ ì„¤ì •í•˜ì—¬ ê³µì´ ë˜ì ¸ì§€ëŠ” ëŠë‚Œì„ ê°•í™”
+        rb.linearVelocity = throwDirection * throwForce;
 
-        // Èû Àû¿ë
-        rb.AddForce(launchDirection * chargePower, ForceMode.Impulse);
+        // íšŒì „ íš¨ê³¼ ì¶”ê°€ (ìì—°ìŠ¤ëŸ¬ìš´ ì›€ì§ì„ì„ ìœ„í•´)
+        rb.angularVelocity = Random.insideUnitSphere * spinForce;
 
-        Debug.Log($"{gameObject.name} °øÀ» ´øÁü: Èû = {chargePower}, ¹æÇâ = {launchDirection}");
-        chargePower = 0f;
-
-        // ¼±ÅÃ »óÅÂ ÃÊ±âÈ­
-        selectedBall = null;
+        Debug.Log($"{gameObject.name} ê³µì„ ë˜ì¡ŒìŠµë‹ˆë‹¤! í˜ = {throwForce}, ë°©í–¥ = {throwDirection}");
     }
 }

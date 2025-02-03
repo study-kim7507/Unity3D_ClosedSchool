@@ -2,6 +2,13 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
+public enum GhostType
+{
+    None,
+    LibraryGhost,
+    OneCorridorGhost
+};
+
 public class TakePhoto : MonoBehaviour
 {
     [SerializeField] GameObject photoPrefab;
@@ -9,6 +16,7 @@ public class TakePhoto : MonoBehaviour
 
     private PlayerController ownerPlayer;
     private GameObject[] ghostObjects;
+    [HideInInspector] public GhostType ghostType;
 
     public AudioSource takePhotoAudioSource;
     private void Start()
@@ -75,6 +83,7 @@ public class TakePhoto : MonoBehaviour
             else pickable.itemDescription = ownerPlayer.playerUI.timer.text + "에 찍은 사진이다. \n퇴마하려는 귀신이 찍혀있지는 않은 것 같다.";
             go.GetComponent<Photo>().SetPhotoImage(photo);
             go.GetComponent<Photo>().isInGhost = isInGhost;
+            go.GetComponent<Photo>().ghostType = ghostType;
             pickable.itemImage = go.GetComponent<Photo>().CapturePhotoObjectAsSprite();
             pickable.itemObjectPrefab = photoPrefab.GetComponent<Pickable>().itemObjectPrefab;
         }
@@ -100,6 +109,8 @@ public class TakePhoto : MonoBehaviour
                 {
                     if (hit.collider.gameObject == ghostObjects[i])
                     {
+                        if (ghostObjects[i].CompareTag("LibraryGhost")) ghostType = GhostType.LibraryGhost;
+                        else if (ghostObjects[i].CompareTag("OneCorridorGhost")) ghostType = GhostType.OneCorridorGhost;
                         return true;
                     }
                 }
