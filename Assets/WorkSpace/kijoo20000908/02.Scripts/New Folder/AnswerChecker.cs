@@ -11,6 +11,8 @@ public class AnswerChecker : MonoBehaviour
     public string correctAnswer = "5"; // 정답
     public GameObject rewardPrefab; // 보상 아이템 프리팹
     public Transform rewardSpawnPoint; // 보상 아이템이 생성될 위치
+    public AudioSource audioSource; // 오디오 소스
+    public AudioClip correctSound; // 정답 시 재생할 소리
 
     private bool isLookingAtBook = false; // 플레이어가 책을 바라보고 있는지 여부
     private bool isAnswering = false; // 정답 입력 중인지 확인
@@ -109,6 +111,7 @@ public class AnswerChecker : MonoBehaviour
         if (answerInput.text.Trim().ToLower() == correctAnswer.ToLower())
         {
             Debug.Log("정답입니다!");
+            PlayCorrectSound(); // 정답 소리 재생
             SpawnReward();
             answerPanel.SetActive(false); // 정답 입력창 숨기기
             isAnswering = false;
@@ -162,6 +165,15 @@ public class AnswerChecker : MonoBehaviour
         else
         {
             Debug.LogWarning("보상 프리팹이 설정되지 않았습니다!");
+        }
+    }
+
+    // 정답 시 소리 재생
+    void PlayCorrectSound()
+    {
+        if (audioSource != null && correctSound != null)
+        {
+            audioSource.PlayOneShot(correctSound);
         }
     }
 
