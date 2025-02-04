@@ -41,11 +41,12 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public bool isHide = false;
 
     // 플레이어의 죽음 
-    // TODO: 수정 필요
     [Header("For Player Die")]
     [SerializeField] private GameObject libraryGhost;
     [SerializeField] private GameObject oneCorriDorGhost;
 
+    // 게임 정지
+    [HideInInspector] public bool isPausedGame = false;
 
     private void Start()
     {
@@ -76,17 +77,24 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (isPausedGame) return;
+
         UpdateRotation();
         UpdateMove();
         PerformInteraction();
         ManageFlashlight();
         ManageInventory();
         TakeAPhoto();
-        
+
+        // 아이템 관련
         if (Input.GetKeyDown(KeyCode.R) && !isOpenInventory && !isOpenItemDetailViewer)
             DropItemInRightHand();
         if (rightHand.childCount > 0 && Input.GetMouseButtonDown(1))
             ConsumeItemInHand();
+
+        // 게임 일시 정지
+        if (Input.GetKeyDown(KeyCode.Escape))
+            PauseGame();
     }
 
     // 마우스 입력을 통한 캐릭터 회전을 담당
@@ -200,6 +208,21 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            // 만약 Ray에 아무런 오브젝트가 감지되지 않고, G키를 입력 시 현재 손에 있는 오브젝트를 인벤토리에 보관
+            if (Input.GetKeyDown(KeyCode.G) && rightHand.childCount > 0)
+            {
+                if (inventory.HasEmptySlot())
+                {
+                    inventory.AddToInventory(rightHand.GetChild(0).gameObject);
+                }
+                else
+                {
+                    PlayerUI.instance.DisplayInteractionDescription("인벤토리에 빈 공간이 없습니다. \n현재 손에들고 있는 아이템을 보관하지 못했습니다.");
+                }
+            }
+        }
     }
 
     private void ManageFlashlight()
@@ -284,22 +307,35 @@ public class PlayerController : MonoBehaviour
         currentItem.GetComponent<Rigidbody>().useGravity = true;
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("LibraryGhost"))
         {
             // 귀신과의 접촉이 일어난 경우, 접촉이 일어난 귀신은 삭제하고 화면에 보여질 귀신을 활성화
-            Destroy(other.gameObject);
+            DeactiveGhost(other.gameObject);
             libraryGhost.SetActive(true);
             PlayerUI.instance.PlayerDie();
         }
         else if (other.gameObject.CompareTag("OneCorridorGhost"))
         {
             // 귀신과의 접촉이 일어난 경우, 접촉이 일어난 귀신은 삭제하고 화면에 보여질 귀신을 활성화
-            Destroy(other.gameObject);
+            DeactiveGhost(other.gameObject);
             oneCorriDorGhost.SetActive(true);
             PlayerUI.instance.PlayerDie();
         }
+    }
+
+    private void DeactiveGhost(GameObject ghost)
+    {
+        Collider[] colliders = ghost.GetComponentsInChildren<Collider>();
+        foreach (Collider collider in colliders)
+        {
+            collider.enabled = false;
+        }
+
+        Renderer[] renderers = ghost.GetComponentsInChildren<Renderer>();
+        foreach (Renderer renderer in renderers)
+            renderer.enabled = false;
     }
 
     private void ConsumeItemInHand()
@@ -310,5 +346,10 @@ public class PlayerController : MonoBehaviour
             forItemConsumeSound.PlayOneShot(consumable.ConsumeSound);
             Destroy(rightHand.GetChild(0).gameObject);
         }
+    }
+
+    private void PauseGame()
+    {
+        PlayerUI.instance.PauseGame();
     }
 }

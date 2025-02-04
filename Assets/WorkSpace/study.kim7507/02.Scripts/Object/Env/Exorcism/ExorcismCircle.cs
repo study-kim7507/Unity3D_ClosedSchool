@@ -13,6 +13,7 @@ public class ExorcismCircle : MonoBehaviour
 
     [SerializeField] GameObject libraryGhost;
     [SerializeField] GameObject oneCorridorGhost;
+
     private bool isGhostSpawned = false;
 
     private void Update()

@@ -124,6 +124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isOpened: 0
   isLocked: 0
+  where: 
   animationNames:
     OpeningAnim: FenceEntrance_anim
     LockedAnim: Door_locked
@@ -136,6 +137,7 @@ MonoBehaviour:
     close: {fileID: 8300000, guid: b223affe9b2fba64589b3d3bb3bf48fa, type: 3}
     volume: 1
     pitchRandom: 0.2
+  interactionMessage: {fileID: 0}
 --- !u!1 &3721973564552650324
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,7 +239,7 @@ AudioSource:
   m_GameObject: {fileID: 3721973564552650324}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 69f4ca42aa8c4dc4f9b6ad3b6b7d6cd8, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
@@ -572,6 +574,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isOpened: 0
   isLocked: 0
+  where: 
   animationNames:
     OpeningAnim: FenceEntrance_anim
     LockedAnim: Door_locked
@@ -584,3 +587,4 @@ MonoBehaviour:
     close: {fileID: 8300000, guid: b223affe9b2fba64589b3d3bb3bf48fa, type: 3}
     volume: 1
     pitchRandom: 0.2
+  interactionMessage: {fileID: 0}

@@ -624,7 +624,7 @@ AudioSource:
   m_GameObject: {fileID: 5922001672401380075}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 69f4ca42aa8c4dc4f9b6ad3b6b7d6cd8, type: 2}
   m_audioClip: {fileID: 8300000, guid: 8af5b831fb9509e48bcc5ed86fd7a577, type: 3}
   m_Resource: {fileID: 8300000, guid: 8af5b831fb9509e48bcc5ed86fd7a577, type: 3}
   m_PlayOnAwake: 0
@@ -727,7 +727,6 @@ MonoBehaviour:
   inventoryPanel: {fileID: 1256971795462492490}
   inventorySlotHolder: {fileID: 8338122482133707075}
   ownerPlayer: {fileID: 0}
-  audioSourceForCousumableItem: {fileID: 0}
 --- !u!1 &6610748282820224680
 GameObject:
   m_ObjectHideFlags: 0
