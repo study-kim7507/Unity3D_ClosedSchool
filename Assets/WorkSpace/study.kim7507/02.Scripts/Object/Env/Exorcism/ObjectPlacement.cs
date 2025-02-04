@@ -7,11 +7,30 @@ public enum Type
     Photo
 };
 
-public class ObjectPlacement : MonoBehaviour
+public class ObjectPlacement : MonoBehaviour, IInteractable
 {
     public Type type;
     [HideInInspector] public bool isComplete = false;
     [HideInInspector] public GameObject currObject = null;
+
+    [SerializeField] GameObject interactionMessage;
+
+    public void BeginFocus(GameObject withItem = null)
+    {
+        if (interactionMessage != null && !isComplete)
+            interactionMessage.SetActive(true);
+    }
+
+    public void EndFocus(GameObject withItem = null)
+    {
+        if (interactionMessage != null)
+            interactionMessage.SetActive(false);
+    }
+
+    public void Interact(GameObject withItem = null)
+    {
+        
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -28,6 +47,7 @@ public class ObjectPlacement : MonoBehaviour
             GetComponent<Collider>().enabled = false;
 
             isComplete = true;
+            EndFocus();
             currObject = other.gameObject;
         }
         else if (other.TryGetComponent<Photo>(out var photo) && type == Type.Photo)
@@ -45,6 +65,7 @@ public class ObjectPlacement : MonoBehaviour
             GetComponent<Collider>().enabled = false;
 
             isComplete = true;
+            EndFocus();
             currObject = other.gameObject;
         }
         else
