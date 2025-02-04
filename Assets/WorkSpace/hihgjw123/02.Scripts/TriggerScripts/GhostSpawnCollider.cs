@@ -1,113 +1,103 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GhostSpawnCollider : MonoBehaviour
 {
     [SerializeField] Transform player;
     [SerializeField] GameObject ghostPrefab;
-    [SerializeField] float spawnDistance = 5f; //플레이어 뒤로 떨어질 거리
+    [SerializeField] float spawnDistance = 5f; // 플레이어 뒤로 떨어질 거리
     [SerializeField] float followSpeed = 3f; // 플레이어 따라오는 속도
-    [SerializeField] float chaseSpeed = 10f; // 달려드는 속도
-    [SerializeField] float followDistance = 3f; // 유지거리
-    [SerializeField] float detectionDelay = 0.5f; //카메라 감지 후 달려들기까지 쿨 타임
+    [SerializeField] float followDistance = 3f; // 유지 거리
+    [SerializeField] Animator ghostAnimator; // 귀신 애니메이터
 
-    private GameObject ghost;
-    private bool isChasing = false;
+    public GameObject ghost;
     private bool isSpawned = false;
+    private bool isVisible = false;
     private float ghostPositionY;
+    private int currentPoseIndex = -1; // 현재 포즈 인덱스
 
-
-    // Update is called once per frame
     void Update()
     {
-
         if (ghost != null)
         {
-            if (isChasing)
+            if (IsInView()) // 플레이어가 귀신을 보고 있을 때
             {
-                ChasePlayer();
-            }
-            else
-            {
-                FollowPlayer();
-
-                if (IsInView())
+                if (!isVisible)
                 {
-                    // 감지된 후 일정 시간 뒤에 추격
-                    Invoke(nameof(StartChasing), detectionDelay);
+                    isVisible = true;
+                    ghostAnimator.speed = 0; // 애니메이션 멈춤 (현재 포즈 유지)
                 }
+            }
+            else // 플레이어가 귀신을 안 볼 때
+            {
+                if (isVisible)
+                {
+                    isVisible = false;
+                    ChangePose(); // 새로운 포즈 변경
+                }
+                FollowPlayer();
             }
         }
     }
 
-
-    private void OnTriggerEnter(Collider other) 
+    private void OnTriggerEnter(Collider other)
     {
-        if(!isSpawned)
+        if (!isSpawned)
         {
             SpawnGhost();
             isSpawned = true;
         }
     }
 
-    private void SpawnGhost() //귀신 플레이어 뒤에 생성
+    private void SpawnGhost()
     {
         Vector3 spawnPosition = player.position - player.forward * spawnDistance;
-        spawnPosition.y = player.position.y - 0.8f;
+        spawnPosition.y = player.position.y;
 
         ghost = Instantiate(ghostPrefab, spawnPosition, Quaternion.identity);
-
         ghostPositionY = spawnPosition.y;
+
+        ghostAnimator = ghost.GetComponentInChildren<Animator>(); // 귀신의 애니메이터 찾기
     }
 
-    private void FollowPlayer() //플레이어 따라다니기
+    private void FollowPlayer()
     {
-        
-        // 플레이어와의 거리 계산
         float distance = Vector3.Distance(ghost.transform.position, player.position);
 
-        ghost.transform.position = new Vector3(
-        ghost.transform.position.x,
-        ghostPositionY,
-        ghost.transform.position.z
-    );
         if (distance > followDistance)
         {
-            Debug.Log("플레이어 따라가기");
-            // 귀신이 플레이어를 따라 이동
             Vector3 direction = (player.position - ghost.transform.position).normalized;
             ghost.transform.position += direction * followSpeed * Time.deltaTime;
 
+            // 플레이어를 바라보게 설정
             ghost.transform.LookAt(player.position);
         }
-    }
 
-    private void ChasePlayer() // 플레이어한테 달려들기
-    {
-        Animator animator = ghost.GetComponentInChildren<Animator>();
-        animator.SetTrigger("Chase");
-        
-        Vector3 direction = (player.position - ghost.transform.position).normalized;
-        ghost.transform.position += direction * chaseSpeed * Time.deltaTime;
-
-        
-
+        // Y 위치 고정
         ghost.transform.position = new Vector3(
-       ghost.transform.position.x,
-       ghostPositionY,
-       ghost.transform.position.z
+            ghost.transform.position.x,
+            ghostPositionY,
+            ghost.transform.position.z
         );
     }
 
-    bool IsInView() //귀신이 카메라 안에 들어왔는지 체크크
+    private bool IsInView()
     {
         Vector3 viewPos = Camera.main.WorldToViewportPoint(ghost.transform.position);
         return viewPos.x > 0 && viewPos.x < 1 && viewPos.y > 0 && viewPos.y < 1 && viewPos.z > 0;
     }
 
-    void StartChasing()
+    private void ChangePose()
     {
-        isChasing = true;
-    }
+        int newPoseIndex;
 
+        // 이전과 다른 포즈 선택
+        do
+        {
+            newPoseIndex = Random.Range(0, 12);
+        } while (newPoseIndex == currentPoseIndex);
+
+        currentPoseIndex = newPoseIndex;
+        ghostAnimator.speed = 1; // 애니메이션 재생 속도 정상화
+        ghostAnimator.Play("Pose" + currentPoseIndex); // 새 포즈 적용
+    }
 }
