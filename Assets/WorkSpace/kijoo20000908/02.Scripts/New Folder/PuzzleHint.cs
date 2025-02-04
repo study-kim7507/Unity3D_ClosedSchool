@@ -3,17 +3,16 @@ using TMPro;
 
 public class PuzzleHint : MonoBehaviour
 {
-    public TextMeshProUGUI hintText; // "문제집" 텍스트 UI
-    public string targetTag = "PuzzleBook"; // 감지할 태그
+    public TextMeshProUGUI hintText; // "정답지" 텍스트 UI
+    public GameObject hintBackgroundPanel; // "정답지" 배경 패널
+    public string targetTag = "HintBook"; // 감지할 태그
 
     private bool isLookingAtPuzzle = false; // 현재 문제집을 바라보고 있는지 여부
 
     void Start()
     {
-        if (hintText != null)
-        {
-            hintText.gameObject.SetActive(false); // 처음에는 힌트 숨김
-        }
+        if (hintText != null) hintText.gameObject.SetActive(false); // 처음에는 힌트 숨김
+        if (hintBackgroundPanel != null) hintBackgroundPanel.SetActive(false); // 배경 패널도 숨김
     }
 
     void Update()
@@ -24,10 +23,10 @@ public class PuzzleHint : MonoBehaviour
     // 플레이어가 특정 태그를 가진 오브젝트를 바라보고 있는지 확인
     void CheckPlayerView()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); // 마우스 포인터 방향으로 레이 발사
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit, 5f)) // 시야 범위 5m로 제한
         {
             if (hit.transform.CompareTag(targetTag)) // 특정 태그를 가진 오브젝트 감지
             {
@@ -56,21 +55,17 @@ public class PuzzleHint : MonoBehaviour
         }
     }
 
-    // "문제집" 텍스트 보이기
+    // "정답지" 텍스트와 배경 보이기
     void ShowHint()
     {
-        if (hintText != null && !hintText.gameObject.activeSelf)
-        {
-            hintText.gameObject.SetActive(true);
-        }
+        if (hintText != null) hintText.gameObject.SetActive(true);
+        if (hintBackgroundPanel != null) hintBackgroundPanel.SetActive(true);
     }
 
-    // "문제집" 텍스트 숨기기
+    // "정답지" 텍스트와 배경 숨기기
     void HideHint()
     {
-        if (hintText != null && hintText.gameObject.activeSelf)
-        {
-            hintText.gameObject.SetActive(false);
-        }
+        if (hintText != null) hintText.gameObject.SetActive(false);
+        if (hintBackgroundPanel != null) hintBackgroundPanel.SetActive(false);
     }
 }
