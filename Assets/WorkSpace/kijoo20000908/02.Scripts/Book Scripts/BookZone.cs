@@ -4,10 +4,6 @@ using System.Collections.Generic;
 
 public class BookZone : MonoBehaviour
 {
-    [Header("UI 설정")]
-    [SerializeField] private GameObject bookListPanel; // 책 목록 UI 패널
-    [SerializeField] private TMP_Text bookListText; // 책 목록 텍스트
-
     [Header("퍼즐 설정")]
     [SerializeField] private Transform[] bookSlots; // 책을 놓을 슬롯 (4개)
     [SerializeField]
@@ -31,11 +27,6 @@ public class BookZone : MonoBehaviour
     {
         puzzleManager = FindObjectOfType<PuzzleManager>();
 
-        if (bookListPanel != null)
-        {
-            bookListPanel.SetActive(false); // UI 처음엔 숨김
-        }
-
         if (puzzleClearAudio == null)
         {
             Debug.LogError("퍼즐 클리어 사운드가 설정되지 않았습니다!");
@@ -44,39 +35,12 @@ public class BookZone : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player")) // 플레이어가 북존 근처로 가면
-        {
-            ShowBookList();
-        }
+
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player")) // 플레이어가 멀어지면 책 목록 숨김
-        {
-            HideBookList();
-        }
-    }
 
-    private void ShowBookList()
-    {
-        if (bookListPanel != null && bookListText != null)
-        {
-            bookListText.text = "찾아야 할 책 목록\n";
-            foreach (string book in requiredBooks)
-            {
-                bookListText.text += book + "\n";
-            }
-            bookListPanel.SetActive(true);
-        }
-    }
-
-    private void HideBookList()
-    {
-        if (bookListPanel != null)
-        {
-            bookListPanel.SetActive(false);
-        }
     }
 
     private void OnTriggerStay(Collider other)
