@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class BallController : MonoBehaviour
@@ -53,22 +54,25 @@ public class BallController : MonoBehaviour
 
     private void ThrowBall()
     {
-        // 던지기 전에 물리 활성화
         rb.isKinematic = false;
         rb.useGravity = true;
+        Destroy(GetComponent<Draggable>());
 
-        // 카메라 방향으로 공 던지기
         Vector3 throwDirection = (playerCamera.transform.forward + Vector3.up * 0.1f).normalized;
 
-        // 공을 손에서 약간 앞으로 밀어줌 (충돌 방지)
         transform.position += throwDirection * 0.3f;
-
-        // 즉시 속도를 설정하여 공이 던져지는 느낌을 강화
         rb.linearVelocity = throwDirection * throwForce;
 
-        // 회전 효과 추가 (자연스러운 움직임을 위해)
         rb.angularVelocity = Random.insideUnitSphere * spinForce;
 
-        Debug.Log($"{gameObject.name} 공을 던졌습니다! 힘 = {throwForce}, 방향 = {throwDirection}");
+        StartCoroutine(ReattachDraggableAfterDelay(0.5f));
+    }
+
+    private IEnumerator ReattachDraggableAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        // Draggable 컴포넌트를 다시 추가
+        gameObject.AddComponent<Draggable>();
     }
 }
