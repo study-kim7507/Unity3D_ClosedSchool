@@ -125,6 +125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isOpened: 0
   isLocked: 0
+  where: 
   animationNames:
     OpeningAnim: MainDoor_open
     LockedAnim: Door_locked
@@ -137,6 +138,7 @@ MonoBehaviour:
     close: {fileID: 8300000, guid: c924447fc16a07e4e9d744acaba3600d, type: 3}
     volume: 1
     pitchRandom: 0.2
+  interactionMessage: {fileID: 0}
 --- !u!1 &1842922642718201129
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,6 +522,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isOpened: 0
   isLocked: 0
+  where: 
   animationNames:
     OpeningAnim: MainDoor_open
     LockedAnim: Door_locked
@@ -532,6 +535,7 @@ MonoBehaviour:
     close: {fileID: 8300000, guid: c924447fc16a07e4e9d744acaba3600d, type: 3}
     volume: 1
     pitchRandom: 0.2
+  interactionMessage: {fileID: 0}
 --- !u!1 &6759694330194939346
 GameObject:
   m_ObjectHideFlags: 0
@@ -672,10 +676,10 @@ AudioSource:
   m_GameObject: {fileID: 6759694330194939346}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 69f4ca42aa8c4dc4f9b6ad3b6b7d6cd8, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -774,6 +778,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isOpened: 0
   isLocked: 0
+  where: 
   animationNames:
     OpeningAnim: MainDoor_open
     LockedAnim: Door_locked
@@ -786,3 +791,4 @@ MonoBehaviour:
     close: {fileID: 0}
     volume: 1
     pitchRandom: 0.2
+  interactionMessage: {fileID: 0}

@@ -5013,7 +5013,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &6277823863939839113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5137,6 +5137,7 @@ MonoBehaviour:
   smoke: {fileID: 239260556282276448}
   light: {fileID: 8140635615480422063}
   interactionMessage: {fileID: 2648901879155832765}
+  isFired: 0
 --- !u!198 &280290161654770880
 ParticleSystem:
   m_ObjectHideFlags: 0
