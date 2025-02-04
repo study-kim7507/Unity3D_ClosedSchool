@@ -208,6 +208,21 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            // 만약 Ray에 아무런 오브젝트가 감지되지 않고, G키를 입력 시 현재 손에 있는 오브젝트를 인벤토리에 보관
+            if (Input.GetKeyDown(KeyCode.G) && rightHand.childCount > 0)
+            {
+                if (inventory.HasEmptySlot())
+                {
+                    inventory.AddToInventory(rightHand.GetChild(0).gameObject);
+                }
+                else
+                {
+                    PlayerUI.instance.DisplayInteractionDescription("인벤토리에 빈 공간이 없습니다. \n현재 손에들고 있는 아이템을 보관하지 못했습니다.");
+                }
+            }
+        }
     }
 
     private void ManageFlashlight()
@@ -292,7 +307,7 @@ public class PlayerController : MonoBehaviour
         currentItem.GetComponent<Rigidbody>().useGravity = true;
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("LibraryGhost"))
         {
@@ -322,6 +337,7 @@ public class PlayerController : MonoBehaviour
         foreach (Renderer renderer in renderers)
             renderer.enabled = false;
     }
+
     private void ConsumeItemInHand()
     {
         if (rightHand.GetChild(0).TryGetComponent<IConsumable>(out IConsumable consumable))

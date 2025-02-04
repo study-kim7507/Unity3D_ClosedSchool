@@ -31,7 +31,6 @@ public class TakePhoto : MonoBehaviour
 
         // 두 배열을 합쳐서 ghostObjects에 저장
         ghostObjects = new GameObject[libraryGhosts.Length + oneCorriDorGhosts.Length];
-        Debug.Log(ghostObjects);
         libraryGhosts.CopyTo(ghostObjects, 0);
         oneCorriDorGhosts.CopyTo(ghostObjects, libraryGhosts.Length);
     }
