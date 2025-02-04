@@ -6,7 +6,7 @@ public class BallController : MonoBehaviour
     public Camera playerCamera;
     public float throwForce = 18f; // 던질 힘
     public float spinForce = 5f; // 회전 힘
-    private bool isHolding = false; // 우클릭을 누르고 있는지 확인
+    private bool isHolding = false; // 공을 들고 있는지 확인
     private static BallController selectedBall = null; // 현재 선택된 공 (하나만 활성화)
 
     private void Start()
@@ -29,15 +29,9 @@ public class BallController : MonoBehaviour
 
         if (selectedBall == this) // 현재 선택된 공만 던질 수 있음
         {
-            if (Input.GetMouseButtonDown(1)) // 우클릭을 누르면 준비 상태
-            {
-                isHolding = true;
-            }
-
-            if (Input.GetMouseButtonUp(1) && isHolding) // 우클릭을 떼면 던지기
+            if (Input.GetKeyDown(KeyCode.E)) // E 키로 던지기
             {
                 ThrowBall();
-                isHolding = false;
                 selectedBall = null; // 선택 해제
             }
         }
