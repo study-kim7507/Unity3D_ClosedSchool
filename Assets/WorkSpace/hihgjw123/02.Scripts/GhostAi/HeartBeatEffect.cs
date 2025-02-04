@@ -30,7 +30,7 @@ public class HeartbeatEffect : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            Destroy(gameObject);
+            ghostAiController.StopChase();
         }
     }
 
