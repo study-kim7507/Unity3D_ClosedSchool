@@ -3,6 +3,7 @@ using UnityEngine;
 public class Locker : MonoBehaviour, IInteractable
 {
     private GameObject player;
+    [SerializeField] Transform locker;
     [SerializeField] private Door door;
 
     private PlayerController playerController;
@@ -46,9 +47,7 @@ public class Locker : MonoBehaviour, IInteractable
         backupPos = player.transform.position;
         backupRot = player.transform.rotation;
 
-        Transform rootObjectTransform = GetRootObjectTransform();
-
-        player.transform.rotation = rootObjectTransform.rotation;
+        player.transform.rotation = locker.rotation;
         player.transform.position = transform.position;
 
         playerCharacterController.enabled = false;
@@ -66,13 +65,5 @@ public class Locker : MonoBehaviour, IInteractable
 
         playerCharacterController.enabled = true;
         playerController.isHide = false;
-    }
-
-    private Transform GetRootObjectTransform()
-    {
-        Transform currentTransform = transform;
-        while(currentTransform.parent != null)
-            currentTransform = currentTransform.parent;
-        return currentTransform;
     }
 }

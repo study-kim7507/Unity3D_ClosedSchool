@@ -55,12 +55,14 @@ public class ExorcismCircle : MonoBehaviour
                 libraryGhost.SetActive(true);
                 ghostFire.SetActive(true);
                 isGhostSpawned = true;
+                StartCoroutine(EndGame());
                 break;
             case GhostType.OneCorridorGhost:
                 GetComponent<AudioSource>().Play();
                 oneCorridorGhost.SetActive(true);
                 ghostFire.SetActive(true);
                 isGhostSpawned = true;
+                StartCoroutine(EndGame());
                 break;
         }
     }
@@ -71,5 +73,11 @@ public class ExorcismCircle : MonoBehaviour
         while (fireElapsedTime <= 5.0f) yield return null;
         photoFire.SetActive(false);
         SpawnGhost();
+    }
+
+    private IEnumerator EndGame()
+    {
+        yield return new WaitForSeconds(5.0f);
+        PlayerUI.instance.PlayerGameClearOrGameExit();
     }
 }

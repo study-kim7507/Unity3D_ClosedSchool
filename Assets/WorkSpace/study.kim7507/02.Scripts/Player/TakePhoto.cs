@@ -23,14 +23,13 @@ public class TakePhoto : MonoBehaviour
     {
         ownerPlayer = gameObject.GetComponent<PlayerController>();
 
-        ownerPlayer = gameObject.GetComponent<PlayerController>();
-
         // "LibraryGhost"와 "OneCorriDorGhost" 태그가 붙은 모든 오브젝트를 찾고 저장
         GameObject[] libraryGhosts = GameObject.FindGameObjectsWithTag("LibraryGhost");
         GameObject[] oneCorriDorGhosts = GameObject.FindGameObjectsWithTag("OneCorridorGhost");
 
         // 두 배열을 합쳐서 ghostObjects에 저장
         ghostObjects = new GameObject[libraryGhosts.Length + oneCorriDorGhosts.Length];
+       
         libraryGhosts.CopyTo(ghostObjects, 0);
         oneCorriDorGhosts.CopyTo(ghostObjects, libraryGhosts.Length);
     }
@@ -101,7 +100,7 @@ public class TakePhoto : MonoBehaviour
             if (viewPos.x >= 0 && viewPos.x <= 1 && viewPos.y >= 0 && viewPos.y <= 1 && viewPos.z > 0)
             {
                 // 카메라와 귀신 오브젝트 간의 방향 벡터
-                Vector3 directionToGhost = ghostObjects[i].transform.position - Camera.main.transform.position;
+                Vector3 directionToGhost = ghostObjects[i].transform.position + ghostObjects[i].GetComponent<CapsuleCollider>().center - Camera.main.transform.position;
 
                 // Raycast를 사용하여 가려지는지 확인
                 if (Physics.Raycast(Camera.main.transform.position, directionToGhost, out RaycastHit hit))

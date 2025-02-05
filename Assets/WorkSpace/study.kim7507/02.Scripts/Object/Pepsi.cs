@@ -12,7 +12,7 @@ public class Pepsi : MonoBehaviour, IConsumable
 
     public void Consume(PlayerController player)
     {
-        player.stamina += 30.0f;
+        player.stamina = Mathf.Clamp(player.stamina + 30.0f, 0.0f, 100.0f);
         PlayerUI.instance.DisplayInteractionDescription("스태미나가 회복되었다.\n다시 달릴 수 있을 것 같다.");
     }
 }
