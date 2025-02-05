@@ -92,7 +92,7 @@ public class PlayerMovementController : MonoBehaviour
     public void Run() 
     { 
         moveSpeed = runSpeed;
-        PlaySound(playerMovementSounds.run, 1.5f, 0.25f);
+        PlaySound(playerMovementSounds.run, 2.0f, 0.25f);
     }
     
 

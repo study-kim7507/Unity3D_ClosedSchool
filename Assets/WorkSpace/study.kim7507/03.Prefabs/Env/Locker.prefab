@@ -695,6 +695,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8e270089db83cb4d92cd4f60740f2a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  locker: {fileID: 7370986029944934387}
   door: {fileID: 5419178789249796685}
   interactionMessage: {fileID: 2732090448192782144}
 --- !u!1 &2446240477942246934

@@ -1,6 +1,5 @@
 using System.Collections;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,6 +11,7 @@ public class PlayerUI : MonoBehaviour
     public GameObject playerUIPanel;
     public GameObject gameEndPanel;
     public GameObject gamePausePanel;
+    public GameObject gameEndPanelDescription;
 
     public TMP_Text keyDescription;
     public Image background;
@@ -42,8 +42,8 @@ public class PlayerUI : MonoBehaviour
         UpdateFlashlightBattery();
         UpdatePlayerStamina();
 
-        // 30초가 지나면 키설명 창이 없어지도록
-        if (playTime >= 30.0f && keyDescription.gameObject.activeSelf)
+        // 15초가 지나면 키설명 창이 없어지도록
+        if (playTime >= 15.0f && keyDescription.gameObject.activeSelf)
             StartCoroutine(FadeOutKeyDescription());
     }
 
@@ -178,10 +178,16 @@ public class PlayerUI : MonoBehaviour
     public void PlayerDie()
     {
         gameEndPanel.SetActive(true);
-        StartCoroutine(PlayerEndPanelActiveCoroutine());
+        StartCoroutine(PlayerEndPanelActiveCoroutine(true, "귀신에게 빙의되어\n의뢰를 성공적으로 수행하지 못하였습니다..\n\n잠시 후, 새로이 게임이 시작됩니다."));
     }
 
-    private IEnumerator PlayerEndPanelActiveCoroutine()
+    public void PlayerGameClearOrGameExit()
+    {
+        gameEndPanel.SetActive(true);
+        StartCoroutine(PlayerEndPanelActiveCoroutine(false, "퇴마에 성공하여 폐교 내에 모든 귀신이 사라집니다.\n의뢰를 성공적으로 완료하였습니다.\n\n잠시 후, 메인 화면으로 돌아갑니다."));
+    }
+
+    private IEnumerator PlayerEndPanelActiveCoroutine(bool isPlayerDie, string description)
     {
         float duration = 5f; 
         float elapsedTime = 0f; 
@@ -202,6 +208,47 @@ public class PlayerUI : MonoBehaviour
 
         color.a = 1; 
         image.color = color; // 최종 색상 적용
+
+        AudioListener.pause = true;
+        if (description != string.Empty)
+        {
+            if (isPlayerDie) StartCoroutine(ShowDescription(true, description));
+            else StartCoroutine(ShowDescription(false, description));
+        }
+        else
+        {
+            AudioListener.pause = false;
+
+            SceneManager.LoadScene("StartScene");
+        }
+    }
+
+    private IEnumerator ShowDescription(bool isPlayerDie, string description)
+    {
+        float duration = 3f;
+        float elapsedTime = 0f;
+
+        TMP_Text textMeshPro = gameEndPanelDescription.GetComponent<TMP_Text>();
+        textMeshPro.text = description;
+        Color color = textMeshPro.color;
+
+        color.a = 0.0f;
+        textMeshPro.color = color;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float alpha = Mathf.Clamp01(elapsedTime / duration);
+            color.a = alpha;
+            textMeshPro.color = color;
+            yield return null;
+        }
+
+        color.a = 1.0f;
+        textMeshPro.color = color;
+
+        if (isPlayerDie) RestartGame();
+        else ExitGameToIntroScene();
     }
 
     public void PauseGame()
@@ -222,8 +269,11 @@ public class PlayerUI : MonoBehaviour
     public void ResumeGame()
     {
         // 마우스 커서를 보이지 않게 설정
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        if (!ownerPlayer.isOpenInventory && !ownerPlayer.isOpenItemDetailViewer)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
 
         Time.timeScale = 1.0f;
         AudioListener.pause = false;
@@ -234,8 +284,15 @@ public class PlayerUI : MonoBehaviour
         ownerPlayer.isPausedGame = false;
     }
 
-    public void ExitGameToIntroScene()
+    private void ExitGameToIntroScene()
     {
-        // SceneManager.LoadScene()
+        Time.timeScale = 1.0f;
+        gameEndPanel.SetActive(true);
+        StartCoroutine(PlayerEndPanelActiveCoroutine(false, string.Empty));
+    }
+
+    private void RestartGame()
+    {
+        SceneManager.LoadScene("GameScene");
     }
 }

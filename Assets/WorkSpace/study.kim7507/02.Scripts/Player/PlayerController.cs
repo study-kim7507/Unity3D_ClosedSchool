@@ -50,6 +50,8 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        AudioListener.pause = false;
+
         // 마우스 커서를 보이지 않게 설정
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -309,6 +311,9 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        inventory.gameObject.SetActive(false);
+        itemDetailViewer.gameObject.SetActive(false);
+
         if (other.gameObject.CompareTag("LibraryGhost"))
         {
             // 귀신과의 접촉이 일어난 경우, 접촉이 일어난 귀신은 삭제하고 화면에 보여질 귀신을 활성화
