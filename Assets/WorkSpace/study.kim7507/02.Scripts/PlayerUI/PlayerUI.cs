@@ -189,7 +189,7 @@ public class PlayerUI : MonoBehaviour
 
     private IEnumerator PlayerEndPanelActiveCoroutine(bool isPlayerDie, string description)
     {
-        float duration = 5f; 
+        float duration = 2.5f; 
         float elapsedTime = 0f; 
         Image image = gameEndPanel.GetComponent<Image>(); 
 
@@ -225,7 +225,7 @@ public class PlayerUI : MonoBehaviour
 
     private IEnumerator ShowDescription(bool isPlayerDie, string description)
     {
-        float duration = 3f;
+        float duration = 2.5f;
         float elapsedTime = 0f;
 
         TMP_Text textMeshPro = gameEndPanelDescription.GetComponent<TMP_Text>();

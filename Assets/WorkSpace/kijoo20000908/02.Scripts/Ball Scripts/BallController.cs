@@ -5,11 +5,12 @@ public class BallController : MonoBehaviour
 {
     private Rigidbody rb;
     public Camera playerCamera;
-    public float throwForce = 18f; // 던질 힘
-    public float spinForce = 5f; // 회전 힘
-    private bool isHolding = false; // 공을 들고 있는지 확인
-    private static BallController selectedBall = null; // 현재 선택된 공 (하나만 활성화)
+    public float throwForce = 18f; // ?�질 ??
+    public float spinForce = 5f; // ?�전 ??
+    private bool isHolding = false; // 공을 ?�고 ?�는지 ?�인
+    private static BallController selectedBall = null; // ?�재 ?�택??�?(?�나�??�성??
 
+    private bool isAlreadySelected = false;
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -22,32 +23,36 @@ public class BallController : MonoBehaviour
 
     private void Update()
     {
-        // 마우스로 특정 공 선택
-        if (Input.GetMouseButtonDown(0)) // 왼쪽 클릭으로 공 선택
+        // 마우?�로 ?�정 �??�택
+        if (Input.GetMouseButtonDown(0)) // ?�쪽 ?�릭?�로 �??�택
         {
             SelectBall();
         }
 
-        if (selectedBall == this) // 현재 선택된 공만 던질 수 있음
+        if (selectedBall == this) // ?�재 ?�택??공만 ?�질 ???�음
         {
-            if (Input.GetKeyDown(KeyCode.E)) // E 키로 던지기
+            if (!isAlreadySelected)
+            {
+                PlayerUI.instance.DisplayInteractionDescription("EŰ�� ���� ��븦 ���� ���� ���� �־��");
+                isAlreadySelected = true;
+            }
+            if (Input.GetKeyDown(KeyCode.E)) // E ?�로 ?��?�?
             {
                 ThrowBall();
-                selectedBall = null; // 선택 해제
+                selectedBall = null; // ?�택 ?�제
             }
         }
     }
 
     private void SelectBall()
     {
-        // 마우스로 클릭한 공만 선택 (Raycast 사용)
+        // 마우?�로 ?�릭??공만 ?�택 (Raycast ?�용)
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            if (hit.collider.gameObject == gameObject) // 클릭한 공만 선택
+            if (hit.collider.gameObject == gameObject) // ?�릭??공만 ?�택
             {
                 selectedBall = this;
-                Debug.Log($"{gameObject.name} 선택됨");
             }
         }
     }
@@ -72,7 +77,7 @@ public class BallController : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
 
-        // Draggable 컴포넌트를 다시 추가
+        // Draggable 컴포?�트�??�시 추�?
         gameObject.AddComponent<Draggable>();
     }
 }

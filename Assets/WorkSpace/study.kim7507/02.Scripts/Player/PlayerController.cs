@@ -51,6 +51,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        gameObject.transform.rotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
         AudioListener.pause = false;
 
         // 마우스 커서를 보이지 않게 설정
@@ -312,11 +313,11 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        inventory.gameObject.SetActive(false);
-        itemDetailViewer.gameObject.SetActive(false);
-
         if (other.gameObject.CompareTag("LibraryGhost"))
         {
+            inventory.gameObject.SetActive(false);
+            itemDetailViewer.gameObject.SetActive(false);
+
             // 귀신과의 접촉이 일어난 경우, 접촉이 일어난 귀신은 삭제하고 화면에 보여질 귀신을 활성화
             DeactiveGhost(other.gameObject);
             libraryGhost.SetActive(true);
@@ -324,6 +325,9 @@ public class PlayerController : MonoBehaviour
         }
         else if (other.gameObject.CompareTag("OneCorridorGhost"))
         {
+            inventory.gameObject.SetActive(false);
+            itemDetailViewer.gameObject.SetActive(false);
+
             // 귀신과의 접촉이 일어난 경우, 접촉이 일어난 귀신은 삭제하고 화면에 보여질 귀신을 활성화
             DeactiveGhost(other.gameObject);
             oneCorriDorGhost.SetActive(true);

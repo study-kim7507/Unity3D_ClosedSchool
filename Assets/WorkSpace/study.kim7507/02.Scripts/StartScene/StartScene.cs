@@ -33,7 +33,7 @@ public class StartScene : MonoBehaviour
     {
         startSceneFenceEntrance.OpenDoor();
 
-        float duration = 5.0f;
+        float duration = 2.5f;
         float elapsedTime = 0.0f;
 
         // 초기 색상 설정
