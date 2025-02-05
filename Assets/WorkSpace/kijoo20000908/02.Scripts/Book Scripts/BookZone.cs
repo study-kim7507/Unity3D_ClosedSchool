@@ -32,6 +32,7 @@ public class BookZone : MonoBehaviour
                 {
                     if (!placedBooks.Contains(book) && currentBookCount < bookSlots.Length)
                     {
+                        Destroy(book.GetComponent<Draggable>());
                         PlaceBookInSlot(book);
                         currentBookCount++;
 
@@ -42,6 +43,7 @@ public class BookZone : MonoBehaviour
                 }
                 else
                 {
+                    Destroy(book.GetComponent<Draggable>());
                     Debug.Log($"잘못된 책 '{book.GetBookName()}'! 튕겨 나갑니다.");
                     EjectBook(other.gameObject); // 잘못된 책 튕겨 나가게 처리
                 }

@@ -718,8 +718,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e61ee6a66ffd95f45bc09a0edbf6e504, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: 
-  itemDescription: 
+  itemName: "\uB77C\uC774\uD130"
+  itemDescription: "\uAE30\uB984\uC774 \uC870\uAE08 \uB0A8\uC544\uC788\uC5B4\\n\uBD88\uC744
+    \uBD99\uC77C \uC218 \uC788\uC5B4\uBCF4\uC778\uB2E4."
   itemImage: {fileID: 21300000, guid: 3b64847d42cd87543920b148ab85fb18, type: 3}
   PrefabName: Cigarette Lighter
   itemObjectPrefab: {fileID: 5164494689530423239}

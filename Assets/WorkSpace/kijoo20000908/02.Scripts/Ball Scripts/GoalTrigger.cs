@@ -20,7 +20,7 @@ public class GoalTrigger : MonoBehaviour
         }
 
         // 오디오 소스 추가 (없다면 자동 추가)
-        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
         audioSource.playOnAwake = false;
     }
 

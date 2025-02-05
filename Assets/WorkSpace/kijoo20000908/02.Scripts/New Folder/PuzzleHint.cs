@@ -26,7 +26,7 @@ public class PuzzleHint : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, 5f)) // 시야 범위 5m로 제한
+        if (Physics.Raycast(ray, out hit, 2.5f)) // 시야 범위 5m로 제한
         {
             if (hit.transform.CompareTag(targetTag)) // 특정 태그를 가진 오브젝트 감지
             {

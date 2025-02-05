@@ -8,6 +8,7 @@ public class AnswerChecker : MonoBehaviour
     public TMP_InputField answerInput; // 정답 입력 필드
     public TextMeshProUGUI hintText; // "정답지" 표시할 텍스트
     public TextMeshProUGUI wrongAnswerText; // "틀렸습니다" 표시할 텍스트
+    public GameObject wrongAnswerPanel;
     public string correctAnswer = "5"; // 정답
     public GameObject rewardPrefab; // 보상 아이템 프리팹
     public Transform rewardSpawnPoint; // 보상 아이템이 생성될 위치
@@ -22,7 +23,11 @@ public class AnswerChecker : MonoBehaviour
     {
         answerPanel.SetActive(false); // 처음에는 입력 필드 숨기기
         if (hintText != null) hintText.gameObject.SetActive(false); // "정답지" 텍스트 숨기기
-        if (wrongAnswerText != null) wrongAnswerText.gameObject.SetActive(false); // "틀렸습니다" 텍스트 숨기기
+        if (wrongAnswerText != null)
+        {
+            wrongAnswerText.gameObject.SetActive(false); // "틀렸습니다" 텍스트 숨기기
+            wrongAnswerPanel.SetActive(false);
+        }
     }
 
     void Update()
@@ -139,6 +144,7 @@ public class AnswerChecker : MonoBehaviour
         if (wrongAnswerText != null)
         {
             wrongAnswerText.gameObject.SetActive(true);
+            wrongAnswerPanel.SetActive(true);
             StartCoroutine(HideWrongAnswerTextAfterDelay(2f)); // 2초 후 숨기기
         }
     }
@@ -149,6 +155,7 @@ public class AnswerChecker : MonoBehaviour
         yield return new WaitForSeconds(delay);
         if (wrongAnswerText != null)
         {
+            wrongAnswerPanel.gameObject.SetActive(false);
             wrongAnswerText.gameObject.SetActive(false);
         }
     }

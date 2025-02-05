@@ -210,8 +210,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e61ee6a66ffd95f45bc09a0edbf6e504, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: 
-  itemDescription: 
+  itemName: "\uD3A9\uC2DC \uCF5C\uB77C"
+  itemDescription: "\uC7A0\uC2DC\uB098\uB9C8 \uAC08\uC99D\uC744 \uD574\uC18C\uD560
+    \uC218 \uC788\uC5B4\uBCF4\uC778\uB2E4.\\n\uC18C\uB7C9\uC758 \uC2A4\uD0DC\uBBF8\uB108\uB97C
+    \uCC44\uC6CC\uC900\uB2E4."
   itemImage: {fileID: 21300000, guid: 087b9f1208ce2174cad947db21a25b52, type: 3}
   PrefabName: Pepsi
   itemObjectPrefab: {fileID: 5140209425535243899}
