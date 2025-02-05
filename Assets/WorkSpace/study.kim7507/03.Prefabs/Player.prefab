@@ -74,7 +74,7 @@ AudioSource:
   m_GameObject: {fileID: 1952502638814128832}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 24300002, guid: 69f4ca42aa8c4dc4f9b6ad3b6b7d6cd8, type: 2}
+  OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
@@ -402,9 +402,9 @@ MonoBehaviour:
   movementAudioSource: {fileID: 2763200768753460791}
   playerMovementSounds:
     enabled: 1
-    slowWalk: {fileID: 8300000, guid: 35643f0ab2e860648a435fbe4ae9c3e4, type: 3}
-    walk: {fileID: 8300000, guid: 25f2c5a046fb897489d10505da104d91, type: 3}
-    run: {fileID: 8300000, guid: 73944fbf25c262849afbd3285f327ae7, type: 3}
+    slowWalk: {fileID: 8300000, guid: 031b91d88aa57f14cb5838121fcc7c0f, type: 3}
+    walk: {fileID: 8300000, guid: df83828e99f14ba42b9fd5ca0d88045b, type: 3}
+    run: {fileID: 8300000, guid: 5e09a1ca985a3064a9caee2a8e00150f, type: 3}
     breathingNormal: {fileID: 8300000, guid: 6df51667c99db0c4ab3bf273feb4f7cf, type: 3}
     breathingFast: {fileID: 8300000, guid: 6df51667c99db0c4ab3bf273feb4f7cf, type: 3}
     jump: {fileID: 8300000, guid: e692d0f96316a2541855a2b21c0a5f45, type: 3}

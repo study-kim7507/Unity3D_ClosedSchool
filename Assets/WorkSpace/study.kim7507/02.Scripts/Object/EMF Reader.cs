@@ -110,7 +110,7 @@ public class EMFReader : MonoBehaviour
     {
         if (renderer != null)
         {
-            Material material = renderer.material;
+            Material material = renderer.sharedMaterial;
             material.EnableKeyword("_EMISSION");
         }
     }
@@ -119,7 +119,7 @@ public class EMFReader : MonoBehaviour
     {
         if (renderer != null)
         {
-            Material material = renderer.material;
+            Material material = renderer.sharedMaterial;
             material.DisableKeyword("_EMISSION");
         }
     }
