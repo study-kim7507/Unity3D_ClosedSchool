@@ -188,3 +188,5 @@ public class AnswerChecker : MonoBehaviour
         Debug.Log("책이 비활성화되었습니다.");
     }
 }
+
+
