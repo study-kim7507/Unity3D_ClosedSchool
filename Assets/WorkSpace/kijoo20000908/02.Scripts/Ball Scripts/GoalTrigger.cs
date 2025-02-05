@@ -1,5 +1,6 @@
 using UnityEngine;
-using TMPro; // TextMeshPro 사용
+using TMPro;
+using System.Collections; // TextMeshPro 사용
 
 public class GoalTrigger : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class GoalTrigger : MonoBehaviour
     public AudioClip goalSound; // 골이 들어갔을 때 소리
     public AudioClip puzzleCompleteSound; // 퍼즐 완료 소리
     private AudioSource audioSource; // 오디오 소스
+
+    private Coroutine textOnCoroutine = null;
 
     private void Start()
     {
@@ -28,6 +31,14 @@ public class GoalTrigger : MonoBehaviour
     {
         if (other.CompareTag("Basketball")) // 농구공이 골대에 들어갔을 때
         {
+            PlayerUI.instance.DisplayInteractionDescription("골이 들어갔다.\n좀 더 귀신을 놀아줘보자..");
+            if (textOnCoroutine == null) textOnCoroutine = StartCoroutine(HideUICoroutine());
+            else
+            {
+                StopCoroutine(textOnCoroutine);
+                textOnCoroutine = StartCoroutine(HideUICoroutine());
+            }
+
             currentGoals++;
             Debug.Log($"골 성공! 현재 골 수: {currentGoals}/{requiredGoals}");
 
@@ -46,6 +57,7 @@ public class GoalTrigger : MonoBehaviour
                 // 퍼즐 완료 소리 재생
                 if (puzzleCompleteSound != null)
                 {
+                    PlayerUI.instance.DisplayInteractionDescription("귀신을 놀아주자, 무언가 벤치에 두고 갔다.");
                     audioSource.PlayOneShot(puzzleCompleteSound);
                 }
 
@@ -69,5 +81,11 @@ public class GoalTrigger : MonoBehaviour
         {
             goalCountText.gameObject.SetActive(false);
         }
+    }
+
+    private IEnumerator HideUICoroutine()
+    {
+        yield return new WaitForSeconds(5.0f);
+        HideUI();
     }
 }

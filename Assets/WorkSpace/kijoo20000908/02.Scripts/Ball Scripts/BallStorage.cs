@@ -1,5 +1,6 @@
 using UnityEngine;
-using TMPro; // TextMeshPro 사용
+using TMPro;
+using System.Collections; // TextMeshPro 사용
 
 public class BallStorage : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class BallStorage : MonoBehaviour
     private AudioSource audioSource; // 오디오 소스
 
     private bool isCompleted = false;
+    private bool isTextOn = false;
+    
+    private Coroutine textOnCoroutine = null;
 
     private void Start()
     {
@@ -30,6 +34,13 @@ public class BallStorage : MonoBehaviour
     {
         if (other.CompareTag("Basketball")) // 농구공이 정리 구역에 들어오면
         {
+            if (!isCompleted) PlayerUI.instance.DisplayInteractionDescription("농구공을 더 찾아 정리해야 귀신이 만족할 것 같다.");
+            if (textOnCoroutine == null) textOnCoroutine = StartCoroutine(HideUICoroutine());
+            else
+            {
+                StopCoroutine(textOnCoroutine);
+                textOnCoroutine = StartCoroutine(HideUICoroutine());
+            }
             currentBallCount++;
             Debug.Log($"농구공 {currentBallCount}/{totalBallsNeeded} 개가 정리되었습니다.");
             UpdateBallCountUI();
@@ -44,10 +55,11 @@ public class BallStorage : MonoBehaviour
             if (currentBallCount >= totalBallsNeeded)
             {
                 puzzleManager2.CompletePuzzle();
-
+                
                 // 퍼즐 완료 소리 재생
                 if (puzzleCompleteSound != null && !isCompleted)
                 {
+                    PlayerUI.instance.DisplayInteractionDescription("어느정도 정리를 하자 귀신이 무언가 두고 갔다.");
                     HideUI(); // 퍼즐 완료 후 UI 숨김
                     audioSource.PlayOneShot(puzzleCompleteSound);
                     isCompleted = true;
@@ -60,6 +72,13 @@ public class BallStorage : MonoBehaviour
     {
         if (other.CompareTag("Basketball")) // 농구공이 정리 구역에서 나가면 개수 감소
         {
+            if (textOnCoroutine == null) textOnCoroutine = StartCoroutine(HideUICoroutine());
+            else
+            {
+                StopCoroutine(textOnCoroutine);
+                textOnCoroutine = StartCoroutine(HideUICoroutine());
+            }
+
             currentBallCount--;
             Debug.Log($"농구공이 빠져나갔습니다! 현재 개수: {currentBallCount}/{totalBallsNeeded}");
             UpdateBallCountUI();
@@ -68,7 +87,7 @@ public class BallStorage : MonoBehaviour
 
     private void UpdateBallCountUI()
     {
-        if (ballCountText != null)
+        if (ballCountText != null && !isCompleted)
         {
             ballCountText.text = $"{currentBallCount}/{totalBallsNeeded}";
             ballCountText.gameObject.SetActive(currentBallCount > 0 && currentBallCount < totalBallsNeeded);
@@ -81,5 +100,11 @@ public class BallStorage : MonoBehaviour
         {
             ballCountText.gameObject.SetActive(false);
         }
+    }
+
+    private IEnumerator HideUICoroutine()
+    {
+        yield return new WaitForSeconds(5.0f);
+        HideUI();
     }
 }

@@ -19,8 +19,13 @@ public class AnswerChecker : MonoBehaviour
     private bool isAnswering = false; // 정답 입력 중인지 확인
     private bool isSolved = false; // 퍼즐이 해결되었는지 확인
 
+    public bool isShownAnswerField = false;
+    public bool isShownWrongAnswerPanel = false;
+
+    private PlayerController playerController;
     void Start()
     {
+        playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         answerPanel.SetActive(false); // 처음에는 입력 필드 숨기기
         if (hintText != null) hintText.gameObject.SetActive(false); // "정답지" 텍스트 숨기기
         if (wrongAnswerText != null)
@@ -37,7 +42,7 @@ public class AnswerChecker : MonoBehaviour
 
         // E 키를 눌러 정답 입력 필드 열기
         if (isLookingAtBook && !isSolved && Input.GetKeyDown(KeyCode.E))
-        {
+        { 
             ShowAnswerInput();
         }
 
@@ -86,7 +91,7 @@ public class AnswerChecker : MonoBehaviour
     // "정답지" 텍스트를 보이게 함
     void ShowHintText()
     {
-        if (hintText != null)
+        if (hintText != null && !isShownAnswerField)
         {
             hintText.gameObject.SetActive(true);
         }
@@ -104,9 +109,13 @@ public class AnswerChecker : MonoBehaviour
     // 정답 입력 필드를 보이게 함 (E 키를 눌렀을 때 실행)
     void ShowAnswerInput()
     {
+        playerController.enabled = false;
         answerPanel.SetActive(true);
         answerInput.text = ""; // 입력 필드 초기화
         answerInput.ActivateInputField(); // 입력창에 포커스
+        HideHintText();
+        GetComponent<PuzzleHint>().hintBackgroundPanel.SetActive(false);
+        isShownAnswerField = true;
         isAnswering = true;
     }
 
@@ -122,6 +131,7 @@ public class AnswerChecker : MonoBehaviour
             isAnswering = false;
             isSolved = true; // 퍼즐 해결 상태로 변경
             DisableBookInteraction(); // 책 클릭 불가능하게 변경
+            PlayerUI.instance.DisplayInteractionDescription("답을 맞추자 교탁 위에 무언가 나타났다.");
         }
         else
         {
@@ -129,6 +139,8 @@ public class AnswerChecker : MonoBehaviour
             HideAnswerInput(); // 오답 시 패널 닫기
             ShowWrongAnswerText(); // "틀렸습니다" 텍스트 표시
         }
+        playerController.enabled = true;
+        isShownAnswerField = false;
     }
 
     // 정답 입력 패널 숨기기 (오답일 때 실행)
@@ -143,6 +155,7 @@ public class AnswerChecker : MonoBehaviour
     {
         if (wrongAnswerText != null)
         {
+            isShownWrongAnswerPanel = true;
             wrongAnswerText.gameObject.SetActive(true);
             wrongAnswerPanel.SetActive(true);
             StartCoroutine(HideWrongAnswerTextAfterDelay(2f)); // 2초 후 숨기기
@@ -157,6 +170,7 @@ public class AnswerChecker : MonoBehaviour
         {
             wrongAnswerPanel.gameObject.SetActive(false);
             wrongAnswerText.gameObject.SetActive(false);
+            isShownWrongAnswerPanel = false;
         }
     }
 

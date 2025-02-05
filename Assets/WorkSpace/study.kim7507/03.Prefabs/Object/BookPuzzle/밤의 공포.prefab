@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8841742345507562520}
   - component: {fileID: 6524129870479872992}
   m_Layer: 0
-  m_Name: "\uD55C \uC5EC\uB984 \uBC24\uC758 \uACF5\uD3EC"
+  m_Name: "\uBC24\uC758 \uACF5\uD3EC"
   m_TagString: Book
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

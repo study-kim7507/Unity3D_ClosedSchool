@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     public ItemDetailViewer itemDetailViewer;
     [HideInInspector] public bool isOpenInventory;
     [HideInInspector] public bool isOpenItemDetailViewer;
+    [HideInInspector] public bool canOpenInventory = false;
 
     // ¼ÕÀüµî
     [Header("Flashlight")]
@@ -241,7 +242,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            if (isOpenItemDetailViewer) return;
+            if (isOpenItemDetailViewer || canOpenInventory) return;
 
             if (!isOpenInventory) Cursor.lockState = CursorLockMode.None;
             else Cursor.lockState = CursorLockMode.Locked;
