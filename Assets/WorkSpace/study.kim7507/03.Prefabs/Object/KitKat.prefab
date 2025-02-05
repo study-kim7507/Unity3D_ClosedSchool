@@ -165,8 +165,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e61ee6a66ffd95f45bc09a0edbf6e504, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: 
-  itemDescription: 
+  itemName: "\uD0B7\uCEA3"
+  itemDescription: "\uB2E8\uB9DB\uC774 \uAC15\uD55C \uCD08\uCF54\uBC14\uC774\uB2E4.\\n\uC5B4\uB290\uC815\uB3C4
+    \uC2A4\uD0DC\uBBF8\uB108\uB97C \uCC44\uC6CC\uC900\uB2E4."
   itemImage: {fileID: 21300000, guid: 46726a9140682144a983bfb82eef66e0, type: 3}
   PrefabName: Kitkat
   itemObjectPrefab: {fileID: 0}

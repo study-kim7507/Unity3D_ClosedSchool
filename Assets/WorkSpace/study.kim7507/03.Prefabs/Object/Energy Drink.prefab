@@ -165,8 +165,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e61ee6a66ffd95f45bc09a0edbf6e504, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: 
-  itemDescription: 
+  itemName: "\uC5D0\uB108\uC9C0 \uB4DC\uB9C1\uD06C"
+  itemDescription: "\uBAA8\uB4E0 \uC2A4\uD0DC\uBBF8\uB108\uAC00 \uCC44\uC6CC\uC9C4\uB2E4."
   itemImage: {fileID: 21300000, guid: 91c805c3b78509f41818c12ffedb3a88, type: 3}
   PrefabName: Energy Drink
   itemObjectPrefab: {fileID: 0}

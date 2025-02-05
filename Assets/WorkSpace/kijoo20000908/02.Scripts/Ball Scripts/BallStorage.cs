@@ -12,6 +12,8 @@ public class BallStorage : MonoBehaviour
     public AudioClip puzzleCompleteSound; // 퍼즐 완료 시 소리
     private AudioSource audioSource; // 오디오 소스
 
+    private bool isCompleted = false;
+
     private void Start()
     {
         if (ballCountText != null)
@@ -20,7 +22,7 @@ public class BallStorage : MonoBehaviour
         }
 
         // 오디오 소스 추가 (없다면 자동 추가)
-        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
         audioSource.playOnAwake = false;
     }
 
@@ -44,12 +46,12 @@ public class BallStorage : MonoBehaviour
                 puzzleManager2.CompletePuzzle();
 
                 // 퍼즐 완료 소리 재생
-                if (puzzleCompleteSound != null)
+                if (puzzleCompleteSound != null && !isCompleted)
                 {
+                    HideUI(); // 퍼즐 완료 후 UI 숨김
                     audioSource.PlayOneShot(puzzleCompleteSound);
+                    isCompleted = true;
                 }
-
-                HideUI(); // 퍼즐 완료 후 UI 숨김
             }
         }
     }

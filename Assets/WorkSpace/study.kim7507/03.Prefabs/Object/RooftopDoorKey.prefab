@@ -185,8 +185,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e61ee6a66ffd95f45bc09a0edbf6e504, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: 
-  itemDescription: 
+  itemName: "\uC625\uC0C1 \uC5F4\uC1E0"
+  itemDescription: "\uC7A0\uACA8\uC788\uB294 \uC625\uC0C1 \uBB38\uC744 \uC5F4 \uC218
+    \uC788\uB2E4."
   itemImage: {fileID: 21300000, guid: 0ae528f165e6dbd4aa0df93135bb19a8, type: 3}
   PrefabName: RooftopDoorKey
   itemObjectPrefab: {fileID: 0}
