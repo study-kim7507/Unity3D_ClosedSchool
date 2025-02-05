@@ -109,7 +109,7 @@ public class GhostAiController : MonoBehaviour
         isChasing = true;
         animator.ResetTrigger("Patrol");
         animator.SetTrigger("Chase");
-        navMeshAgent.speed = 5;
+        navMeshAgent.speed = 4;
         Debug.Log("추격 시작");
     }
 

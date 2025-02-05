@@ -10,7 +10,7 @@ public class GhostSpawnCollider : MonoBehaviour
     [SerializeField] Animator ghostAnimator; // 귀신 애니메이터
 
     public GameObject ghost;
-    private bool isSpawned = false;
+    public bool isSpawned = false;
     private bool isVisible = false;
     private float ghostPositionY;
     private int currentPoseIndex = -1; // 현재 포즈 인덱스
