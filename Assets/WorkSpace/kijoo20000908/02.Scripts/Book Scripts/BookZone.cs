@@ -30,6 +30,7 @@ public class BookZone : MonoBehaviour
             {
                 if (IsCorrectBook(book.GetBookName())) // 올바른 책인지 확인
                 {
+                    PlayerUI.instance.DisplayInteractionDescription("귀신이 찾던 책이 맞는 것 같다.");
                     if (!placedBooks.Contains(book) && currentBookCount < bookSlots.Length)
                     {
                         Destroy(book.GetComponent<Draggable>());
@@ -44,6 +45,7 @@ public class BookZone : MonoBehaviour
                 else
                 {
                     Destroy(book.GetComponent<Draggable>());
+                    PlayerUI.instance.DisplayInteractionDescription("이 책은 아닌 것 같다.");
                     Debug.Log($"잘못된 책 '{book.GetBookName()}'! 튕겨 나갑니다.");
                     EjectBook(other.gameObject); // 잘못된 책 튕겨 나가게 처리
                 }
@@ -99,6 +101,7 @@ public class BookZone : MonoBehaviour
         {
             puzzleCompleted = true;
             Debug.Log("퍼즐이 완료되었습니다!");
+            PlayerUI.instance.DisplayInteractionDescription("모든 책을 찾아주자 무언가 나타났다.\n도서관 귀신에게 빙의되기 전에 나가자.");
 
             if (puzzleClearAudio != null)
             {

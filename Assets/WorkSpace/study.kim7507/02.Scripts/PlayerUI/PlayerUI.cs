@@ -27,7 +27,7 @@ public class PlayerUI : MonoBehaviour
     private Coroutine interactionDescriptionCoroutine;
 
     public PlayerController ownerPlayer;
-
+    private bool isAlreadyLoad = false;
     private void Start()
     {
         if (instance == null) instance = this;
@@ -248,7 +248,7 @@ public class PlayerUI : MonoBehaviour
         textMeshPro.color = color;
 
         if (isPlayerDie) RestartGame();
-        else ExitGameToIntroScene();
+        else if (!isPlayerDie) ExitGame();
     }
 
     public void PauseGame()
@@ -294,5 +294,17 @@ public class PlayerUI : MonoBehaviour
     private void RestartGame()
     {
         SceneManager.LoadScene("GameScene");
+    }
+    private void ExitGame()
+    {
+        if (!isAlreadyLoad)
+        {
+            AudioListener.pause = false;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            Time.timeScale = 1.0f;
+            SceneManager.LoadScene("StartScene");
+            isAlreadyLoad = true;
+        }
     }
 }

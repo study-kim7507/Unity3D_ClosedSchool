@@ -8,9 +8,11 @@ public class PuzzleHint : MonoBehaviour
     public string targetTag = "HintBook"; // 감지할 태그
 
     private bool isLookingAtPuzzle = false; // 현재 문제집을 바라보고 있는지 여부
-
+    private PlayerController playerController;
     void Start()
     {
+        playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+
         if (hintText != null) hintText.gameObject.SetActive(false); // 처음에는 힌트 숨김
         if (hintBackgroundPanel != null) hintBackgroundPanel.SetActive(false); // 배경 패널도 숨김
     }
@@ -32,6 +34,7 @@ public class PuzzleHint : MonoBehaviour
             {
                 if (!isLookingAtPuzzle)
                 {
+                    playerController.canOpenInventory = true;
                     isLookingAtPuzzle = true;
                     ShowHint();
                 }
@@ -40,6 +43,7 @@ public class PuzzleHint : MonoBehaviour
             {
                 if (isLookingAtPuzzle)
                 {
+                    playerController.canOpenInventory = false;
                     isLookingAtPuzzle = false;
                     HideHint();
                 }
@@ -48,7 +52,8 @@ public class PuzzleHint : MonoBehaviour
         else
         {
             if (isLookingAtPuzzle)
-            {
+            { 
+                playerController.canOpenInventory = false;
                 isLookingAtPuzzle = false;
                 HideHint();
             }
@@ -58,6 +63,7 @@ public class PuzzleHint : MonoBehaviour
     // "정답지" 텍스트와 배경 보이기
     void ShowHint()
     {
+        if (GetComponent<AnswerChecker>() != null && (GetComponent<AnswerChecker>().isShownAnswerField || GetComponent<AnswerChecker>().isShownWrongAnswerPanel)) return;
         if (hintText != null) hintText.gameObject.SetActive(true);
         if (hintBackgroundPanel != null) hintBackgroundPanel.SetActive(true);
     }
