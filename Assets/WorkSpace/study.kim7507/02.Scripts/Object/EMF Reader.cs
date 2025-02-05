@@ -5,6 +5,9 @@ public class EMFReader : MonoBehaviour
     // 1, 3, 5, 7, 9
     [SerializeField] Renderer[] lv;
 
+    [SerializeField] Material[] on;
+    [SerializeField] Material[] off;
+
     private AudioSource audioSource;
     private GameObject[] ghostObjects;
 
@@ -39,45 +42,45 @@ public class EMFReader : MonoBehaviour
         FindClosestGhost(out dist);
 
         // 모든 머티리얼의 emission을 비활성화
-        foreach (Renderer renderer in lv)
+        for (int i = 0; i < 5; i++)
         {
-            DisableEmission(renderer);
+            DisableEmission(lv[i], i);
         }
 
         // 거리 범위에 따라 emission 활성화
         if (dist > 0 && dist <= 1)
         {
-            EnableEmission(lv[0]);
-            EnableEmission(lv[1]);
-            EnableEmission(lv[2]);
-            EnableEmission(lv[3]);
-            EnableEmission(lv[4]);
+            EnableEmission(lv[0], 0);
+            EnableEmission(lv[1], 1);
+            EnableEmission(lv[2], 2);
+            EnableEmission(lv[3], 3);
+            EnableEmission(lv[4], 4);
             PlayBeepSound(1.0f);
         }
         else if (dist > 1 && dist <= 3)
         {
-            EnableEmission(lv[0]);
-            EnableEmission(lv[1]);
-            EnableEmission(lv[2]);
-            EnableEmission(lv[3]);
+            EnableEmission(lv[0], 0);
+            EnableEmission(lv[1], 1);
+            EnableEmission(lv[2], 2);
+            EnableEmission(lv[3], 3);
             PlayBeepSound(0.75f);
         }
         else if (dist > 3 && dist <= 5)
         {
-            EnableEmission(lv[0]);
-            EnableEmission(lv[1]);
-            EnableEmission(lv[2]);
+            EnableEmission(lv[0], 0);
+            EnableEmission(lv[1], 1);
+            EnableEmission(lv[2], 2);
             PlayBeepSound(0.5f);
         }
         else if (dist > 5 && dist <= 7)
         {
-            EnableEmission(lv[0]);
-            EnableEmission(lv[1]);
+            EnableEmission(lv[0], 0);
+            EnableEmission(lv[1], 1);
             PlayBeepSound(0.25f);
         }
         else if (dist > 7 && dist <= 9)
         {
-            EnableEmission(lv[0]);
+            EnableEmission(lv[0], 0);
             PlayBeepSound(0.1f);
         }
         else
@@ -106,21 +109,19 @@ public class EMFReader : MonoBehaviour
         return closestGhost;
     }
 
-    private void EnableEmission(Renderer renderer)
+    private void EnableEmission(Renderer renderer, int level)
     {
         if (renderer != null)
         {
-            Material material = renderer.sharedMaterial;
-            material.EnableKeyword("_EMISSION");
+            Material material = on[level];
         }
     }
 
-    private void DisableEmission(Renderer renderer)
+    private void DisableEmission(Renderer renderer, int level)
     {
         if (renderer != null)
         {
-            Material material = renderer.sharedMaterial;
-            material.DisableKeyword("_EMISSION");
+            Material material = off[level];
         }
     }
 
