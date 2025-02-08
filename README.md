@@ -23,7 +23,8 @@
 
 | **정기주** | **김기환** | **정재원** |
 | :------: |  :------: | :------: |
-| 기획 및 퍼즐 시스템 구현 | 플레이어 시스템 및 오브젝트 상호작용 관련 인터페이스 및 클래스 구현 | 연출 및 귀신 AI 구현 |
+| 기획 | 플레이어 시스템 | 연출 |
+| 퍼즐 시스템 | 오브젝트 상호작용 관련 인터페이스 및 클래스 구현 | 귀신 AI 구현 |
 | [@JungKiJoo777](https://github.com/JungKiJoo777) | [@study-kim7507](https://github.com/study-kim7507) | [@jaesutang](https://github.com/jaesutang)| 
 
 </div>
