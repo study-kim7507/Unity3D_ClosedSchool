@@ -3,7 +3,7 @@
 <div align="center">
   <a href="https://www.youtube.com/watch?v=KHmNqo6MA3s">
     <img src="https://img.youtube.com/vi/KHmNqo6MA3s/0.jpg" alt="[Unity3D] 폐교">
-  </a>
+  </a>   
 </div>
 
 
@@ -15,6 +15,8 @@
 - 유니티 사용법을 익히고, 평소에 가지고 있던 아이디어를 바탕으로 직접 게임을 제작하여 결과물을 만들어낸 프로젝트입니다.
 - 유니티 3D를 기반, 폐교라는 컨셉을 바탕으로 제작된 공포게임입니다.
 - 플레이어는 귀신을 피하며 다양한 퍼즐 시스템을 풀고 귀신을 직접 퇴마하여 게임을 클리어할 수 있습니다.
+
+> 프로젝트 계획서 : [팀프로젝트 계획서 (폐교)](https://github.com/study-kim7507/Unity3D_ClosedSchool/blob/main/plan.pdf) 
 
 <br>
 
