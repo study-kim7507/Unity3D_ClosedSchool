@@ -21,11 +21,12 @@
 <h2>🧑 팀 구성원 및 역할</h2>
 <div align="center">
 
-| **정기주** | **김기환** | **정재원** |
-| :------: |  :------: | :------: |
-| 기획 | 플레이어 시스템 | 연출 |
-| 퍼즐 시스템 | 오브젝트 상호작용 관련 인터페이스 및 클래스 구현 | 귀신 AI 구현 |
-| [@JungKiJoo777](https://github.com/JungKiJoo777) | [@study-kim7507](https://github.com/study-kim7507) | [@jaesutang](https://github.com/jaesutang)| 
+| 이름 | **정기주** | **김기환** | **정재원** |
+| :------: | :------: |  :------: | :------: |
+| 역할 1 | 기획 | 플레이어 시스템 | 연출 |
+| 역할 2 | 퍼즐 시스템 | 오브젝트 상호작용 관련 인터페이스 및 클래스 구현 | 귀신 AI 구현 |
+| 코드 구현 | [puzzle system](https://github.com/study-kim7507/Unity3D_ClosedSchool/tree/main/Assets/kijoo20000908/02.Scripts) | [player and interactable object](https://github.com/study-kim7507/Unity3D_ClosedSchool/tree/main/Assets/study.kim7507/02.Scripts) | [ghost AI](https://github.com/study-kim7507/Unity3D_ClosedSchool/tree/main/Assets/hihgjw123/02.Scripts) | 
+| GitHub | [@JungKiJoo777](https://github.com/JungKiJoo777) | [@study-kim7507](https://github.com/study-kim7507) | [@jaesutang](https://github.com/jaesutang)| 
 
 </div>
 
