@@ -2,7 +2,7 @@
 <h1> [Unity 3D] 폐교</h1>
 </div>
 
-<iframe width="1268" height="713" src="https://www.youtube.com/embed/KHmNqo6MA3s" title="[Unity 3D] 폐교" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 
 <br>
 
